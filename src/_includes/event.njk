@@ -1,0 +1,29 @@
+---
+layout: base.njk
+---
+{%- import "macros.njk" as ui -%}
+<article class="article">
+  <header class="article-head">
+    <div class="container narrow">
+      <nav class="crumbs" aria-label="麵包屑"><a href="/">首頁</a><span>›</span><a href="/events/">活動花絮</a></nav>
+      <p class="article-tags"><span class="tag">{{ kind }}</span></p>
+      <h1 class="article-title">{{ title }}</h1>
+      <p class="byline-meta"><time datetime="{{ page.date | dateIso }}">{{ page.date | dateDot }}</time>{% if location %}　·　{{ location }}{% endif %}{% if partner %}　·　與 {{ partner }}{% endif %}</p>
+    </div>
+  </header>
+  {% if cover %}<figure class="container narrow article-cover reveal"><img src="{{ cover }}" alt="{{ title }}"></figure>{% endif %}
+  <div class="container narrow prose">
+    {{ content | safe }}
+  </div>
+  {% if gallery and gallery.length %}
+  <div class="container gallery">
+    {%- for g in gallery %}<figure class="reveal"><img src="{{ g.image or g }}" alt="{{ g.caption or title }}" loading="lazy">{% if g.caption %}<figcaption>{{ g.caption }}</figcaption>{% endif %}</figure>{% endfor %}
+  </div>
+  {% endif %}
+  <div class="container narrow">
+    <div class="collab reveal">
+      <div><h3>{{ site.collab.title }}</h3><p>{{ site.collab.text }}</p></div>
+      <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
+    </div>
+  </div>
+</article>

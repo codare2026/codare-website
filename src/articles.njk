@@ -1,0 +1,25 @@
+---
+layout: base.njk
+permalink: /articles/
+title: 文章主題
+excerpt: 口袋營養獅營養師團隊撰寫的營養知識文章，依主題慢慢讀。
+---
+{%- import "macros.njk" as ui -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("ARTICLES", "文章主題", "營養師寫給你的日常健康讀本") }}
+    <nav class="chips reveal" aria-label="閱讀主題">
+      <a class="chip" href="/articles/" aria-current="page">全部</a>
+      {%- for t in topics.topics %}<a class="chip" href="/topics/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}
+    </nav>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="container">
+    <div class="card-grid">
+      {%- for item in collections.articles %}
+      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {%- endfor %}
+    </div>
+  </div>
+</section>

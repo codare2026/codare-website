@@ -1,0 +1,113 @@
+{%- set pageTitle = (seo_title or title) -%}
+{%- set pageDesc = (seo_description or excerpt or site.description) | plain -%}
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if pageTitle and page.url != "/" %}{{ pageTitle }}｜{% endif %}{{ site.name }} {{ site.name_en }}</title>
+  <meta name="description" content="{{ pageDesc }}">
+  {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  <meta property="og:type" content="{% if layout == 'article.njk' %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ pageTitle or site.tagline }}">
+  <meta property="og:description" content="{{ pageDesc }}">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}{{ cover or '/assets/img/logo.png' }}">
+  <meta name="theme-color" content="#FFFAF2">
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@300;400;500;700&family=Quicksand:wght@500;700&display=swap">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <script>document.documentElement.classList.add("js")</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要內容</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/" aria-label="{{ site.name }} 首頁">
+        <img src="/assets/img/logo.png" alt="{{ site.name }} Co-Dare" width="900" height="421">
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+        <span class="menu-icon" aria-hidden="true"></span><span class="sr-only">選單</span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="主選單">
+        {%- set navItems = [
+          ["/articles/", "文章主題"],
+          ["/columns/", "營養師專欄"],
+          ["/about/", "關於我們"],
+          ["/events/", "活動花絮"],
+          ["/run-with-you/", "健康陪跑計畫"]
+        ] -%}
+        <ul>
+          {%- for item in navItems %}
+          <li><a href="{{ item[0] }}"{% if page.url and page.url.startsWith(item[0]) %} aria-current="page"{% endif %}{% if item[0] == "/run-with-you/" %} class="nav-runwith"{% endif %}>{{ item[1] }}</a></li>
+          {%- endfor %}
+        </ul>
+        <a class="btn btn-soft btn-line" href="{{ site.line_url }}" target="_blank" rel="noopener">LINE 聊聊</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    {{ content | safe }}
+  </main>
+
+  <footer class="site-footer">
+    <svg class="footer-wave" viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0H1440V36C1200 76 960 8 720 36S240 76 0 36Z" fill="#FFFAF2"/></svg>
+    <div class="container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-logo"><img src="/assets/img/logo.png" alt="{{ site.name }} Co-Dare" width="900" height="421" loading="lazy"></span>
+          <p class="footer-title">有問題，歡迎來聊聊</p>
+        </div>
+        <div class="footer-cols">
+          <div>
+            <p class="footer-head">閱讀</p>
+            <ul>
+              {%- for t in topics.topics | limit(4) %}<li><a href="/topics/{{ t.slug }}/">{{ t.name }}</a></li>{% endfor %}
+              <li><a href="/articles/">全部主題</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-head">關於</p>
+            <ul>
+              <li><a href="/about/">關於口袋營養獅</a></li>
+              <li><a href="/about/#team">營養師團隊</a></li>
+              <li><a href="/events/">活動花絮</a></li>
+              <li><a href="/about/#collab">講座合作</a></li>
+              <li><a href="/about/#principles">編輯原則</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-head">健康陪跑計畫</p>
+            <ul>
+              <li><a href="/run-with-you/">計畫介紹</a></li>
+              <li><a href="/run-with-you/#faq">常見問題</a></li>
+              <li><a href="{{ site.signup_url }}" target="_blank" rel="noopener">線上報名</a></li>
+              <li><a href="{{ site.login_url }}" target="_blank" rel="noopener">學員登入</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-head">聯絡我們</p>
+            <ul>
+              <li><a href="{{ site.line_url }}" target="_blank" rel="noopener">官方 LINE</a></li>
+              <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+              <li>{{ site.hours }}</li>
+              <li>{{ site.method }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="footer-note">{{ site.disclaimer }}</p>
+      <p class="footer-copy">© {{ year }} {{ site.name }} Co-Dare</p>
+    </div>
+  </footer>
+
+  <a class="float-line" href="{{ site.line_url }}" target="_blank" rel="noopener" aria-label="加入官方 LINE">LINE</a>
+
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>

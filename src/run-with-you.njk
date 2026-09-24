@@ -1,0 +1,51 @@
+---
+layout: base.njk
+permalink: /run-with-you/
+title: 健康陪跑計畫
+excerpt: 營養師一對一，透過線上視訊或圖文，陪你在日常裡慢慢找到合適的吃法。
+---
+{%- import "macros.njk" as ui -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("RUN WITH YOU", "健康陪跑計畫", "營養師陪你，一步一步來") }}
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container runwith-grid">
+    <div>
+      <p class="runwith-lead reveal">{{ site.runwith.lead }}</p>
+      <ol class="steps">
+        {%- for s in site.runwith.steps %}
+        <li class="step reveal"><span class="step-num">{{ "0" + loop.index if loop.index < 10 else loop.index }}</span><div><h3>{{ s.title }}</h3><p>{{ s.text }}</p></div></li>
+        {%- endfor %}
+      </ol>
+    </div>
+    <aside class="contact-card reveal">
+      {{ ui.buddy("/assets/img/member3.png", "有我陪你喔！", "right", "contact-buddy") }}
+      <h2>想了解陪跑計畫？</h2>
+      <p>先加入官方 LINE，說說你的需求，營養師會和你討論適合的方式。</p>
+      <dl class="contact-list">
+        <div><dt>LINE</dt><dd><a href="{{ site.line_url }}" target="_blank" rel="noopener">{{ site.line_id }}</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>
+        <div><dt>時間</dt><dd>{{ site.hours }}</dd></div>
+        <div><dt>方式</dt><dd>{{ site.method }}</dd></div>
+      </dl>
+      <a class="btn btn-primary btn-block" href="{{ site.line_url }}" target="_blank" rel="noopener">加入官方 LINE</a>
+      <a class="btn btn-soft btn-block" href="{{ site.signup_url }}" target="_blank" rel="noopener">線上報名</a>
+    </aside>
+  </div>
+</section>
+
+<section class="section section-alt" id="faq">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container narrow">
+    {{ ui.heading("FAQ", "常見問題") }}
+    <div class="faq">
+      {%- for f in site.runwith.faq %}
+      <details class="reveal"{% if loop.first %} open{% endif %}><summary>{{ f.q }}</summary><p>{{ f.a }}</p></details>
+      {%- endfor %}
+    </div>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>

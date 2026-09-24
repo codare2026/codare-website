@@ -1,0 +1,15 @@
+{
+  "name": "codare-website",
+  "version": "2.0.0",
+  "private": true,
+  "description": "口袋營養獅 Co-Dare 官網：營養師的日常健康讀本",
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve --port=8765",
+    "build": "eleventy",
+    "cms": "npx decap-server"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

@@ -1,0 +1,33 @@
+---
+layout: base.njk
+---
+{%- import "macros.njk" as ui -%}
+{%- set list = collections.articles | where("author", id) -%}
+{%- set cols = collections.columns | where("author", id) -%}
+<section class="page-head">
+  <div class="container profile reveal">
+    <div class="profile-stage">
+      {{ ui.buddy(avatar, greeting, "right") }}
+    </div>
+    <div class="profile-text">
+      <p class="eyebrow">DIETITIAN</p>
+      <h1>{{ name }}</h1>
+      <p class="profile-role">{{ role }}{% if education %}　·　{{ education }}{% endif %}</p>
+      {% if specialty %}<p class="profile-tags">{% for s in specialty.split("、") %}<span class="tag tag-soft">{{ s }}</span>{% endfor %}</p>{% endif %}
+      <div class="prose">{{ content | safe }}</div>
+      {% for c in cols %}<p><a class="tag" href="{{ c.url }}">專欄《{{ c.data.name }}》</a></p>{% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="container">
+    {{ ui.heading("ARTICLES", name + "的文章") }}
+    {% if list.length %}
+    <div class="card-grid">
+      {%- for item in list %}{{ ui.articleCard(item, topics.topics, collections.team) }}{% endfor %}
+    </div>
+    {% else %}
+    <p class="center muted">文章準備中，敬請期待。</p>
+    {% endif %}
+  </div>
+</section>

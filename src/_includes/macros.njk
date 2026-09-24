@@ -1,0 +1,46 @@
+{# Section heading: small English label + rounded title + three dots #}
+{% macro heading(en, title, sub="") %}
+<div class="section-head reveal">
+  <p class="eyebrow">{{ en }}</p>
+  <h2>{{ title }}</h2>
+  <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+  {% if sub %}<p class="section-sub">{{ sub }}</p>{% endif %}
+</div>
+{% endmacro %}
+
+{# Article card; topics/team are passed in because macros don't see page data #}
+{% macro articleCard(item, topics, team, size="") %}
+{%- set t = topics | findBy("slug", item.data.topic) -%}
+{%- set a = team | findBy("id", item.data.author) -%}
+<article class="card article-card {{ size }} reveal">
+  <a class="card-link" href="{{ item.url }}">
+    <div class="card-cover{% if not item.data.cover %} is-empty{% endif %}">
+      {% if item.data.cover %}
+      <img src="{{ item.data.cover }}" alt="{{ item.data.cover_alt }}" loading="lazy">
+      {% else %}
+      <img class="cover-mark" src="/assets/img/seal.png" alt="" loading="lazy">
+      {% endif %}
+    </div>
+    <div class="card-body">
+      <p class="card-meta">{% if t %}<span class="tag">{{ t.name }}</span>{% endif %}<time datetime="{{ item.date | dateIso }}">{{ item.date | dateDot }}</time></p>
+      <h3 class="card-title">{{ item.data.title }}</h3>
+      {% if size == "is-large" and item.data.excerpt %}<p class="card-excerpt">{{ item.data.excerpt }}</p>{% endif %}
+      <p class="card-author">{% if a %}文／{{ a.data.name }}{% else %}文／口袋營養獅營養師團隊{% endif %}</p>
+    </div>
+  </a>
+</article>
+{% endmacro %}
+
+{# A team member illustration that gently sways, with an optional speech bubble #}
+{% macro buddy(src, say="", side="left", extra="") %}
+<div class="buddy buddy-{{ side }} {{ extra }}">
+  {% if say %}<p class="bubble">{{ say }}</p>{% endif %}
+  <img class="buddy-img" src="{{ src }}" alt="口袋營養獅團隊成員插畫" loading="lazy">
+</div>
+{% endmacro %}
+
+{% macro wave(fill="#E6F4F2", flip=false) %}
+<div class="wave{% if flip %} wave-flip{% endif %}" aria-hidden="true">
+  <svg viewBox="0 0 2880 100" preserveAspectRatio="none"><path d="M0 50C240 10 480 10 720 50S1200 90 1440 50 1920 10 2160 50 2640 90 2880 50V100H0Z" fill="{{ fill }}"/></svg>
+</div>
+{% endmacro %}

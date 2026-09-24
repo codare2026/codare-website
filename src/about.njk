@@ -1,0 +1,65 @@
+---
+layout: base.njk
+permalink: /about/
+title: 關於我們
+excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團隊、合作夥伴與講座合作方式。
+---
+{%- import "macros.njk" as ui -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("ABOUT US", "關於口袋營養獅", "把專業，裝進你的口袋") }}
+    <p class="about-lead reveal">{{ site.about_intro }}</p>
+  </div>
+</section>
+
+<section class="section section-tight" id="team">
+  <div class="container">
+    {{ ui.heading("OUR TEAM", "營養師團隊") }}
+    <div class="team-row">
+      {%- for m in collections.team %}
+      <a class="member-card reveal" href="{{ m.url }}">
+        <span class="member-stage"><img class="buddy-img" src="{{ m.data.avatar }}" alt="{{ m.data.name }}插畫" loading="lazy"></span>
+        <span class="member-name">{{ m.data.name }}</span>
+        <span class="member-greet">{{ m.data.role }}</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container">
+    {{ ui.heading("PARTNERS", "合作過的夥伴") }}
+    {% if partners.partners.length %}
+    <ul class="partner-grid">
+      {%- for p in partners.partners %}
+      <li class="partner reveal">{% if p.url %}<a href="{{ p.url }}" target="_blank" rel="noopener">{% endif %}{% if p.logo %}<img src="{{ p.logo }}" alt="{{ p.name }}" loading="lazy">{% else %}<span>{{ p.name }}</span>{% endif %}{% if p.url %}</a>{% endif %}</li>
+      {%- endfor %}
+    </ul>
+    {% else %}
+    <p class="center muted reveal">合作夥伴整理中。</p>
+    {% endif %}
+
+    <div class="collab reveal" id="collab">
+      <div>
+        <h3>{{ site.collab.title }}</h3>
+        <p>{{ site.collab.text }}</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
+        <a class="btn btn-soft" href="/events/">看活動花絮</a>
+      </div>
+    </div>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>
+
+<section class="section" id="principles">
+  <div class="container narrow">
+    {{ ui.heading("EDITORIAL", "編輯原則") }}
+    <ol class="principles reveal">
+      {%- for p in site.principles %}<li>{{ p }}</li>{% endfor %}
+    </ol>
+  </div>
+</section>

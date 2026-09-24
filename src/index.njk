@@ -1,0 +1,120 @@
+---
+layout: base.njk
+permalink: /
+title: 營養師寫給你的日常健康讀本
+---
+{%- import "macros.njk" as ui -%}
+{%- set all = collections.articles -%}
+{%- set featured = (all | findBy("featured", true)) or all[0] -%}
+{%- set ft = topics.topics | findBy("slug", featured.data.topic) -%}
+{%- set fa = collections.team | findBy("id", featured.data.author) -%}
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text reveal">
+      <p class="eyebrow">{{ site.home_hero_note }}{% if ft %}　·　{{ ft.name }}{% endif %}</p>
+      <h1 class="hero-title">{{ featured.data.title }}</h1>
+      {% if featured.data.excerpt %}<p class="hero-lead">{{ featured.data.excerpt }}</p>{% endif %}
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{ featured.url }}">閱讀全文 <span class="arrow" aria-hidden="true">›</span></a>
+        <span class="hero-author">文／{% if fa %}{{ fa.data.name }}{% else %}口袋營養獅營養師團隊{% endif %}</span>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-ring">
+        <div class="hero-circle{% if not featured.data.cover %} is-empty{% endif %}">
+          {% if featured.data.cover %}
+          <img src="{{ featured.data.cover }}" alt="{{ featured.data.cover_alt }}">
+          {% else %}
+          <img class="hero-logo" src="/assets/img/logo.png" alt="{{ site.name }} Co-Dare" width="900" height="421">
+          {% endif %}
+        </div>
+      </div>
+      {{ ui.buddy("/assets/img/member4.png", "每天都要好好吃飯喔！", "right", "hero-buddy") }}
+      <span class="sparkle s1" aria-hidden="true"></span><span class="sparkle s2" aria-hidden="true"></span><span class="sparkle s3" aria-hidden="true"></span>
+    </div>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>
+
+<section class="section">
+  <div class="container">
+    {{ ui.heading("NEW ARTICLES", "最新文章", "營養師寫給你的日常小知識") }}
+    <div class="card-grid">
+      {%- for item in all | exclude(featured.url) | limit(3) %}
+      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {%- endfor %}
+    </div>
+    <p class="center"><a class="btn btn-soft" href="/articles/">看全部文章 <span class="arrow" aria-hidden="true">›</span></a></p>
+  </div>
+</section>
+
+<section class="section section-alt">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container">
+    {{ ui.heading("TOPICS", "閱讀主題", "都從日常出發") }}
+    <div class="topic-grid">
+      {%- for t in topics.topics %}
+      {%- set count = (all | where("topic", t.slug)).length %}
+      <a class="topic reveal" href="/topics/{{ t.slug }}/">
+        <span class="topic-ring"><span class="topic-circle topic-{{ loop.index0 % 3 }}">{{ t.name | truncate(1, true, "") }}</span></span>
+        <span class="topic-name">{{ t.name }}</span>
+        <span class="topic-desc">{{ t.desc }}</span>
+        <span class="topic-count">{{ count }} 篇文章</span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>
+
+<section class="section">
+  <div class="container">
+    {{ ui.heading("COLUMNISTS", "營養師專欄", "每一篇文章，都看得到是誰寫的") }}
+    <div class="team-row">
+      {%- for m in collections.team %}
+      <a class="member-card reveal" href="{{ m.url }}">
+        <span class="member-stage"><img class="buddy-img" src="{{ m.data.avatar }}" alt="{{ m.data.name }}插畫" loading="lazy"></span>
+        <span class="member-name">{{ m.data.name }}</span>
+        {% if m.data.greeting %}<span class="member-greet">{{ m.data.greeting }}</span>{% endif %}
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+{% if collections.events.length %}
+<section class="section section-alt">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container">
+    {{ ui.heading("EVENTS", "活動花絮", "講座與活動的紀錄") }}
+    <div class="card-grid">
+      {%- for e in collections.events | limit(3) %}
+      <a class="card event-card reveal" href="{{ e.url }}">
+        <div class="card-cover{% if not e.data.cover %} is-empty{% endif %}">{% if e.data.cover %}<img src="{{ e.data.cover }}" alt="{{ e.data.title }}" loading="lazy">{% else %}<img class="cover-mark" src="/assets/img/seal.png" alt="" loading="lazy">{% endif %}</div>
+        <div class="card-body"><p class="card-meta"><span class="tag">{{ e.data.kind }}</span><time>{{ e.date | dateDot }}</time></p><h3 class="card-title">{{ e.data.title }}</h3></div>
+      </a>
+      {%- endfor %}
+    </div>
+    <p class="center"><a class="btn btn-soft" href="/events/">看全部花絮 <span class="arrow" aria-hidden="true">›</span></a></p>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>
+{% endif %}
+
+<section class="section">
+  <div class="container">
+    <div class="runwith-band reveal">
+      <div class="runwith-band-text">
+        <p class="eyebrow">RUN WITH YOU</p>
+        <h2>健康陪跑計畫</h2>
+        <p>{{ site.runwith.lead }}</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/run-with-you/">了解健康陪跑計畫 <span class="arrow" aria-hidden="true">›</span></a>
+          <a class="btn btn-soft" href="{{ site.line_url }}" target="_blank" rel="noopener">加入官方 LINE</a>
+        </div>
+      </div>
+      {{ ui.buddy("/assets/img/member3.png", "有我陪你喔！", "left") }}
+    </div>
+  </div>
+</section>

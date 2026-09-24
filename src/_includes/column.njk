@@ -1,0 +1,23 @@
+---
+layout: base.njk
+---
+{%- import "macros.njk" as ui -%}
+{%- set owner = collections.team | findBy("id", author) -%}
+{%- set list = collections.articles | where("column", id) -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("COLUMN", "《" + name + "》", description) }}
+    {% if owner %}<p class="center"><a class="tag tag-soft" href="{{ owner.url }}">專欄作者：{{ owner.data.name }}</a></p>{% endif %}
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="container">
+    {% if list.length %}
+    <div class="card-grid">
+      {%- for item in list %}{{ ui.articleCard(item, topics.topics, collections.team) }}{% endfor %}
+    </div>
+    {% else %}
+    <p class="center muted">專欄文章準備中，敬請期待。</p>
+    {% endif %}
+  </div>
+</section>

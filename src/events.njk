@@ -1,0 +1,46 @@
+---
+layout: base.njk
+permalink: /events/
+title: 活動花絮
+excerpt: 口袋營養獅辦過的營養講座、活動與品牌合作紀錄。
+---
+{%- import "macros.njk" as ui -%}
+{%- set kinds = ["講座", "活動", "品牌合作"] -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("EVENTS", "活動花絮", "講座與活動，都留下紀錄") }}
+    <div class="chips reveal" role="group" aria-label="篩選活動類型">
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">全部</button>
+      {%- for k in kinds %}<button class="chip" type="button" data-filter="{{ k }}" aria-pressed="false">{{ k }}</button>{% endfor %}
+    </div>
+  </div>
+</section>
+<section class="section section-tight">
+  <div class="container">
+    {% if collections.events.length %}
+    <div class="card-grid" data-filter-list>
+      {%- for e in collections.events %}
+      <a class="card event-card reveal" href="{{ e.url }}" data-kind="{{ e.data.kind }}">
+        <div class="card-cover{% if not e.data.cover %} is-empty{% endif %}">{% if e.data.cover %}<img src="{{ e.data.cover }}" alt="{{ e.data.title }}" loading="lazy">{% else %}<img class="cover-mark" src="/assets/img/seal.png" alt="" loading="lazy">{% endif %}</div>
+        <div class="card-body">
+          <p class="card-meta"><span class="tag">{{ e.data.kind }}</span><time datetime="{{ e.date | dateIso }}">{{ e.date | dateDot }}</time></p>
+          <h3 class="card-title">{{ e.data.title }}</h3>
+          {% if e.data.partner %}<p class="card-author">與 {{ e.data.partner }}</p>{% endif %}
+        </div>
+      </a>
+      {%- endfor %}
+    </div>
+    {% else %}
+    <div class="empty reveal">
+      {{ ui.buddy("/assets/img/member1.png", "活動紀錄整理中，下次見！", "left") }}
+    </div>
+    {% endif %}
+    <div class="collab reveal">
+      <div>
+        <h3>{{ site.collab.title }}</h3>
+        <p>{{ site.collab.text }}</p>
+      </div>
+      <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
+    </div>
+  </div>
+</section>

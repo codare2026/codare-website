@@ -1,0 +1,81 @@
+---
+layout: base.njk
+---
+{%- import "macros.njk" as ui -%}
+{%- set t = topics.topics | findBy("slug", topic) -%}
+{%- set a = collections.team | findBy("id", author) -%}
+{%- set col = collections.columns | findBy("id", column) -%}
+{%- set related = (collections.articles | where("topic", topic) | exclude(page.url)) -%}
+{%- if related.length < 2 %}{% set related = collections.articles | exclude(page.url) %}{% endif -%}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ title | jsonify | safe }},
+  "description": {{ (seo_description or excerpt or "") | jsonify | safe }},
+  "datePublished": "{{ page.date | dateIso }}",
+  {% if updated %}"dateModified": "{{ updated | dateIso }}",{% endif %}
+  "author": { "@type": "Person", "name": {{ (a.data.name if a else "口袋營養獅營養師團隊") | jsonify | safe }} },
+  "publisher": { "@type": "Organization", "name": "口袋營養獅 Co-Dare", "logo": { "@type": "ImageObject", "url": "{{ site.url }}/assets/img/logo.png" } },
+  "mainEntityOfPage": "{{ site.url }}{{ page.url }}"
+}
+</script>
+
+<article class="article">
+  <header class="article-head">
+    <div class="container narrow">
+      <nav class="crumbs" aria-label="麵包屑"><a href="/">首頁</a><span>›</span><a href="/articles/">文章主題</a>{% if t %}<span>›</span><a href="/topics/{{ t.slug }}/">{{ t.name }}</a>{% endif %}</nav>
+      <p class="article-tags">{% if t %}<span class="tag">{{ t.name }}</span>{% endif %}{% if type %}<span class="tag tag-soft">{{ type }}</span>{% endif %}{% if col %}<a class="tag tag-soft" href="{{ col.url }}">專欄《{{ col.data.name }}》</a>{% endif %}</p>
+      <h1 class="article-title">{{ title }}</h1>
+      <div class="byline">
+        {% if a %}<a class="byline-avatar" href="{{ a.url }}"><img src="{{ a.data.avatar }}" alt="{{ a.data.name }}"></a>{% else %}<span class="byline-avatar"><img src="/assets/img/seal.png" alt=""></span>{% endif %}
+        <p>
+          <span class="byline-name">文／{% if a %}<a href="{{ a.url }}">{{ a.data.name }}</a>{% else %}口袋營養獅營養師團隊{% endif %}</span>
+          <span class="byline-meta"><time datetime="{{ page.date | dateIso }}">{{ page.date | dateDot }}</time>{% if updated %}　·　更新 {{ updated | dateDot }}{% endif %}　·　閱讀約 {{ content | readingMinutes }} 分鐘</span>
+        </p>
+      </div>
+    </div>
+  </header>
+
+  {% if cover %}
+  <figure class="container narrow article-cover reveal">
+    <img src="{{ cover }}" alt="{{ cover_alt }}">
+    {% if cover_alt %}<figcaption>{{ cover_alt }}</figcaption>{% endif %}
+  </figure>
+  {% endif %}
+
+  <div class="container narrow prose">
+    {{ content | safe }}
+
+    {% if references and references.length %}
+    <section class="references">
+      <h2>參考資料</h2>
+      <ol>{% for r in references %}<li>{% if r.url %}<a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a>{% else %}{{ r.title or r }}{% endif %}</li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+
+    <aside class="invite reveal">
+      <div>
+        <p class="invite-title">想要有人陪你一起調整飲食節奏？</p>
+        <p>{{ site.runwith.article_invite }}</p>
+      </div>
+      <a class="btn btn-soft" href="/run-with-you/">了解健康陪跑計畫 <span class="arrow" aria-hidden="true">›</span></a>
+    </aside>
+
+    <p class="disclaimer">{{ site.disclaimer }}</p>
+  </div>
+</article>
+
+<section class="section section-alt">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container">
+    {{ ui.heading("MORE TO READ", "延伸閱讀") }}
+    <div class="card-grid">
+      {%- for item in related | limit(3) %}
+      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {%- endfor %}
+    </div>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
+</section>
