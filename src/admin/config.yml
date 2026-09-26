@@ -72,10 +72,10 @@ collections:
       - { label: 發布日期, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: 最後更新日期, name: updated, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: 設為首頁精選, name: featured, widget: boolean, default: false, hint: 首頁大圖會顯示最新一篇「精選」文章 }
-      - { label: 封面照片, name: cover, widget: image, required: false }
+      - { label: 封面照片, name: cover, widget: image, required: false, hint: "建議 1600 × 1000 px（橫式 16:10），500KB 以下。文章列表會裁成 16:10；設為首頁精選時，首頁會裁成圓形，重點請放在照片正中央。" }
       - { label: 照片說明（替代文字）, name: cover_alt, widget: string, required: false, hint: 一句話描述照片內容，對 SEO 與視障讀者都有幫助 }
       - { label: 摘要, name: excerpt, widget: text, hint: 顯示在文章列表與首頁，約 50 字 }
-      - { label: 內文, name: body, widget: markdown, hint: 可以直接從 Google 文件複製貼上 }
+      - { label: 內文, name: body, widget: markdown, hint: "可以直接從 Google 文件複製貼上。內文圖片用工具列「＋ → Image」插入，寬度 1200 px 左右即可，會完整顯示不裁切。" }
       - label: 參考資料
         name: references
         widget: list
@@ -105,7 +105,7 @@ collections:
         pattern: ["^[a-z0-9-]+$", "只能用小寫英文、數字和連字號"]
         hint: 用在作者頁網址，例如 sealion。建立後請不要再改。
       - { label: 職稱, name: role, widget: string, default: 營養師 }
-      - { label: 插畫或照片, name: avatar, widget: image, hint: 請用去背的 PNG }
+      - { label: 插畫或照片, name: avatar, widget: image, hint: "請用去背的 PNG，建議 600 × 900 px（直式 2:3），人物腳底貼齊圖片下緣、上下不要留白。不會被裁切。" }
       - { label: 排列順序, name: order, widget: number, value_type: int, default: 9 }
       - { label: 學歷, name: education, widget: string, required: false }
       - { label: 專長, name: specialty, widget: string, required: false, hint: 用「、」分隔，例如 運動營養、體態管理 }
@@ -127,13 +127,13 @@ collections:
       - { label: 活動日期, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: 地點, name: location, widget: string, required: false }
       - { label: 合作單位, name: partner, widget: string, required: false }
-      - { label: 封面照片, name: cover, widget: image, required: false }
+      - { label: 封面照片, name: cover, widget: image, required: false, hint: "建議 1600 × 1000 px（橫式 16:10），500KB 以下。花絮列表會裁成 16:10，重點請放在中間。" }
       - label: 更多照片
         name: gallery
         widget: list
         required: false
         fields:
-          - { label: 照片, name: image, widget: image }
+          - { label: 照片, name: image, widget: image, hint: "寬度 1200 px 左右即可，直式橫式都可以，會完整顯示不裁切。每張 500KB 以下。" }
           - { label: 說明, name: caption, widget: string, required: false }
       - { label: 活動紀錄, name: body, widget: markdown, required: false }
       - { label: 草稿（不公開）, name: draft, widget: boolean, default: false }
@@ -155,7 +155,7 @@ collections:
           - { label: 活動名稱, name: title, widget: string }
           - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }
           - { label: 活動說明, name: text, widget: text, required: false, hint: 一兩句話就好 }
-          - { label: 活動圖片, name: image, widget: image, required: false, hint: 建議橫式，例如活動海報或現場照片 }
+          - { label: 活動圖片, name: image, widget: image, required: false, hint: "活動海報或現場照片，直式、橫式、正方形都可以，會完整顯示不裁切。建議寬度 1200 px、500KB 以下。" }
           - { label: 按鈕文字, name: button_text, widget: string, default: 了解活動詳情 }
           - { label: 按鈕連結, name: link, widget: string, required: false, hint: 可以貼報名表單、官方 LINE 或活動花絮頁的網址 }
           - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
@@ -228,5 +228,5 @@ collections:
             widget: list
             fields:
               - { label: 名稱, name: name, widget: string }
-              - { label: Logo, name: logo, widget: image, required: false, hint: 放上前請先取得對方同意 }
+              - { label: Logo, name: logo, widget: image, required: false, hint: "去背 PNG，建議 400 × 160 px 左右的橫式 Logo，會完整顯示不裁切。放上前請先取得對方同意。" }
               - { label: 網址, name: url, widget: string, required: false }
