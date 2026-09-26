@@ -26,14 +26,19 @@
   {%- import "macros.njk" as ui -%}
   <a class="skip-link" href="#main">跳到主要內容</a>
 
-  {% if promo.enabled and promo.topbar and promo.title %}
-  <div class="topbar" data-promo data-start="{{ promo.start }}" data-end="{{ promo.end }}">
-    <a class="topbar-inner"{% if promo.link %} href="{{ promo.link }}"{% if promo.link.startsWith("http") %} target="_blank" rel="noopener"{% endif %}{% endif %}>
-      <span class="topbar-label">{{ promo.label }}</span>
-      <span class="topbar-title">{{ promo.title }}</span>
-      {% if promo.date_text %}<span class="topbar-date">{{ promo.date_text }}</span>{% endif %}
-      {% if promo.link %}<span class="topbar-cta">{{ promo.button_text or "了解活動詳情" }} <span class="arrow" aria-hidden="true">›</span></span>{% endif %}
-    </a>
+  {% if announcements.enabled and announcements.items.length %}
+  <div class="topbar" data-ticker data-speed="{{ announcements.speed or 4 }}" aria-label="最新消息">
+    <ul class="ticker">
+      {%- for item in announcements.items %}
+      <li class="ticker-item{% if loop.first %} is-active{% endif %}" data-start="{{ item.start }}" data-end="{{ item.end }}">
+        <a class="topbar-inner"{% if item.link %} href="{{ item.link }}"{% if item.link.startsWith("http") %} target="_blank" rel="noopener"{% endif %}{% endif %}>
+          {% if item.label %}<span class="topbar-label">{{ item.label }}</span>{% endif %}
+          <span class="topbar-title">{{ item.text }}</span>
+          {% if item.link %}<span class="topbar-cta">{{ item.link_text or "看看" }} <span class="arrow" aria-hidden="true">›</span></span>{% endif %}
+        </a>
+      </li>
+      {%- endfor %}
+    </ul>
   </div>
   {% endif %}
 

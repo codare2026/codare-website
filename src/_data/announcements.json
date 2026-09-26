@@ -1,0 +1,38 @@
+{
+  "enabled": true,
+  "speed": 4,
+  "items": [
+    {
+      "label": "近期活動",
+      "text": "咖啡廳餐點解析盲盒　2026/11/5（四）14:00-16:00",
+      "link": "https://reurl.cc/ompyGv",
+      "link_text": "立刻免費報名",
+      "start": "",
+      "end": "2026-11-05"
+    },
+    {
+      "label": "Podcast",
+      "text": "口袋營養獅 Podcast EP3播出中！通勤路上聽營養師聊聊",
+      "link": "https://open.spotify.com/show/3SgP4pbZTi4LdtcX54MwTC",
+      "link_text": "去收聽",
+      "start": "",
+      "end": ""
+    },
+    {
+      "label": "新文章",
+      "text": "三餐不定時？先搞懂身體運作邏輯再說",
+      "link": "/articles/tcm-metabolism-rhythm/",
+      "link_text": "閱讀文章",
+      "start": "",
+      "end": ""
+    },
+    {
+      "label": "IG",
+      "text": "追蹤 @codare_dietitian，每週營養小知識",
+      "link": "https://www.instagram.com/codare_dietitian/",
+      "link_text": "追蹤我們",
+      "start": "",
+      "end": ""
+    }
+  ]
+}

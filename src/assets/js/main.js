@@ -82,3 +82,35 @@ if (pop && typeof pop.showModal === "function") {
     pop.addEventListener("cancel", remember);
   }
 }
+
+// Top announcement bar: drop items outside their dates, then flip through the rest
+// vertically. Pauses on hover/focus; with reduced motion it stays on the first item.
+const ticker = document.querySelector("[data-ticker]");
+if (ticker) {
+  let items = [...ticker.querySelectorAll(".ticker-item")];
+  items.forEach((el) => { if (!inWindow(el)) el.remove(); });
+  items = [...ticker.querySelectorAll(".ticker-item")];
+  if (!items.length) {
+    ticker.remove();
+  } else {
+    items.forEach((el, i) => el.classList.toggle("is-active", i === 0));
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (items.length > 1 && !still) {
+      let current = 0;
+      const delay = Math.max(2, Number(ticker.dataset.speed) || 4) * 1000;
+      // Checked at each flip, so a missed mouseleave can never leave it stuck.
+      const paused = () => ticker.matches(":hover") || ticker.contains(document.activeElement);
+      setInterval(() => {
+        if (paused() || document.hidden) return;
+        const prev = items[current];
+        current = (current + 1) % items.length;
+        const next = items[current];
+        prev.classList.remove("is-active");
+        prev.classList.add("is-leaving");
+        next.classList.remove("is-leaving");
+        next.classList.add("is-active");
+        setTimeout(() => prev.classList.remove("is-leaving"), 650);
+      }, delay);
+    }
+  }
+}

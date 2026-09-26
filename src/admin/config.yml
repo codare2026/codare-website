@@ -143,12 +143,30 @@ collections:
     label: 網站設定
     editor: { preview: false }
     files:
+      - name: announcements
+        label: 最上方公告列（輪播）
+        file: src/_data/announcements.json
+        fields:
+          - { label: 顯示最上方公告列, name: enabled, widget: boolean, default: true, hint: 全站每一頁最上方，多則公告會上下輪流翻轉 }
+          - { label: 每則停留秒數, name: speed, widget: number, value_type: int, default: 4, min: 2, max: 15 }
+          - label: 公告
+            name: items
+            widget: list
+            label_singular: 公告
+            summary: "{{fields.label}}｜{{fields.text}}"
+            hint: 拖曳可以調整輪播順序
+            fields:
+              - { label: 小標籤, name: label, widget: string, hint: 例如 近期活動、Podcast 新上架、新文章、IG 新貼文 }
+              - { label: 公告文字, name: text, widget: string, hint: 一句話就好，約 25 字內，手機上太長會被截掉 }
+              - { label: 連結, name: link, widget: string, required: false, hint: "可以貼 IG 貼文、Podcast 單集、報名表單網址；站內文章可以只填 /articles/網址代稱/" }
+              - { label: 連結文字, name: link_text, widget: string, required: false, default: 看看 }
+              - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
+              - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天自動下架；留空就是一直顯示 }
       - name: promo
         label: 活動宣傳（首頁橫幅與彈窗）
         file: src/_data/promo.json
         fields:
           - { label: 開啟活動宣傳, name: enabled, widget: boolean, default: false, hint: 關掉就不會顯示任何橫幅或彈窗 }
-          - { label: 顯示最上方公告列, name: topbar, widget: boolean, default: true, hint: 全站每一頁最上方的一條公告，最明顯 }
           - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
           - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出，同一位訪客一天只跳一次；換新活動會重新跳 }
           - { label: 小標籤, name: label, widget: string, default: 近期活動 }
