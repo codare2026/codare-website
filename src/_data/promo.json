@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "start": "2026-09-26",
-  "popup": true,
+  "popup": false,
   "banner": true,
   "text": "☕ 地點：貳號基地咖啡廳 116臺北市文山區萬和里汀州路四段130號\n🎫 免費參加｜名額有限，需事先報名\n⚠️ 活動當天需低消餐點一份+飲品一杯",
   "label": "近期活動",
@@ -9,6 +9,6 @@
   "button_text": "立刻免費報名",
   "link": "https://reurl.cc/ompyGv",
   "end": "",
-  "image": "/assets/uploads/截圖-2026-09-26-晚上11.17.23.png",
+  "image": "",
   "date_text": "2026/11/5（四）14:00-16:00"
 }
