@@ -446,3 +446,6 @@ b, strong { font-weight: 700; }
   .promo-banner { grid-template-columns: 1fr; padding: 18px; }
   .promo-banner.no-image { padding: 28px 24px; }
 }
+
+/* Keep the line breaks editors type into plain-text fields (Enter = new line) */
+.promo-text, .about-lead, .collab p, .faq details p, .runwith-lead, .runwith-band-text > p:not(.eyebrow), .card-excerpt, .hero-lead { white-space: pre-line; }
