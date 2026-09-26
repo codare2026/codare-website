@@ -150,7 +150,7 @@ collections:
           - { label: 開啟活動宣傳, name: enabled, widget: boolean, default: false, hint: 關掉就不會顯示任何橫幅或彈窗 }
           - { label: 顯示最上方公告列, name: topbar, widget: boolean, default: true, hint: 全站每一頁最上方的一條公告，最明顯 }
           - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
-          - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出，同一位訪客一天只跳一次 }
+          - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 每次打開首頁都會跳出，按 × 關閉 }
           - { label: 小標籤, name: label, widget: string, default: 近期活動 }
           - { label: 活動名稱, name: title, widget: string }
           - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }

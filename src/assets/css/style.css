@@ -418,21 +418,10 @@ b, strong { font-weight: 700; }
 .section-promo { padding: 8px 0 24px; }
 .promo-banner {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: center;
-  background: var(--deep); border-radius: var(--radius-lg); padding: 24px; box-shadow: 0 16px 40px rgba(10, 79, 89, .25);
-  position: relative; overflow: hidden;
+  background: #F4E8D3; border: var(--dotted); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow);
 }
-.promo-banner::before {
-  content: ""; position: absolute; right: -60px; top: -60px; width: 220px; height: 220px; border-radius: 50%;
-  border: 3px dotted rgba(128, 213, 206, .5); pointer-events: none;
-}
-.promo-banner.no-image { grid-template-columns: 1fr; padding: 40px 48px; }
+.promo-banner.no-image { grid-template-columns: 1fr; padding: 36px 44px; }
 .promo-banner-img img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); }
-.promo-banner .promo-label { background: var(--sand); color: var(--deep); }
-.promo-banner .promo-title { color: #FFF8EE; font-size: clamp(26px, 3.4vw, 38px); }
-.promo-banner .promo-date { color: var(--light); font-size: 18px; }
-.promo-banner .promo-text { color: #E8EFEC; }
-.promo-banner .btn-primary { background: var(--sand); color: var(--deep); box-shadow: none; }
-.promo-banner .btn-primary:hover { background: #FFF8EE; }
 .promo-banner-body, .promo-pop-body { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
 .promo-label { font-family: var(--round); font-size: 14px; color: #FFF8EE; background: var(--water); padding: 2px 14px; border-radius: 999px; letter-spacing: .1em; }
 .promo-title { font-size: clamp(24px, 3vw, 32px); color: var(--lake); letter-spacing: .05em; }
