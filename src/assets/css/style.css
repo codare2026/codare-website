@@ -469,3 +469,16 @@ a.topbar-inner:hover .topbar-cta .arrow { transform: translateX(4px); }
   .topbar-title { font-size: 14px; }
   .topbar-date { display: none; }
 }
+
+/* ---------- Social (IG / Podcast) ---------- */
+.social-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.social-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+  background: var(--card); border: var(--dotted); border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px 36px;
+}
+.social-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--pale); color: var(--lake); display: grid; place-items: center; margin-bottom: 4px; }
+.social-icon svg { width: 28px; height: 28px; }
+.social-card h3 { font-size: 24px; color: var(--lake); letter-spacing: .06em; }
+.social-handle { font-family: var(--round); color: var(--ink); }
+.social-text { font-weight: 300; color: var(--body); margin-bottom: 8px; }
+@media (max-width: 760px) { .social-grid { grid-template-columns: 1fr; } .social-card { padding: 26px 24px; } }

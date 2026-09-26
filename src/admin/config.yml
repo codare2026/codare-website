@@ -179,6 +179,21 @@ collections:
           - { label: 線上報名連結, name: signup_url, widget: string }
           - { label: 學員登入連結, name: login_url, widget: string }
           - { label: 免責提醒, name: disclaimer, widget: text }
+          - label: 社群（IG 與 Podcast）
+            name: social
+            widget: object
+            fields:
+              - { label: IG 帳號名稱, name: instagram_handle, widget: string }
+              - { label: IG 連結, name: instagram_url, widget: string }
+              - { label: IG 介紹文字, name: instagram_text, widget: string }
+              - { label: Podcast 節目名稱, name: podcast_name, widget: string }
+              - { label: Podcast 介紹文字, name: podcast_text, widget: string }
+              - label: Podcast 收聽平台
+                name: podcast_links
+                widget: list
+                fields:
+                  - { label: 平台名稱, name: label, widget: string, hint: 例如 Spotify }
+                  - { label: 連結, name: url, widget: string }
           - label: 健康陪跑計畫
             name: runwith
             widget: object

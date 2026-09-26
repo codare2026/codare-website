@@ -27,6 +27,32 @@ excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團�
   </div>
 </section>
 
+<section class="section section-tight" id="follow">
+  <div class="container">
+    {{ ui.heading("FOLLOW US", "追蹤我們", "在 IG 和 Podcast 也找得到我們") }}
+    <div class="social-grid">
+      <div class="social-card reveal">
+        <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <h3>Instagram</h3>
+        <p class="social-handle">{{ site.social.instagram_handle }}</p>
+        <p class="social-text">{{ site.social.instagram_text }}</p>
+        <a class="btn btn-primary" href="{{ site.social.instagram_url }}" target="_blank" rel="noopener">追蹤我們的 IG <span class="arrow" aria-hidden="true">›</span></a>
+      </div>
+      <div class="social-card reveal">
+        <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="2"/><rect x="17" y="14" width="4" height="6" rx="2"/></svg></span>
+        <h3>Podcast</h3>
+        <p class="social-handle">{{ site.social.podcast_name }}</p>
+        <p class="social-text">{{ site.social.podcast_text }}</p>
+        <div class="btn-row">
+          {%- for l in site.social.podcast_links %}
+          <a class="btn btn-soft" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a>
+          {%- endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="section section-alt">
   {{ ui.wave("#FDF3E4", true) }}
   <div class="container">

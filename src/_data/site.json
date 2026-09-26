@@ -50,5 +50,26 @@
   "collab": {
     "title": "想邀請我們辦講座？",
     "text": "企業、店家、學校與社團的營養講座和合作活動，歡迎透過官方 LINE 或 Email 聊聊你的想法。"
+  },
+  "social": {
+    "instagram_handle": "@codare_dietitian",
+    "instagram_url": "https://www.instagram.com/codare_dietitian/",
+    "instagram_text": "營養小知識、日常分享和活動消息，都在 IG。",
+    "podcast_name": "口袋營養獅 Podcast",
+    "podcast_text": "營養師們聊聊飲食、生活和那些好奇的小事。",
+    "podcast_links": [
+      {
+        "label": "Spotify",
+        "url": "https://open.spotify.com/show/3SgP4pbZTi4LdtcX54MwTC"
+      },
+      {
+        "label": "SoundOn",
+        "url": "https://player.soundon.fm/p/24a02a1d-e398-40fc-96b4-027cceb4acc9"
+      },
+      {
+        "label": "Apple Podcasts",
+        "url": "https://podcasts.apple.com/tw/podcast/%E5%8F%A3%E8%A2%8B%E7%87%9F%E9%A4%8A%E7%8D%85/id6804258720"
+      }
+    ]
   }
 }
