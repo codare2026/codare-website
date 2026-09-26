@@ -27,29 +27,25 @@ excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團�
   </div>
 </section>
 
-<section class="section section-tight" id="follow">
-  <div class="container">
-    {{ ui.heading("FOLLOW US", "追蹤我們", "在 IG 和 Podcast 也找得到我們") }}
-    <div class="social-grid">
-      <div class="social-card reveal">
-        <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
-        <h3>Instagram</h3>
-        <p class="social-handle">{{ site.social.instagram_handle }}</p>
-        <p class="social-text">{{ site.social.instagram_text }}</p>
-        <a class="btn btn-primary" href="{{ site.social.instagram_url }}" target="_blank" rel="noopener">追蹤我們的 IG <span class="arrow" aria-hidden="true">›</span></a>
-      </div>
-      <div class="social-card reveal">
-        <span class="social-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="2"/><rect x="17" y="14" width="4" height="6" rx="2"/></svg></span>
-        <h3>Podcast</h3>
-        <p class="social-handle">{{ site.social.podcast_name }}</p>
-        <p class="social-text">{{ site.social.podcast_text }}</p>
-        <div class="btn-row">
-          {%- for l in site.social.podcast_links %}
-          <a class="btn btn-soft" href="{{ l.url }}" target="_blank" rel="noopener">{{ l.label }}</a>
-          {%- endfor %}
-        </div>
-      </div>
-    </div>
+<section class="follow-strip" id="follow" aria-label="追蹤我們">
+  <div class="container follow-inner reveal">
+    <p class="follow-title">追蹤我們</p>
+    <ul class="follow-links">
+      <li><a href="{{ site.social.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram {{ site.social.instagram_handle }}">
+        <span class="follow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></span>Instagram</a></li>
+      {%- for l in site.social.podcast_links %}
+      <li><a href="{{ l.url }}" target="_blank" rel="noopener" aria-label="{{ site.social.podcast_name }}：{{ l.label }}">
+        <span class="follow-icon" aria-hidden="true">
+        {%- if "spotify" in l.url -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M7.5 9.5c3-1 6.5-.7 9 .8M8 12.5c2.5-.7 5.2-.4 7.3.8M8.6 15.3c1.8-.5 3.8-.3 5.4.6"/></svg>
+        {%- elif "apple" in l.url -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="10" r="3"/><path d="M12 13v7M6.3 15.5A8 8 0 1 1 17.7 15.5"/></svg>
+        {%- else -%}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg>
+        {%- endif -%}
+        </span>{{ l.label }}</a></li>
+      {%- endfor %}
+    </ul>
   </div>
 </section>
 
