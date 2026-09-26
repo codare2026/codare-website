@@ -2,7 +2,7 @@
 layout: base.njk
 permalink: /run-with-you/
 title: 健康陪跑計畫
-excerpt: 營養師一對一，透過線上視訊或圖文，陪你在日常裡慢慢找到合適的吃法。
+excerpt: 以生活習慣陪伴與健康知識分享為主，在日常裡陪你一起養成好好吃飯的習慣。
 ---
 {%- import "macros.njk" as ui -%}
 <section class="page-head">
@@ -14,7 +14,7 @@ excerpt: 營養師一對一，透過線上視訊或圖文，陪你在日常裡�
 <section class="section section-tight">
   <div class="container runwith-grid">
     <div>
-      <p class="runwith-lead reveal">{{ site.runwith.lead }}</p>
+      <p class="runwith-lead reveal">{{ site.runwith.lead | safe }}</p>
       <ol class="steps">
         {%- for s in site.runwith.steps %}
         <li class="step reveal"><span class="step-num">{{ "0" + loop.index if loop.index < 10 else loop.index }}</span><div><h3>{{ s.title }}</h3><p>{{ s.text }}</p></div></li>
@@ -24,7 +24,7 @@ excerpt: 營養師一對一，透過線上視訊或圖文，陪你在日常裡�
     <aside class="contact-card reveal">
       {{ ui.buddy("/assets/img/member3.png", "有我陪你喔！", "right", "contact-buddy") }}
       <h2>想了解陪跑計畫？</h2>
-      <p>先加入官方 LINE，說說你的需求，營養師會和你討論適合的方式。</p>
+      <p>{{ site.runwith.contact_text }}</p>
       <dl class="contact-list">
         <div><dt>LINE</dt><dd><a href="{{ site.line_url }}" target="_blank" rel="noopener">{{ site.line_id }}</a></dd></div>
         <div><dt>Email</dt><dd><a href="mailto:{{ site.email }}">{{ site.email }}</a></dd></div>

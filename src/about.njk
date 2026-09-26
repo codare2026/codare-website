@@ -41,25 +41,8 @@ excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團�
     <p class="center muted reveal">合作夥伴整理中。</p>
     {% endif %}
 
-    <div class="collab reveal" id="collab">
-      <div>
-        <h3>{{ site.collab.title }}</h3>
-        <p>{{ site.collab.text }}</p>
-      </div>
-      <div class="btn-row">
-        <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
-        <a class="btn btn-soft" href="/events/">看活動花絮</a>
-      </div>
-    </div>
+    {{ ui.collab(site, "collab", '<a class="btn btn-soft" href="/events/">看活動花絮</a>') }}
   </div>
   {{ ui.wave("#FFFAF2") }}
 </section>
 
-<section class="section" id="principles">
-  <div class="container narrow">
-    {{ ui.heading("EDITORIAL", "編輯原則") }}
-    <ol class="principles reveal">
-      {%- for p in site.principles %}<li>{{ p }}</li>{% endfor %}
-    </ol>
-  </div>
-</section>

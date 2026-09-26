@@ -3,7 +3,6 @@ layout: base.njk
 ---
 {%- import "macros.njk" as ui -%}
 {%- set list = collections.articles | where("author", id) -%}
-{%- set cols = collections.columns | where("author", id) -%}
 <section class="page-head">
   <div class="container profile reveal">
     <div class="profile-stage">
@@ -15,7 +14,6 @@ layout: base.njk
       <p class="profile-role">{{ role }}{% if education %}　·　{{ education }}{% endif %}</p>
       {% if specialty %}<p class="profile-tags">{% for s in specialty.split("、") %}<span class="tag tag-soft">{{ s }}</span>{% endfor %}</p>{% endif %}
       <div class="prose">{{ content | safe }}</div>
-      {% for c in cols %}<p><a class="tag" href="{{ c.url }}">專欄《{{ c.data.name }}》</a></p>{% endfor %}
     </div>
   </div>
 </section>

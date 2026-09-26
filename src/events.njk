@@ -32,15 +32,9 @@ excerpt: 口袋營養獅辦過的營養講座、活動與品牌合作紀錄。
     </div>
     {% else %}
     <div class="empty reveal">
-      {{ ui.buddy("/assets/img/member1.png", "活動紀錄整理中，下次見！", "left") }}
+      {{ ui.buddy("/assets/img/member4.png", "活動紀錄整理中，下次見！", "left") }}
     </div>
     {% endif %}
-    <div class="collab reveal">
-      <div>
-        <h3>{{ site.collab.title }}</h3>
-        <p>{{ site.collab.text }}</p>
-      </div>
-      <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
-    </div>
+    {{ ui.collab(site) }}
   </div>
 </section>

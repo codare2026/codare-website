@@ -3,7 +3,8 @@
 營養師寫給你的日常健康讀本。以文章為主角，健康陪跑計畫為輔。
 
 - 網站：用 [Eleventy](https://www.11ty.dev/) 產生的靜態網站，放在 GitHub Pages
-- 後台：[Decap CMS](https://decapcms.org/)，網址是「網站網址 + `/admin/`」，只有主編登入
+- 網址：https://codaredietitian.com
+- 後台：[Decap CMS](https://decapcms.org/)，網址是 https://codaredietitian.com/admin/ ，只有主編登入
 
 ## 日常使用（主編）
 
@@ -18,7 +19,6 @@
 |---|---|
 | 文章 | SEO 文、衛教文、草稿（勾「草稿」就不會公開） |
 | 營養師名單 | 名字、插畫、自我介紹、招呼語 |
-| 專欄管理 | 新增專欄、指定作者 |
 | 活動花絮 | 講座、活動、品牌合作的照片與紀錄 |
 | 網站設定 | 聯絡資訊、LINE 連結、陪跑計畫文字、常見問題、閱讀主題、合作夥伴 Logo |
 
@@ -35,8 +35,8 @@ npm start
 
 ## 上線設定（第一次）
 
-1. **放上 GitHub**：把這個資料夾推到 GitHub 儲存庫（例如取代現在的 `codare_landing_v1`）。
-2. **開啟 GitHub Pages**：儲存庫 Settings → Pages → Source 選「GitHub Actions」。之後每次推送或在後台發布，`.github/workflows/deploy.yml` 都會自動建置並上線。
+1. **放上 GitHub**：用 GitHub Desktop 把這個資料夾發布成 `codare2026/codare-website`（公開 Public）。
+2. **開啟 GitHub Pages**：儲存庫 Settings → Pages → Source 選「GitHub Actions」，Custom domain 填 `codaredietitian.com`。之後每次推送或在後台發布，`.github/workflows/deploy.yml` 都會自動建置並上線。
 3. **後台登入設定**：GitHub Pages 本身沒有登入功能，需要一個免費的 OAuth 小服務（例如用 Cloudflare Workers 架設 decap-proxy）。架好後把網址填進 `src/admin/config.yml` 的 `base_url`，並確認 `repo` 是正確的儲存庫名稱。
 4. 確認 `src/_data/site.json` 的 `url` 是正式網址（用在 SEO 與分享預覽）。
 
@@ -46,7 +46,6 @@ npm start
 src/
   articles/     文章（每篇一個 .md 檔）
   team/         營養師名單
-  columns/      專欄
   events/       活動花絮
   _data/        網站設定、閱讀主題、合作夥伴
   _includes/    版型

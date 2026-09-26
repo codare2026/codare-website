@@ -21,9 +21,6 @@ layout: base.njk
   </div>
   {% endif %}
   <div class="container narrow">
-    <div class="collab reveal">
-      <div><h3>{{ site.collab.title }}</h3><p>{{ site.collab.text }}</p></div>
-      <a class="btn btn-primary" href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
-    </div>
+    {{ ui.collab(site) }}
   </div>
 </article>

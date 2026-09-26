@@ -44,3 +44,18 @@
   <svg viewBox="0 0 2880 100" preserveAspectRatio="none"><path d="M0 50C240 10 480 10 720 50S1200 90 1440 50 1920 10 2160 50 2640 90 2880 50V100H0Z" fill="{{ fill }}"/></svg>
 </div>
 {% endmacro %}
+
+{# 講座合作 box: LINE button + clickable email #}
+{% macro collab(site, id="", extra="") %}
+<div class="collab reveal"{% if id %} id="{{ id }}"{% endif %}>
+  <div>
+    <h3>{{ site.collab.title }}</h3>
+    <p>{{ site.collab.text }}</p>
+    <p class="collab-mail">合作信箱：<a href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">{{ site.email }}</a></p>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-primary" href="{{ site.line_url }}" target="_blank" rel="noopener">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
+    {{ extra | safe }}
+  </div>
+</div>
+{% endmacro %}

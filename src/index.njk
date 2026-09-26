@@ -30,7 +30,7 @@ title: 營養師寫給你的日常健康讀本
           {% endif %}
         </div>
       </div>
-      {{ ui.buddy("/assets/img/member4.png", "每天都要好好吃飯喔！", "right", "hero-buddy") }}
+      {{ ui.buddy("/assets/img/member1.png", "每天都要好好吃飯喔！", "right", "hero-buddy") }}
       <span class="sparkle s1" aria-hidden="true"></span><span class="sparkle s2" aria-hidden="true"></span><span class="sparkle s3" aria-hidden="true"></span>
     </div>
   </div>
@@ -68,21 +68,6 @@ title: 營養師寫給你的日常健康讀本
   {{ ui.wave("#FFFAF2") }}
 </section>
 
-<section class="section">
-  <div class="container">
-    {{ ui.heading("COLUMNISTS", "營養師專欄", "每一篇文章，都看得到是誰寫的") }}
-    <div class="team-row">
-      {%- for m in collections.team %}
-      <a class="member-card reveal" href="{{ m.url }}">
-        <span class="member-stage"><img class="buddy-img" src="{{ m.data.avatar }}" alt="{{ m.data.name }}插畫" loading="lazy"></span>
-        <span class="member-name">{{ m.data.name }}</span>
-        {% if m.data.greeting %}<span class="member-greet">{{ m.data.greeting }}</span>{% endif %}
-      </a>
-      {%- endfor %}
-    </div>
-  </div>
-</section>
-
 {% if collections.events.length %}
 <section class="section section-alt">
   {{ ui.wave("#FDF3E4", true) }}
@@ -108,7 +93,7 @@ title: 營養師寫給你的日常健康讀本
       <div class="runwith-band-text">
         <p class="eyebrow">RUN WITH YOU</p>
         <h2>健康陪跑計畫</h2>
-        <p>{{ site.runwith.lead }}</p>
+        <p>{{ site.runwith.lead | safe }}</p>
         <div class="btn-row">
           <a class="btn btn-primary" href="/run-with-you/">了解健康陪跑計畫 <span class="arrow" aria-hidden="true">›</span></a>
           <a class="btn btn-soft" href="{{ site.line_url }}" target="_blank" rel="noopener">加入官方 LINE</a>

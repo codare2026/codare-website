@@ -6,7 +6,7 @@
 #   base_url  ：GitHub 登入用的小服務網址（OAuth proxy）
 backend:
   name: github
-  repo: codare2026/codare_landing_v1
+  repo: codare2026/codare-website
   branch: main
   # base_url: https://<你的登入服務>.workers.dev
   commit_messages:
@@ -20,9 +20,9 @@ backend:
 local_backend: true
 
 locale: zh_Hant
-site_url: https://codare2026.github.io/codare_landing_v1
-display_url: https://codare2026.github.io/codare_landing_v1
-logo_url: https://codare2026.github.io/codare_landing_v1/assets/img/logo.png
+site_url: https://codaredietitian.com
+display_url: https://codaredietitian.com
+logo_url: https://codaredietitian.com/assets/img/logo.png
 
 media_folder: src/assets/uploads
 public_folder: /assets/uploads
@@ -37,9 +37,7 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{hour}}{{minute}}"
     summary: "{{title}}　·　{{date | date('YYYY.MM.DD')}}"
-    sortable_fields:
-      default: { field: date, direction: descending }
-      fields: [date, title]
+    sortable_fields: [date, title]
     fields:
       - { label: 標題, name: title, widget: string }
       - label: 網址代稱
@@ -53,6 +51,7 @@ collections:
         widget: select
         options: ["SEO 文", "衛教文"]
         default: "SEO 文"
+        hint: 內部分類用，不會顯示在網站上
       - label: 閱讀主題
         name: topic
         widget: relation
@@ -70,14 +69,6 @@ collections:
         value_field: id
         required: false
         hint: 從營養師名單選擇；留空會顯示「口袋營養獅營養師團隊」
-      - label: 所屬專欄
-        name: column
-        widget: relation
-        collection: columns
-        search_fields: [name]
-        display_fields: [name]
-        value_field: id
-        required: false
       - { label: 發布日期, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
       - { label: 最後更新日期, name: updated, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
       - { label: 設為首頁精選, name: featured, widget: boolean, default: false, hint: 首頁大圖會顯示最新一篇「精選」文章 }
@@ -121,23 +112,6 @@ collections:
       - { label: 一句招呼語, name: greeting, widget: string, required: false, hint: 會顯示在插畫旁的對話框 }
       - { label: 自我介紹, name: body, widget: markdown }
 
-  # ---------------- 專欄管理 ----------------
-  - name: columns
-    label: 專欄管理
-    label_singular: 專欄
-    folder: src/columns
-    create: true
-    identifier_field: name
-    slug: "{{fields.id}}"
-    fields:
-      - { label: 專欄名稱, name: name, widget: string }
-      - label: 英文代稱
-        name: id
-        widget: string
-        pattern: ["^[a-z0-9-]+$", "只能用小寫英文、數字和連字號"]
-      - { label: 專欄作者, name: author, widget: relation, collection: team, search_fields: [name], display_fields: [name], value_field: id }
-      - { label: 專欄介紹, name: description, widget: text }
-
   # ---------------- 活動花絮 ----------------
   - name: events
     label: 活動花絮
@@ -146,9 +120,7 @@ collections:
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{hour}}{{minute}}"
     summary: "{{title}}　·　{{date | date('YYYY.MM.DD')}}"
-    sortable_fields:
-      default: { field: date, direction: descending }
-      fields: [date, title]
+    sortable_fields: [date, title]
     fields:
       - { label: 活動名稱, name: title, widget: string }
       - { label: 類型, name: kind, widget: select, options: ["講座", "活動", "品牌合作"], default: "講座" }
@@ -194,7 +166,7 @@ collections:
             name: runwith
             widget: object
             fields:
-              - { label: 開場文字, name: lead, widget: text }
+              - { label: 開場文字, name: lead, widget: text, hint: 想加粗的字可以用 <b>文字</b> 包起來 }
               - label: 三個步驟
                 name: steps
                 widget: list
@@ -202,6 +174,7 @@ collections:
                   - { label: 標題, name: title, widget: string }
                   - { label: 說明, name: text, widget: string }
               - { label: 文章結尾邀請文字, name: article_invite, widget: string }
+              - { label: 聯絡卡說明, name: contact_text, widget: string }
               - label: 常見問題
                 name: faq
                 widget: list
@@ -214,7 +187,6 @@ collections:
             fields:
               - { label: 標題, name: title, widget: string }
               - { label: 說明, name: text, widget: text }
-          - { label: 編輯原則, name: principles, widget: list, field: { label: 原則, name: item, widget: string } }
       - name: topics
         label: 閱讀主題
         file: src/_data/topics.json

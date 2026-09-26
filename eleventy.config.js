@@ -8,6 +8,8 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
   eleventyConfig.addPassthroughCopy("src/admin");
   eleventyConfig.addPassthroughCopy({ "src/robots.txt": "robots.txt" });
+  // Custom domain for GitHub Pages
+  eleventyConfig.addPassthroughCopy({ "src/CNAME": "CNAME" });
 
   // Content collections (newest first). Drafts stay out of the public site.
   const published = (item) => !item.data.draft;
@@ -20,7 +22,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("team", (api) =>
     api.getFilteredByGlob("src/team/*.md").sort((a, b) => (a.data.order || 99) - (b.data.order || 99))
   );
-  eleventyConfig.addCollection("columns", (api) => api.getFilteredByGlob("src/columns/*.md"));
 
   eleventyConfig.addGlobalData("year", new Date().getFullYear());
 
