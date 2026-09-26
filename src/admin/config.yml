@@ -8,7 +8,7 @@ backend:
   name: github
   repo: codare2026/codare-website
   branch: main
-  # base_url: https://<你的登入服務>.workers.dev
+  base_url: https://codare-cms-auth.sophia411017.workers.dev
   commit_messages:
     create: "新增{{collection}}：{{slug}}"
     update: "更新{{collection}}：{{slug}}"
