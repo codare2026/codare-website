@@ -55,7 +55,7 @@ if (filterButtons.length && filterList) {
 }
 
 // Promotion banner / popup (活動宣傳): hide outside the start–end dates;
-// the popup opens every time the home page loads and closes with ×, Esc or a click outside.
+// the popup shows at most once a day per visitor and per promotion.
 const today = new Date();
 const inWindow = (el) => {
   const start = el.dataset.start ? new Date(el.dataset.start + "T00:00:00") : null;
@@ -67,7 +67,18 @@ document.querySelectorAll("[data-promo]").forEach((el) => {
 });
 const pop = document.querySelector("[data-promo-pop]");
 if (pop && typeof pop.showModal === "function") {
-  setTimeout(() => pop.showModal(), 800);
-  pop.querySelector("[data-promo-close]").addEventListener("click", () => pop.close());
-  pop.addEventListener("click", (e) => { if (e.target === pop) pop.close(); });
+  // At most once a day per visitor; a new promotion (different key) shows again for everyone.
+  const key = "codare-promo-" + pop.dataset.key;
+  const stamp = today.toISOString().slice(0, 10);
+  let seen = null;
+  try { seen = localStorage.getItem(key); } catch (e) { /* storage unavailable */ }
+  if (seen !== stamp) {
+    const remember = () => {
+      try { localStorage.setItem(key, stamp); } catch (e) { /* storage unavailable */ }
+    };
+    setTimeout(() => pop.showModal(), 800);
+    pop.querySelector("[data-promo-close]").addEventListener("click", () => { pop.close(); remember(); });
+    pop.addEventListener("click", (e) => { if (e.target === pop) { pop.close(); remember(); } });
+    pop.addEventListener("cancel", remember);
+  }
 }

@@ -117,7 +117,7 @@
   </footer>
 
   {% if page.url == "/" and promo.enabled and promo.popup and promo.title %}
-  <dialog class="promo-pop" data-promo data-promo-pop data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-labelledby="promo-pop-title">
+  <dialog class="promo-pop" data-promo data-promo-pop data-key="{{ promo.title }}{{ promo.start }}" data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-labelledby="promo-pop-title">
     <button class="promo-close" type="button" aria-label="關閉" data-promo-close>×</button>
     {% if promo.image %}<img class="promo-pop-img" src="{{ promo.image }}" alt="{{ promo.title }}">{% endif %}
     <div class="promo-pop-body" id="promo-pop-title">
