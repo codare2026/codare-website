@@ -23,6 +23,7 @@
   <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
+  {%- import "macros.njk" as ui -%}
   <a class="skip-link" href="#main">跳到主要內容</a>
 
   <header class="site-header">
@@ -103,6 +104,16 @@
       <p class="footer-copy">© {{ year }} {{ site.name }} Co-Dare</p>
     </div>
   </footer>
+
+  {% if page.url == "/" and promo.enabled and promo.popup and promo.title %}
+  <dialog class="promo-pop" data-promo data-promo-pop data-key="{{ promo.title }}{{ promo.start }}" data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-labelledby="promo-pop-title">
+    <button class="promo-close" type="button" aria-label="關閉" data-promo-close>×</button>
+    {% if promo.image %}<img class="promo-pop-img" src="{{ promo.image }}" alt="{{ promo.title }}">{% endif %}
+    <div class="promo-pop-body" id="promo-pop-title">
+      {{ ui.promoBody(promo, "h2") }}
+    </div>
+  </dialog>
+  {% endif %}
 
   <a class="float-line" href="{{ site.line_url }}" target="_blank" rel="noopener" aria-label="加入官方 LINE">LINE</a>
 

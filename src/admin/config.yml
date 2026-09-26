@@ -143,6 +143,22 @@ collections:
     label: 網站設定
     editor: { preview: false }
     files:
+      - name: promo
+        label: 活動宣傳（首頁橫幅與彈窗）
+        file: src/_data/promo.json
+        fields:
+          - { label: 開啟活動宣傳, name: enabled, widget: boolean, default: false, hint: 關掉就不會顯示任何橫幅或彈窗 }
+          - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
+          - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出，同一位訪客一天只跳一次 }
+          - { label: 小標籤, name: label, widget: string, default: 近期活動 }
+          - { label: 活動名稱, name: title, widget: string }
+          - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }
+          - { label: 活動說明, name: text, widget: text, required: false, hint: 一兩句話就好 }
+          - { label: 活動圖片, name: image, widget: image, required: false, hint: 建議橫式，例如活動海報或現場照片 }
+          - { label: 按鈕文字, name: button_text, widget: string, default: 了解活動詳情 }
+          - { label: 按鈕連結, name: link, widget: string, required: false, hint: 可以貼報名表單、官方 LINE 或活動花絮頁的網址 }
+          - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
+          - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天會自動不顯示；留空就是一直顯示 }
       - name: site
         label: 網站文字與聯絡資訊
         file: src/_data/site.json

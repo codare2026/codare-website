@@ -37,6 +37,19 @@ title: 營養師寫給你的日常健康讀本
   {{ ui.wave("#FFFAF2") }}
 </section>
 
+{% if promo.enabled and promo.banner and promo.title %}
+<section class="section section-promo" data-promo data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-label="活動宣傳">
+  <div class="container">
+    <div class="promo-banner reveal{% if not promo.image %} no-image{% endif %}">
+      {% if promo.image %}<div class="promo-banner-img"><img src="{{ promo.image }}" alt="{{ promo.title }}" loading="lazy"></div>{% endif %}
+      <div class="promo-banner-body">
+        {{ ui.promoBody(promo, "h2") }}
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
 <section class="section">
   <div class="container">
     {{ ui.heading("NEW ARTICLES", "最新文章", "營養師寫給你的日常小知識") }}

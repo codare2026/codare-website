@@ -1,0 +1,14 @@
+{
+  "enabled": false,
+  "banner": true,
+  "popup": true,
+  "label": "近期活動",
+  "title": "",
+  "date_text": "",
+  "text": "",
+  "image": "",
+  "button_text": "了解活動詳情",
+  "link": "",
+  "start": "",
+  "end": ""
+}

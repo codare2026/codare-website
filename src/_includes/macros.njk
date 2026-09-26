@@ -45,6 +45,17 @@
 </div>
 {% endmacro %}
 
+{# Promotion content shared by the home banner and the popup #}
+{% macro promoBody(promo, headingTag="h2") %}
+<p class="promo-label">{{ promo.label }}</p>
+<{{ headingTag }} class="promo-title">{{ promo.title }}</{{ headingTag }}>
+{% if promo.date_text %}<p class="promo-date">{{ promo.date_text }}</p>{% endif %}
+{% if promo.text %}<p class="promo-text">{{ promo.text }}</p>{% endif %}
+{% if promo.link %}
+<a class="btn btn-primary" href="{{ promo.link }}"{% if promo.link.startsWith("http") %} target="_blank" rel="noopener"{% endif %}>{{ promo.button_text or "了解活動詳情" }} <span class="arrow" aria-hidden="true">›</span></a>
+{% endif %}
+{% endmacro %}
+
 {# 講座合作 box: LINE button + clickable email #}
 {% macro collab(site, id="", extra="") %}
 <div class="collab reveal"{% if id %} id="{{ id }}"{% endif %}>

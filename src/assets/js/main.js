@@ -53,3 +53,34 @@ if (filterButtons.length && filterList) {
     });
   });
 }
+
+// Promotion banner / popup (活動宣傳): hide outside the start–end dates,
+// and show the popup at most once a day per promotion.
+const today = new Date();
+const inWindow = (el) => {
+  const start = el.dataset.start ? new Date(el.dataset.start + "T00:00:00") : null;
+  const end = el.dataset.end ? new Date(el.dataset.end + "T23:59:59") : null;
+  return (!start || today >= start) && (!end || today <= end);
+};
+document.querySelectorAll("[data-promo]").forEach((el) => {
+  if (!inWindow(el)) el.remove();
+});
+const pop = document.querySelector("[data-promo-pop]");
+if (pop && typeof pop.showModal === "function") {
+  const key = "codare-promo-" + pop.dataset.key;
+  const stamp = today.toISOString().slice(0, 10);
+  let seen = null;
+  try { seen = localStorage.getItem(key); } catch (e) { /* storage unavailable */ }
+  if (seen !== stamp) {
+    setTimeout(() => pop.showModal(), 1200);
+    const close = () => {
+      pop.close();
+      try { localStorage.setItem(key, stamp); } catch (e) { /* storage unavailable */ }
+    };
+    pop.querySelector("[data-promo-close]").addEventListener("click", close);
+    pop.addEventListener("click", (e) => { if (e.target === pop) close(); });
+    pop.addEventListener("cancel", () => {
+      try { localStorage.setItem(key, stamp); } catch (e) { /* storage unavailable */ }
+    });
+  }
+}
