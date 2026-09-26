@@ -26,6 +26,17 @@
   {%- import "macros.njk" as ui -%}
   <a class="skip-link" href="#main">跳到主要內容</a>
 
+  {% if promo.enabled and promo.topbar and promo.title %}
+  <div class="topbar" data-promo data-start="{{ promo.start }}" data-end="{{ promo.end }}">
+    <a class="topbar-inner"{% if promo.link %} href="{{ promo.link }}"{% if promo.link.startsWith("http") %} target="_blank" rel="noopener"{% endif %}{% endif %}>
+      <span class="topbar-label">{{ promo.label }}</span>
+      <span class="topbar-title">{{ promo.title }}</span>
+      {% if promo.date_text %}<span class="topbar-date">{{ promo.date_text }}</span>{% endif %}
+      {% if promo.link %}<span class="topbar-cta">{{ promo.button_text or "了解活動詳情" }} <span class="arrow" aria-hidden="true">›</span></span>{% endif %}
+    </a>
+  </div>
+  {% endif %}
+
   <header class="site-header">
     <div class="container header-inner">
       <a class="brand" href="/" aria-label="{{ site.name }} 首頁">
