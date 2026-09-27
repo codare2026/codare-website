@@ -417,6 +417,7 @@ b, strong { font-weight: 700; }
 
 /* ---------- Promotion (活動宣傳) ---------- */
 .section-promo { padding: 8px 0 24px; }
+.promo-list { display: grid; gap: 20px; }
 .promo-banner {
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; align-items: center;
   background: #F4E8D3; border: var(--dotted); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow);

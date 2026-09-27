@@ -39,15 +39,18 @@ eleventyComputed:
   {{ ui.wave("#FFFAF2") }}
 </section>
 
-{% if promo.enabled and promo.banner and promo.title %}
-<section class="section section-promo" data-promo data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-label="活動宣傳">
-  <div class="container">
-    <div class="promo-banner reveal{% if not promo.image %} no-image{% endif %}">
-      {% if promo.image %}<div class="promo-banner-img"><img src="{{ promo.image }}" alt="{{ promo.title }}" loading="lazy"></div>{% endif %}
+{%- set banners = promo.items | promosFor("banner") -%}
+{% if banners.length %}
+<section class="section section-promo" aria-label="活動宣傳">
+  <div class="container promo-list">
+    {%- for p in banners %}
+    <div class="promo-banner reveal{% if not p.image %} no-image{% endif %}" data-promo data-start="{{ p.start }}" data-end="{{ p.end }}">
+      {% if p.image %}<div class="promo-banner-img"><img src="{{ p.image }}" alt="{{ p.title }}" loading="lazy"></div>{% endif %}
       <div class="promo-banner-body">
-        {{ ui.promoBody(promo, "h2") }}
+        {{ ui.promoBody(p, "h2") }}
       </div>
     </div>
+    {%- endfor %}
   </div>
 </section>
 {% endif %}

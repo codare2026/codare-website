@@ -89,8 +89,9 @@ eleventyExcludeFromCollections: true
     .links a:hover { background: var(--pale); color: var(--deep); }
     .links a small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
 
-    .promo-now { display: flex; gap: 14px; align-items: center; }
-    .promo-now img { width: 76px; height: 76px; object-fit: contain; border-radius: 14px; background: var(--sand); flex: none; }
+    .rows li.promo-now { align-items: center; }
+    .rows .t small { display: inline-block; }
+    .promo-now img { width: 56px; height: 56px; object-fit: contain; border-radius: 14px; background: var(--sand); flex: none; }
 
     @media (max-width: 860px) {
       .card, .card.third { grid-column: span 12; }
@@ -133,7 +134,7 @@ eleventyExcludeFromCollections: true
       </section>
 
       <section class="card">
-        <h2>首頁活動宣傳</h2>
+        <h2>首頁活動宣傳 <span class="count" id="promo-count">…</span></h2>
         <div id="promo"></div>
       </section>
 
@@ -231,13 +232,16 @@ eleventyExcludeFromCollections: true
     if (blankTeam.length) addTodo("warn", `${blankTeam.length} 位營養師的自我介紹還沒寫`, blankTeam.map((m) => m.title).join("、"), EDIT + "team", "去填寫");
 
     // ---------- 活動宣傳 ----------
-    const P = D.promo;
-    const pState = P.enabled ? windowState(P.start, P.end) : "關閉";
-    const chip = { "顯示中": "ok", "過期": "bad", "未開始": "warn", "關閉": "mute" }[pState];
-    $("promo").innerHTML = P.title ? `<div class="promo-now">${P.image ? `<img src="${esc(P.image)}" alt="">` : ""}<div><span class="chip ${chip}">${pState}</span><p><b>${esc(P.title)}</b></p><p class="note" style="margin:0">${esc(P.date_text || "")}${P.end ? `　·　顯示到 ${esc(P.end)}` : "　·　沒有設定結束日期"}</p></div></div><p class="note"><a href="${EDIT}promos/entries/promo">編輯活動宣傳 ›</a></p>` : `<p class="empty">目前沒有設定活動。</p><p class="note"><a href="${EDIT}promos/entries/promo">新增活動宣傳 ›</a></p>`;
-    if (P.enabled && pState === "過期") addTodo("warn", `活動「${P.title}」已經過了結束日期，網站上已自動隱藏`, "可以換成下一個活動，或把活動宣傳關掉", EDIT + "promos/entries/promo", "去更新");
-    if (P.enabled && pState === "顯示中" && !P.end) addTodo("info", `活動「${P.title}」沒有設定結束日期`, "活動結束後記得關掉，或先填好結束日期讓它自動下架", EDIT + "promos/entries/promo", "去設定");
-    if (!P.enabled || pState !== "顯示中") addTodo("info", "首頁目前沒有活動宣傳", "有新活動可以開啟首頁橫幅與彈窗", EDIT + "promos/entries/promo", "去設定");
+    const promos = (D.promo.items || []).filter((p) => p.title).map((p) => ({ ...p, state: p.enabled ? windowState(p.start, p.end) : "關閉" }));
+    const stateChip = { "顯示中": "ok", "過期": "bad", "未開始": "warn", "關閉": "mute" };
+    const where = (p) => [p.banner && "橫幅", p.popup && "彈窗"].filter(Boolean).join("＋") || "橫幅、彈窗都沒開";
+    $("promo").innerHTML = (promos.length ? `<ul class="rows">` + promos.map((p) => `<li class="promo-now">${p.image ? `<img src="${esc(p.image)}" alt="">` : ""}<span class="t"><b>${esc(p.title)}</b><br><small style="margin:0">${[esc(p.date_text || ""), p.end ? `顯示到 ${esc(p.end)}` : "沒有設定結束日期", where(p)].filter(Boolean).join("　·　")}</small></span><span class="chip ${stateChip[p.state]}">${p.state}</span></li>`).join("") + `</ul>` : `<p class="empty">目前沒有設定活動。</p>`) + `<p class="note"><a href="${EDIT}promos/entries/promo">${promos.length ? "編輯或新增活動" : "新增活動"} ›</a></p>`;
+    $("promo-count").textContent = promos.filter((p) => p.state === "顯示中").length + " 個顯示中";
+    promos.filter((p) => p.state === "過期").forEach((p) => addTodo("warn", `活動「${p.title}」已經過了結束日期，網站上已自動隱藏`, "可以刪掉或關掉這個活動", EDIT + "promos/entries/promo", "去整理"));
+    promos.filter((p) => p.state === "顯示中" && !p.end).forEach((p) => addTodo("info", `活動「${p.title}」沒有設定結束日期`, "活動結束後記得關掉，或先填好結束日期讓它自動下架", EDIT + "promos/entries/promo", "去設定"));
+    const popups = promos.filter((p) => p.state === "顯示中" && p.popup);
+    if (popups.length > 1) addTodo("info", `有 ${popups.length} 個活動開了彈窗，訪客每次只會看到一個`, `優先順序：${popups.map((p) => p.title).join(" → ")}（在後台拖曳可調整）`, EDIT + "promos/entries/promo", "調整順序");
+    if (!promos.some((p) => p.state === "顯示中")) addTodo("info", "首頁目前沒有活動宣傳", "有新活動可以在「首頁活動橫幅與彈窗」新增", EDIT + "promos/entries/promo", "去新增");
 
     // ---------- 跑馬燈 ----------
     const A = D.announcements;

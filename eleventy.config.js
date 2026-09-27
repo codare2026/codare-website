@@ -52,6 +52,8 @@ export default function (eleventyConfig) {
   });
   eleventyConfig.addFilter("plain", (html = "") => String(html).replace(/<[^>]+>/g, "").trim());
   eleventyConfig.addFilter("jsonify", (v) => JSON.stringify(v));
+  // Switched-on promotions that use a given spot ("banner" or "popup"); dates are checked in the browser
+  eleventyConfig.addFilter("promosFor", (items = [], spot) => items.filter((p) => p.enabled && p[spot] && p.title));
 
   // Admin dashboard: plain summaries of content, embedded as JSON in /admin/
   eleventyConfig.addFilter("adminEntries", (items = []) =>

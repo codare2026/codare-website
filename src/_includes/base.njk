@@ -125,14 +125,16 @@
     </div>
   </footer>
 
-  {% if page.url == "/" and promo.enabled and promo.popup and promo.title %}
-  <dialog class="promo-pop" data-promo data-promo-pop data-key="{{ promo.title }}{{ promo.start }}" data-start="{{ promo.start }}" data-end="{{ promo.end }}" aria-labelledby="promo-pop-title">
+  {% if page.url == "/" %}
+  {%- for p in promo.items | promosFor("popup") %}
+  <dialog class="promo-pop" data-promo data-promo-pop data-key="{{ p.title }}{{ p.start }}" data-start="{{ p.start }}" data-end="{{ p.end }}" aria-labelledby="promo-pop-title-{{ loop.index }}">
     <button class="promo-close" type="button" aria-label="關閉" data-promo-close>×</button>
-    {% if promo.image %}<img class="promo-pop-img" src="{{ promo.image }}" alt="{{ promo.title }}">{% endif %}
-    <div class="promo-pop-body" id="promo-pop-title">
-      {{ ui.promoBody(promo, "h2") }}
+    {% if p.image %}<img class="promo-pop-img" src="{{ p.image }}" alt="{{ p.title }}">{% endif %}
+    <div class="promo-pop-body" id="promo-pop-title-{{ loop.index }}">
+      {{ ui.promoBody(p, "h2") }}
     </div>
   </dialog>
+  {%- endfor %}
   {% endif %}
 
   <a class="float-line" href="{{ site.line_url }}" target="_blank" rel="noopener" aria-label="加入官方 LINE">LINE</a>

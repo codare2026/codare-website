@@ -173,18 +173,25 @@ collections:
         label: 首頁活動橫幅與彈窗
         file: src/_data/promo.json
         fields:
-          - { label: 開啟活動宣傳, name: enabled, widget: boolean, default: false, hint: 關掉就不會顯示任何橫幅或彈窗 }
-          - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
-          - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出，同一位訪客一天只跳一次；換新活動會重新跳 }
-          - { label: 小標籤, name: label, widget: string, default: 近期活動 }
-          - { label: 活動名稱, name: title, widget: string }
-          - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }
-          - { label: 活動說明, name: text, widget: text, required: false, hint: 按 Enter 換行，網站上也會換行 }
-          - { label: 活動圖片, name: image, widget: image, required: false, hint: "活動海報或現場照片，直式、橫式、正方形都可以，會完整顯示不裁切。建議寬度 1200 px、500KB 以下。" }
-          - { label: 按鈕文字, name: button_text, widget: string, default: 了解活動詳情 }
-          - { label: 按鈕連結, name: link, widget: string, required: false, hint: 可以貼報名表單、官方 LINE 或活動花絮頁的網址 }
-          - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
-          - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天會自動不顯示；留空就是一直顯示 }
+          - label: 活動
+            name: items
+            widget: list
+            label_singular: 活動
+            summary: "{{fields.title}}｜{{fields.date_text}}"
+            hint: 可以同時放好幾個活動。首頁橫幅會依照這裡的順序由上往下排；彈窗每次只跳一個，排在越上面越優先（拖曳可以調整順序）。
+            fields:
+              - { label: 開啟這個活動, name: enabled, widget: boolean, default: true, hint: 關掉就不會顯示這個活動的橫幅和彈窗 }
+              - { label: 活動名稱, name: title, widget: string }
+              - { label: 小標籤, name: label, widget: string, default: 近期活動 }
+              - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }
+              - { label: 活動說明, name: text, widget: text, required: false, hint: 按 Enter 換行，網站上也會換行 }
+              - { label: 活動圖片, name: image, widget: image, required: false, hint: "活動海報或現場照片，直式、橫式、正方形都可以，會完整顯示不裁切。建議寬度 1200 px、500KB 以下。" }
+              - { label: 按鈕文字, name: button_text, widget: string, default: 了解活動詳情 }
+              - { label: 按鈕連結, name: link, widget: string, required: false, hint: 可以貼報名表單、官方 LINE 或活動花絮頁的網址 }
+              - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
+              - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出。同一位訪客每個活動一天只跳一次，一次只跳一個活動。 }
+              - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
+              - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天會自動不顯示；建議填活動當天 }
 
   # ================= 5. 各頁面文字 =================
   - name: pages

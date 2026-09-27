@@ -54,8 +54,9 @@ if (filterButtons.length && filterList) {
   });
 }
 
-// Promotion banner / popup (活動宣傳): hide outside the start–end dates;
-// the popup shows at most once a day per visitor and per promotion.
+// Promotion banners / popups (活動宣傳): hide outside the start–end dates.
+// Each popup shows at most once a day per visitor, and only one pops per visit
+// (the first unseen one in the CMS list order).
 const today = new Date();
 const inWindow = (el) => {
   const start = el.dataset.start ? new Date(el.dataset.start + "T00:00:00") : null;
@@ -65,22 +66,24 @@ const inWindow = (el) => {
 document.querySelectorAll("[data-promo]").forEach((el) => {
   if (!inWindow(el)) el.remove();
 });
-const pop = document.querySelector("[data-promo-pop]");
+document.querySelectorAll(".section-promo").forEach((section) => {
+  if (!section.querySelector("[data-promo]")) section.remove();
+});
+const stamp = today.toISOString().slice(0, 10);
+const seenToday = (key) => {
+  try { return localStorage.getItem(key) === stamp; } catch (e) { return false; /* storage unavailable */ }
+};
+const pop = [...document.querySelectorAll("[data-promo-pop]")].find((el) => !seenToday("codare-promo-" + el.dataset.key));
 if (pop && typeof pop.showModal === "function") {
-  // At most once a day per visitor; a new promotion (different key) shows again for everyone.
+  // A new promotion (different key) shows again for everyone.
   const key = "codare-promo-" + pop.dataset.key;
-  const stamp = today.toISOString().slice(0, 10);
-  let seen = null;
-  try { seen = localStorage.getItem(key); } catch (e) { /* storage unavailable */ }
-  if (seen !== stamp) {
-    const remember = () => {
-      try { localStorage.setItem(key, stamp); } catch (e) { /* storage unavailable */ }
-    };
-    setTimeout(() => pop.showModal(), 800);
-    pop.querySelector("[data-promo-close]").addEventListener("click", () => { pop.close(); remember(); });
-    pop.addEventListener("click", (e) => { if (e.target === pop) { pop.close(); remember(); } });
-    pop.addEventListener("cancel", remember);
-  }
+  const remember = () => {
+    try { localStorage.setItem(key, stamp); } catch (e) { /* storage unavailable */ }
+  };
+  setTimeout(() => pop.showModal(), 800);
+  pop.querySelector("[data-promo-close]").addEventListener("click", () => { pop.close(); remember(); });
+  pop.addEventListener("click", (e) => { if (e.target === pop) { pop.close(); remember(); } });
+  pop.addEventListener("cancel", remember);
 }
 
 // Top announcement bar: drop items outside their dates, then flip through the rest
