@@ -9,7 +9,7 @@
 {% endmacro %}
 
 {# Article card; topics/team are passed in because macros don't see page data #}
-{% macro articleCard(item, topics, team, size="") %}
+{% macro articleCard(item, topics, team, site, size="") %}
 {%- set t = topics | findBy("slug", item.data.topic) -%}
 {%- set a = team | findBy("id", item.data.author) -%}
 <article class="card article-card {{ size }} reveal">
@@ -25,7 +25,7 @@
       <p class="card-meta">{% if t %}<span class="tag">{{ t.name }}</span>{% endif %}<time datetime="{{ item.date | dateIso }}">{{ item.date | dateDot }}</time></p>
       <h3 class="card-title">{{ item.data.title }}</h3>
       {% if size == "is-large" and item.data.excerpt %}<p class="card-excerpt">{{ item.data.excerpt }}</p>{% endif %}
-      <p class="card-author">{% if a %}文／{{ a.data.name }}{% else %}文／口袋營養獅營養師團隊{% endif %}</p>
+      <p class="card-author">{% if a %}文／{{ a.data.name }}{% else %}文／{{ site.team_name }}{% endif %}</p>
     </div>
   </a>
 </article>
@@ -57,15 +57,15 @@
 {% endmacro %}
 
 {# 講座合作 box: LINE button + clickable email #}
-{% macro collab(site, id="", extra="") %}
+{% macro collab(site, c, id="", extra="") %}
 <div class="collab reveal"{% if id %} id="{{ id }}"{% endif %}>
   <div>
-    <h3>{{ site.collab.title }}</h3>
-    <p>{{ site.collab.text }}</p>
-    <p class="collab-mail">合作信箱：<a href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">{{ site.email }}</a></p>
+    <h3>{{ c.title }}</h3>
+    <p>{{ c.text }}</p>
+    <p class="collab-mail">{{ c.mail_label }}：<a href="mailto:{{ site.email }}?subject={{ '講座合作洽詢' | urlencode }}">{{ site.email }}</a></p>
   </div>
   <div class="btn-row">
-    <a class="btn btn-primary" href="{{ site.line_url }}" target="_blank" rel="noopener">講座合作洽詢 <span class="arrow" aria-hidden="true">›</span></a>
+    <a class="btn btn-primary" href="{{ site.line_url }}" target="_blank" rel="noopener">{{ c.button }} <span class="arrow" aria-hidden="true">›</span></a>
     {{ extra | safe }}
   </div>
 </div>

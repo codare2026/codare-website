@@ -1,7 +1,9 @@
 ---
 layout: base.njk
 permalink: /
-title: 營養師寫給你的日常健康讀本
+eleventyComputed:
+  title: "{{ pages.home.seo.title }}"
+  excerpt: "{{ pages.home.seo.description }}"
 ---
 {%- import "macros.njk" as ui -%}
 {%- set all = collections.articles -%}
@@ -12,12 +14,12 @@ title: 營養師寫給你的日常健康讀本
 <section class="hero">
   <div class="container hero-grid">
     <div class="hero-text reveal">
-      <p class="eyebrow">{{ site.home_hero_note }}{% if ft %}　·　{{ ft.name }}{% endif %}</p>
+      <p class="eyebrow">{{ pages.home.hero.label }}{% if ft %}　·　{{ ft.name }}{% endif %}</p>
       <h1 class="hero-title">{{ featured.data.title }}</h1>
       {% if featured.data.excerpt %}<p class="hero-lead">{{ featured.data.excerpt }}</p>{% endif %}
       <div class="btn-row">
-        <a class="btn btn-primary" href="{{ featured.url }}">閱讀全文 <span class="arrow" aria-hidden="true">›</span></a>
-        <span class="hero-author">文／{% if fa %}{{ fa.data.name }}{% else %}口袋營養獅營養師團隊{% endif %}</span>
+        <a class="btn btn-primary" href="{{ featured.url }}">{{ pages.home.hero.button }} <span class="arrow" aria-hidden="true">›</span></a>
+        <span class="hero-author">文／{% if fa %}{{ fa.data.name }}{% else %}{{ site.team_name }}{% endif %}</span>
       </div>
     </div>
     <div class="hero-visual reveal">
@@ -30,7 +32,7 @@ title: 營養師寫給你的日常健康讀本
           {% endif %}
         </div>
       </div>
-      {{ ui.buddy("/assets/img/member1.png", "每天都要好好吃飯喔！", "right", "hero-buddy") }}
+      {{ ui.buddy("/assets/img/member1.png", pages.home.hero.bubble, "right", "hero-buddy") }}
       <span class="sparkle s1" aria-hidden="true"></span><span class="sparkle s2" aria-hidden="true"></span><span class="sparkle s3" aria-hidden="true"></span>
     </div>
   </div>
@@ -52,20 +54,20 @@ title: 營養師寫給你的日常健康讀本
 
 <section class="section">
   <div class="container">
-    {{ ui.heading("NEW ARTICLES", "最新文章", "營養師寫給你的日常小知識") }}
+    {{ ui.heading(pages.home.latest.en, pages.home.latest.title, pages.home.latest.sub) }}
     <div class="card-grid">
       {%- for item in all | exclude(featured.url) | limit(3) %}
-      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {{ ui.articleCard(item, topics.topics, collections.team, site) }}
       {%- endfor %}
     </div>
-    <p class="center"><a class="btn btn-soft" href="/articles/">看全部文章 <span class="arrow" aria-hidden="true">›</span></a></p>
+    <p class="center"><a class="btn btn-soft" href="/articles/">{{ pages.home.latest.button }} <span class="arrow" aria-hidden="true">›</span></a></p>
   </div>
 </section>
 
 <section class="section section-alt">
   {{ ui.wave("#FDF3E4", true) }}
   <div class="container">
-    {{ ui.heading("TOPICS", "閱讀主題", "都從日常出發") }}
+    {{ ui.heading(pages.home.topics.en, pages.home.topics.title, pages.home.topics.sub) }}
     <div class="topic-grid">
       {%- for t in topics.topics %}
       {%- set count = (all | where("topic", t.slug)).length %}
@@ -73,7 +75,7 @@ title: 營養師寫給你的日常健康讀本
         <span class="topic-ring"><span class="topic-circle topic-{{ loop.index0 % 3 }}">{{ t.name | truncate(1, true, "") }}</span></span>
         <span class="topic-name">{{ t.name }}</span>
         <span class="topic-desc">{{ t.desc }}</span>
-        <span class="topic-count">{{ count }} 篇文章</span>
+        <span class="topic-count">{{ count }} {{ pages.home.topics.count_unit }}</span>
       </a>
       {%- endfor %}
     </div>
@@ -85,7 +87,7 @@ title: 營養師寫給你的日常健康讀本
 <section class="section section-alt">
   {{ ui.wave("#FDF3E4", true) }}
   <div class="container">
-    {{ ui.heading("EVENTS", "活動花絮", "講座與活動的紀錄") }}
+    {{ ui.heading(pages.home.events.en, pages.home.events.title, pages.home.events.sub) }}
     <div class="card-grid">
       {%- for e in collections.events | limit(3) %}
       <a class="card event-card reveal" href="{{ e.url }}">
@@ -94,7 +96,7 @@ title: 營養師寫給你的日常健康讀本
       </a>
       {%- endfor %}
     </div>
-    <p class="center"><a class="btn btn-soft" href="/events/">看全部花絮 <span class="arrow" aria-hidden="true">›</span></a></p>
+    <p class="center"><a class="btn btn-soft" href="/events/">{{ pages.home.events.button }} <span class="arrow" aria-hidden="true">›</span></a></p>
   </div>
   {{ ui.wave("#FFFAF2") }}
 </section>
@@ -104,15 +106,15 @@ title: 營養師寫給你的日常健康讀本
   <div class="container">
     <div class="runwith-band reveal">
       <div class="runwith-band-text">
-        <p class="eyebrow">RUN WITH YOU</p>
-        <h2>健康陪跑計畫</h2>
-        <p>{{ site.runwith.lead | safe }}</p>
+        <p class="eyebrow">{{ pages.home.runwith.en }}</p>
+        <h2>{{ pages.home.runwith.title }}</h2>
+        <p>{{ pages.runwith.lead | safe }}</p>
         <div class="btn-row">
-          <a class="btn btn-primary" href="/run-with-you/">了解健康陪跑計畫 <span class="arrow" aria-hidden="true">›</span></a>
-          <a class="btn btn-soft" href="{{ site.line_url }}" target="_blank" rel="noopener">加入官方 LINE</a>
+          <a class="btn btn-primary" href="/run-with-you/">{{ pages.home.runwith.button }} <span class="arrow" aria-hidden="true">›</span></a>
+          <a class="btn btn-soft" href="{{ site.line_url }}" target="_blank" rel="noopener">{{ pages.home.runwith.line_button }}</a>
         </div>
       </div>
-      {{ ui.buddy("/assets/img/member3.png", "有我陪你喔！", "left") }}
+      {{ ui.buddy("/assets/img/member3.png", pages.home.runwith.bubble, "left") }}
     </div>
   </div>
 </section>

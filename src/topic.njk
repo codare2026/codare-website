@@ -13,9 +13,9 @@ eleventyComputed:
 {%- set list = collections.articles | where("topic", topic.slug) -%}
 <section class="page-head">
   <div class="container">
-    {{ ui.heading("TOPIC", topic.name, topic.desc) }}
+    {{ ui.heading(pages.articles.topic_en, topic.name, topic.desc) }}
     <nav class="chips reveal" aria-label="閱讀主題">
-      <a class="chip" href="/articles/">全部</a>
+      <a class="chip" href="/articles/">{{ pages.articles.all_chip }}</a>
       {%- for t in topics.topics %}<a class="chip" href="/topics/{{ t.slug }}/"{% if t.slug == topic.slug %} aria-current="page"{% endif %}>{{ t.name }}</a>{% endfor %}
     </nav>
   </div>
@@ -25,13 +25,13 @@ eleventyComputed:
     {% if list.length %}
     <div class="card-grid">
       {%- for item in list %}
-      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {{ ui.articleCard(item, topics.topics, collections.team, site) }}
       {%- endfor %}
     </div>
     {% else %}
     <div class="empty reveal">
-      {{ ui.buddy("/assets/img/member2.png", "這個主題的文章正在準備中，敬請期待！", "left") }}
-      <p><a class="btn btn-soft" href="/articles/">先看看其他文章 <span class="arrow" aria-hidden="true">›</span></a></p>
+      {{ ui.buddy("/assets/img/member2.png", pages.articles.empty_bubble, "left") }}
+      <p><a class="btn btn-soft" href="/articles/">{{ pages.articles.empty_button }} <span class="arrow" aria-hidden="true">›</span></a></p>
     </div>
     {% endif %}
   </div>

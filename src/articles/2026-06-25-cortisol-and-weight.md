@@ -4,7 +4,7 @@ url_slug: cortisol-and-weight
 type: SEO 文
 topic: mind
 author: ""
-date: 2026-06-25
+date: 2026-06-25T08:00:00+08:00
 excerpt: "長期壓力會讓皮質醇濃度上升，進而影響食慾與脂肪囤積位置，這也是許多人「壓力性肥胖」的成因。"
 cover: ""
 cover_alt: ""

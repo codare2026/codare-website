@@ -4,7 +4,7 @@ url_slug: pregnancy-weight-stages
 type: SEO 文
 topic: 
 author: ""
-date: 2026-06-10
+date: 2026-06-10T08:00:00+08:00
 excerpt: "孕期體重增加是必要且健康的過程，重點在於「增加得剛剛好」，這篇文章分階段說明怎麼掌握。"
 cover: ""
 cover_alt: ""

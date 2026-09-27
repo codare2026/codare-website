@@ -1,10 +1,13 @@
 # Build the site with Eleventy and publish it to GitHub Pages
-# on every push to main (including saves from the Decap CMS admin).
+# on every push to main (including saves from the Decap CMS admin), and once
+# an hour so scheduled articles go live on time.
 name: Deploy site
 
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "3 * * * *"
   workflow_dispatch:
 
 permissions:

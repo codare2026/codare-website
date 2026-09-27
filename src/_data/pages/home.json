@@ -1,0 +1,36 @@
+{
+  "seo": {
+    "title": "營養師寫給你的日常健康讀本",
+    "description": "口袋營養獅由一群碩士級營養師組成，分享實用、好懂的營養知識，陪你找回屬於自己的健康節奏。"
+  },
+  "hero": {
+    "label": "本期精選",
+    "button": "閱讀全文",
+    "bubble": "每天都要好好吃飯喔！"
+  },
+  "latest": {
+    "en": "NEW ARTICLES",
+    "title": "最新文章",
+    "sub": "營養師寫給你的日常小知識",
+    "button": "看全部文章"
+  },
+  "topics": {
+    "en": "TOPICS",
+    "title": "閱讀主題",
+    "sub": "都從日常出發",
+    "count_unit": "篇文章"
+  },
+  "events": {
+    "en": "EVENTS",
+    "title": "活動花絮",
+    "sub": "講座與活動的紀錄",
+    "button": "看全部花絮"
+  },
+  "runwith": {
+    "en": "RUN WITH YOU",
+    "title": "健康陪跑計畫",
+    "button": "了解健康陪跑計畫",
+    "line_button": "加入官方 LINE",
+    "bubble": "有我陪你喔！"
+  }
+}

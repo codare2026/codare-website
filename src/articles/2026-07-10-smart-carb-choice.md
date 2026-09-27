@@ -4,7 +4,7 @@ url_slug: smart-carb-choice
 type: SEO 文
 topic: body
 author: ""
-date: 2026-07-10
+date: 2026-07-10T08:00:00+08:00
 excerpt: "減醣的重點從來不是「不吃」，而是「選對」與「吃夠」。搞懂這件事，體態管理才走得長久。"
 cover: ""
 cover_alt: ""

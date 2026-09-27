@@ -4,7 +4,7 @@ url_slug: intermittent-fasting-truth
 type: SEO 文
 topic: daily
 author: ""
-date: 2026-06-18
+date: 2026-06-18T08:00:00+08:00
 excerpt: "168 間歇性斷食紅極一時，但它並不是萬用解方，這篇文章告訴你誰適合、誰該謹慎評估。"
 cover: ""
 cover_alt: ""

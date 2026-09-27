@@ -1,0 +1,22 @@
+{
+  "seo": {
+    "title": "關於我們",
+    "description": "口袋營養獅由一群碩士級營養師組成，認識我們的營養師團隊。"
+  },
+  "head": {
+    "en": "ABOUT US",
+    "title": "關於口袋營養獅",
+    "sub": "把專業，裝進你的口袋"
+  },
+  "intro": "口袋營養獅由一群碩士級營養師組成，相信健康不該只有一種標準答案。我們用陪伴取代說教，用數據取代猜測。",
+  "team": {
+    "en": "OUR TEAM",
+    "title": "營養師團隊"
+  },
+  "follow_title": "追蹤我們",
+  "member": {
+    "en": "DIETITIAN",
+    "articles_suffix": "的文章",
+    "empty": "文章準備中，敬請期待。"
+  }
+}

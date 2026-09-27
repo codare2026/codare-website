@@ -4,8 +4,6 @@
   "tagline": "營養師寫給你的日常健康讀本",
   "description": "口袋營養獅由一群碩士級營養師組成，分享實用、好懂的營養知識，陪你找回屬於自己的健康節奏。",
   "url": "https://codaredietitian.com",
-  "about_intro": "口袋營養獅由一群碩士級營養師組成，相信健康不該只有一種標準答案。我們用陪伴取代說教，用數據取代猜測。",
-  "home_hero_note": "本期精選",
   "line_id": "口袋營養獅官方 LINE",
   "line_url": "https://lin.ee/7PNqB3Y",
   "email": "codaredietitian@gmail.com",
@@ -13,44 +11,6 @@
   "method": "電話 / 圖文",
   "signup_url": "https://codare2026.github.io/codare-signup/",
   "login_url": "https://codare2026.github.io/codare-client/",
-  "disclaimer": "本站文章為一般營養知識分享，不能取代醫師的診斷與治療。若有身體不適或疾病，請諮詢醫療專業人員。",
-  "runwith": {
-    "lead": "在你的日常裡，<b>陪你慢慢找到合適的生活方式</b>。",
-    "steps": [
-      {
-        "title": "先認識你",
-        "text": "聊聊你的生活習慣，理想的狀態。"
-      },
-      {
-        "title": "一起找到適合的內容",
-        "text": "認識食物，讓你找到你做得到的生活習慣。"
-      },
-      {
-        "title": "定期陪伴",
-        "text": "透過線上圖文，紀錄飲食生活的每一刻，留下自己努力的軌跡。"
-      }
-    ],
-    "article_invite": "一起把好習慣放進日常，看看健康陪跑計畫。",
-    "faq": [
-      {
-        "q": "健康陪跑計畫是什麼？",
-        "a": "以生活習慣陪伴與健康知識分享為主，在日常裡陪你一起養成規律、均衡的好習慣。"
-      },
-      {
-        "q": "要怎麼開始？",
-        "a": "先加入官方 LINE，告訴我們你想養成的習慣，我們會說明參加方式。"
-      },
-      {
-        "q": "陪跑計畫可以取代看醫生或個別營養諮詢嗎？",
-        "a": "不行。陪跑計畫不提供醫療診斷、治療或個別營養諮詢；如有疾病或身體不適，請先諮詢醫師。"
-      }
-    ],
-    "contact_text": "先加入官方 LINE，說說你的需求，營養師會和你聊聊。"
-  },
-  "collab": {
-    "title": "想邀請我們辦講座？",
-    "text": "企業、店家、學校與社團的營養講座和合作活動，歡迎透過官方 LINE 或 Email 聊聊你的想法。"
-  },
   "social": {
     "instagram_handle": "@codare_dietitian",
     "instagram_url": "https://www.instagram.com/codare_dietitian/",
@@ -71,5 +31,6 @@
         "url": "https://podcasts.apple.com/tw/podcast/%E5%8F%A3%E8%A2%8B%E7%87%9F%E9%A4%8A%E7%8D%85/id6804258720"
       }
     ]
-  }
+  },
+  "team_name": "口袋營養獅營養師團隊"
 }

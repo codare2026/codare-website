@@ -1,15 +1,16 @@
 ---
 layout: base.njk
 permalink: /articles/
-title: 文章主題
-excerpt: 口袋營養獅營養師團隊撰寫的營養知識文章，依主題慢慢讀。
+eleventyComputed:
+  title: "{{ pages.articles.seo.title }}"
+  excerpt: "{{ pages.articles.seo.description }}"
 ---
 {%- import "macros.njk" as ui -%}
 <section class="page-head">
   <div class="container">
-    {{ ui.heading("ARTICLES", "文章主題", "營養師寫給你的日常健康讀本") }}
+    {{ ui.heading(pages.articles.head.en, pages.articles.head.title, pages.articles.head.sub) }}
     <nav class="chips reveal" aria-label="閱讀主題">
-      <a class="chip" href="/articles/" aria-current="page">全部</a>
+      <a class="chip" href="/articles/" aria-current="page">{{ pages.articles.all_chip }}</a>
       {%- for t in topics.topics %}<a class="chip" href="/topics/{{ t.slug }}/">{{ t.name }}</a>{% endfor %}
     </nav>
   </div>
@@ -18,7 +19,7 @@ excerpt: 口袋營養獅營養師團隊撰寫的營養知識文章，依主題�
   <div class="container">
     <div class="card-grid">
       {%- for item in collections.articles %}
-      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {{ ui.articleCard(item, topics.topics, collections.team, site) }}
       {%- endfor %}
     </div>
   </div>

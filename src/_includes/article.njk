@@ -15,7 +15,7 @@ layout: base.njk
   "description": {{ (seo_description or excerpt or "") | jsonify | safe }},
   "datePublished": "{{ page.date | dateIso }}",
   {% if updated %}"dateModified": "{{ updated | dateIso }}",{% endif %}
-  "author": { "@type": "Person", "name": {{ (a.data.name if a else "口袋營養獅營養師團隊") | jsonify | safe }} },
+  "author": { "@type": "Person", "name": {{ (a.data.name if a else site.team_name) | jsonify | safe }} },
   "publisher": { "@type": "Organization", "name": "口袋營養獅 Co-Dare", "logo": { "@type": "ImageObject", "url": "{{ site.url }}/assets/img/logo.png" } },
   "mainEntityOfPage": "{{ site.url }}{{ page.url }}"
 }
@@ -30,7 +30,7 @@ layout: base.njk
       <div class="byline">
         {% if a %}<a class="byline-avatar" href="{{ a.url }}"><img src="{{ a.data.avatar }}" alt="{{ a.data.name }}"></a>{% else %}<span class="byline-avatar"><img src="/assets/img/seal.png" alt=""></span>{% endif %}
         <p>
-          <span class="byline-name">文／{% if a %}<a href="{{ a.url }}">{{ a.data.name }}</a>{% else %}口袋營養獅營養師團隊{% endif %}</span>
+          <span class="byline-name">文／{% if a %}<a href="{{ a.url }}">{{ a.data.name }}</a>{% else %}{{ site.team_name }}{% endif %}</span>
           <span class="byline-meta"><time datetime="{{ page.date | dateIso }}">{{ page.date | dateDot }}</time>{% if updated %}　·　更新 {{ updated | dateDot }}{% endif %}　·　閱讀約 {{ content | readingMinutes }} 分鐘</span>
         </p>
       </div>
@@ -49,30 +49,30 @@ layout: base.njk
 
     {% if references and references.length %}
     <section class="references">
-      <h2>參考資料</h2>
+      <h2>{{ pages.article.references_title }}</h2>
       <ol>{% for r in references %}<li>{% if r.url %}<a href="{{ r.url }}" target="_blank" rel="noopener">{{ r.title }}</a>{% else %}{{ r.title or r }}{% endif %}</li>{% endfor %}</ol>
     </section>
     {% endif %}
 
     <aside class="invite reveal">
       <div>
-        <p class="invite-title">想找人一起養成好習慣嗎？</p>
-        <p>{{ site.runwith.article_invite }}</p>
+        <p class="invite-title">{{ pages.article.invite_title }}</p>
+        <p>{{ pages.article.invite_text }}</p>
       </div>
-      <a class="btn btn-soft" href="/run-with-you/">了解健康陪跑計畫 <span class="arrow" aria-hidden="true">›</span></a>
+      <a class="btn btn-soft" href="/run-with-you/">{{ pages.article.invite_button }} <span class="arrow" aria-hidden="true">›</span></a>
     </aside>
 
-    <p class="disclaimer">{{ site.disclaimer }}</p>
+    <p class="disclaimer">{{ pages.article.disclaimer }}</p>
   </div>
 </article>
 
 <section class="section section-alt">
   {{ ui.wave("#FDF3E4", true) }}
   <div class="container">
-    {{ ui.heading("MORE TO READ", "延伸閱讀") }}
+    {{ ui.heading(pages.article.related.en, pages.article.related.title) }}
     <div class="card-grid">
       {%- for item in related | limit(3) %}
-      {{ ui.articleCard(item, topics.topics, collections.team) }}
+      {{ ui.articleCard(item, topics.topics, collections.team, site) }}
       {%- endfor %}
     </div>
   </div>

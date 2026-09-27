@@ -1,0 +1,482 @@
+# 口袋營養獅 主編後台（Decap CMS）設定
+# 儀表板：<網站網址>/admin/　編輯後台：<網站網址>/admin/edit/
+backend:
+  name: github
+  repo: codare2026/codare-website
+  branch: main
+  base_url: https://codare-cms-auth.sophia411017.workers.dev
+  commit_messages:
+    create: "新增{{collection}}：{{slug}}"
+    update: "更新{{collection}}：{{slug}}"
+    delete: "刪除{{collection}}：{{slug}}"
+    uploadMedia: "上傳圖片：{{path}}"
+    deleteMedia: "刪除圖片：{{path}}"
+
+# 先「儲存」成草稿，確認後再「發布」。草稿不會出現在網站上。
+publish_mode: editorial_workflow
+
+# 在自己電腦上測試後台時使用（npm run cms），上線後不影響
+local_backend: true
+
+locale: zh_Hant
+site_url: https://codaredietitian.com
+display_url: https://codaredietitian.com
+logo_url: https://codaredietitian.com/assets/img/logo.png
+
+media_folder: src/assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  # ================= 1. 文章 =================
+  - name: articles
+    label: 文章
+    label_singular: 文章
+    description: 營養師的 SEO 文與衛教文。發布時間設在未來，就會在那個時間自動上架（最晚延遲約 1 小時）。上架前請確認：已附參考資料、沒有疾病與療效字眼。
+    folder: src/articles
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{hour}}{{minute}}"
+    summary: "{{title}}　·　{{date | date('YYYY.MM.DD HH:mm')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: 標題, name: title, widget: string }
+      - label: 閱讀主題
+        name: topic
+        widget: relation
+        collection: lists
+        file: topics
+        search_fields: ["topics.*.name"]
+        display_fields: ["topics.*.name"]
+        value_field: "topics.*.slug"
+      - label: 作者
+        name: author
+        widget: relation
+        collection: team
+        search_fields: [name]
+        display_fields: [name]
+        value_field: id
+        required: false
+        hint: 從營養師名單選擇；留空會顯示「口袋營養獅營養師團隊」
+      - label: 發布時間
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DDTHH:mm:ssZ"
+        date_format: "YYYY-MM-DD"
+        time_format: "HH:mm"
+        hint: "想排程就設成未來的時間：按「發布」後，文章會先藏起來，到這個時間才自動出現在網站上（最晚延遲約 1 小時）。"
+      - { label: 摘要, name: excerpt, widget: text, hint: 顯示在文章列表與首頁，約 50 字 }
+      - { label: 封面照片, name: cover, widget: image, required: false, hint: "建議 1600 × 1000 px（橫式 16:10），500KB 以下。文章列表會裁成 16:10；設為首頁精選時，首頁會裁成圓形，重點請放在照片正中央。" }
+      - { label: 照片說明（替代文字）, name: cover_alt, widget: string, required: false, hint: 一句話描述照片內容，對 SEO 與視障讀者都有幫助 }
+      - { label: 內文, name: body, widget: markdown, hint: "可以直接從 Google 文件複製貼上。內文圖片用工具列「＋ → Image」插入，寬度 1200 px 左右即可，會完整顯示不裁切。" }
+      - label: 參考資料
+        name: references
+        widget: list
+        required: false
+        fields:
+          - { label: 名稱, name: title, widget: string }
+          - { label: 網址, name: url, widget: string, required: false }
+      - { label: 設為首頁精選, name: featured, widget: boolean, default: false, hint: 首頁大圖會顯示最新一篇「精選」文章 }
+      - { label: 最後更新日期, name: updated, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 文章內容大幅修改時再填 }
+      - label: 網址代稱
+        name: url_slug
+        widget: string
+        required: false
+        pattern: ["^[a-z0-9-]*$", "只能用小寫英文、數字和連字號，例如 smart-carb-choice"]
+        hint: 用在文章網址，例如 smart-carb-choice。留空會用日期當網址。上架後請不要再改。
+      - { label: SEO 搜尋標題, name: seo_title, widget: string, required: false, hint: 建議 30 字內；留空會用文章標題 }
+      - { label: SEO 描述, name: seo_description, widget: text, required: false, hint: 建議 80 字內；留空會用摘要 }
+      - { label: 關鍵字, name: keywords, widget: string, required: false, hint: 用逗號分隔 }
+      - label: 類型
+        name: type
+        widget: select
+        options: ["SEO 文", "衛教文"]
+        default: "SEO 文"
+        hint: 內部分類用，不會顯示在網站上
+      - { label: 先隱藏（不在網站顯示）, name: draft, widget: boolean, default: false, hint: 已經發布的文章想暫時下架時打開 }
+      - { label: 主編備註（不會顯示在網站）, name: editor_note, widget: text, required: false }
+
+  # ================= 2. 活動花絮 =================
+  - name: events
+    label: 活動花絮
+    label_singular: 花絮
+    description: 講座、活動與品牌合作的紀錄，會出現在「活動花絮」頁與首頁。
+    folder: src/events
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{hour}}{{minute}}"
+    summary: "{{title}}　·　{{date | date('YYYY.MM.DD')}}"
+    sortable_fields: [date, title]
+    fields:
+      - { label: 活動名稱, name: title, widget: string }
+      - { label: 類型, name: kind, widget: select, options: ["講座", "活動", "品牌合作"], default: "講座" }
+      - { label: 活動日期, name: date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: 地點, name: location, widget: string, required: false }
+      - { label: 合作單位, name: partner, widget: string, required: false }
+      - { label: 封面照片, name: cover, widget: image, required: false, hint: "建議 1600 × 1000 px（橫式 16:10），500KB 以下。花絮列表會裁成 16:10，重點請放在中間。" }
+      - label: 更多照片
+        name: gallery
+        widget: list
+        required: false
+        fields:
+          - { label: 照片, name: image, widget: image, hint: "寬度 1200 px 左右即可，直式橫式都可以，會完整顯示不裁切。每張 500KB 以下。" }
+          - { label: 說明, name: caption, widget: string, required: false }
+      - { label: 活動紀錄, name: body, widget: markdown, required: false }
+      - { label: 先隱藏（不在網站顯示）, name: draft, widget: boolean, default: false }
+
+  # ================= 3. 營養師團隊 =================
+  - name: team
+    label: 營養師團隊
+    label_singular: 營養師
+    description: 「關於我們」的團隊介紹，以及每位營養師的個人頁。
+    folder: src/team
+    create: true
+    identifier_field: name
+    slug: "{{fields.id}}"
+    fields:
+      - { label: 名字, name: name, widget: string, hint: 例如 海獅營養師 }
+      - label: 英文代稱
+        name: id
+        widget: string
+        pattern: ["^[a-z0-9-]+$", "只能用小寫英文、數字和連字號"]
+        hint: 用在作者頁網址，例如 sealion。建立後請不要再改。
+      - { label: 職稱, name: role, widget: string, default: 營養師 }
+      - { label: 插畫或照片, name: avatar, widget: image, hint: "請用去背的 PNG，建議 600 × 900 px（直式 2:3），人物腳底貼齊圖片下緣、上下不要留白。不會被裁切。" }
+      - { label: 排列順序, name: order, widget: number, value_type: int, default: 9 }
+      - { label: 學歷, name: education, widget: string, required: false }
+      - { label: 專長, name: specialty, widget: string, required: false, hint: 用「、」分隔，例如 運動營養、體態管理 }
+      - { label: 一句招呼語, name: greeting, widget: string, required: false, hint: 會顯示在插畫旁的對話框 }
+      - { label: 自我介紹, name: body, widget: markdown }
+
+  # ================= 4. 公告與活動宣傳 =================
+  - name: promos
+    label: 公告與活動宣傳
+    description: 全站最上方的跑馬燈，以及首頁的活動橫幅與彈窗。都可以設定開始、結束日期，時間到自動上下架。
+    files:
+      - name: announcements
+        label: 最上方跑馬燈
+        file: src/_data/announcements.json
+        fields:
+          - { label: 顯示最上方公告列, name: enabled, widget: boolean, default: true, hint: 全站每一頁最上方，多則公告會上下輪流翻轉 }
+          - { label: 每則停留秒數, name: speed, widget: number, value_type: int, default: 4, min: 2, max: 15 }
+          - label: 公告
+            name: items
+            widget: list
+            label_singular: 公告
+            summary: "{{fields.label}}｜{{fields.text}}"
+            hint: 拖曳可以調整輪播順序
+            fields:
+              - { label: 小標籤, name: label, widget: string, hint: 例如 近期活動、Podcast 新上架、新文章、IG 新貼文 }
+              - { label: 公告文字, name: text, widget: string, hint: 一句話就好，約 25 字內，手機上太長會被截掉 }
+              - { label: 連結, name: link, widget: string, required: false, hint: "可以貼 IG 貼文、Podcast 單集、報名表單網址；站內文章可以只填 /articles/網址代稱/" }
+              - { label: 連結文字, name: link_text, widget: string, required: false, default: 看看 }
+              - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
+              - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天自動下架；留空就是一直顯示 }
+      - name: promo
+        label: 首頁活動橫幅與彈窗
+        file: src/_data/promo.json
+        fields:
+          - { label: 開啟活動宣傳, name: enabled, widget: boolean, default: false, hint: 關掉就不會顯示任何橫幅或彈窗 }
+          - { label: 顯示首頁橫幅, name: banner, widget: boolean, default: true, hint: 出現在首頁主視覺下方 }
+          - { label: 顯示彈跳視窗, name: popup, widget: boolean, default: true, hint: 打開首頁時跳出，同一位訪客一天只跳一次；換新活動會重新跳 }
+          - { label: 小標籤, name: label, widget: string, default: 近期活動 }
+          - { label: 活動名稱, name: title, widget: string }
+          - { label: 時間地點, name: date_text, widget: string, required: false, hint: 例如 11/5（四）14:00–16:00・台北 }
+          - { label: 活動說明, name: text, widget: text, required: false, hint: 按 Enter 換行，網站上也會換行 }
+          - { label: 活動圖片, name: image, widget: image, required: false, hint: "活動海報或現場照片，直式、橫式、正方形都可以，會完整顯示不裁切。建議寬度 1200 px、500KB 以下。" }
+          - { label: 按鈕文字, name: button_text, widget: string, default: 了解活動詳情 }
+          - { label: 按鈕連結, name: link, widget: string, required: false, hint: 可以貼報名表單、官方 LINE 或活動花絮頁的網址 }
+          - { label: 開始顯示日期, name: start, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 留空就是馬上開始 }
+          - { label: 結束顯示日期, name: end, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false, hint: 過了這天會自動不顯示；留空就是一直顯示 }
+
+  # ================= 5. 各頁面文字 =================
+  - name: pages
+    label: 各頁面文字
+    description: 網站每一頁上的標題、說明、按鈕文字。「英文小標」是標題上方的小字，例如 ABOUT US。
+    files:
+      - name: home
+        label: 首頁
+        file: src/_data/pages/home.json
+        fields:
+          - label: 搜尋結果顯示（SEO）
+            name: seo
+            widget: object
+            collapsed: true
+            fields: &seo_fields
+              - { label: 頁面標題, name: title, widget: string, hint: 顯示在 Google 搜尋結果與瀏覽器分頁 }
+              - { label: 頁面描述, name: description, widget: text, hint: 顯示在 Google 搜尋結果，約 80 字內 }
+          - label: 主視覺（精選文章）
+            name: hero
+            widget: object
+            hint: 大標題與摘要會自動用「首頁精選」文章
+            fields:
+              - { label: 小標籤, name: label, widget: string, hint: 例如 本期精選 }
+              - { label: 按鈕文字, name: button, widget: string }
+              - { label: 插畫對話框, name: bubble, widget: string }
+          - label: 最新文章區
+            name: latest
+            widget: object
+            collapsed: true
+            fields: &heading_button_fields
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 副標, name: sub, widget: string, required: false }
+              - { label: 按鈕文字, name: button, widget: string }
+          - label: 閱讀主題區
+            name: topics
+            widget: object
+            collapsed: true
+            hint: 主題名稱與說明請到「名單與基本資料 → 閱讀主題」修改
+            fields:
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 副標, name: sub, widget: string, required: false }
+              - { label: 文章數單位, name: count_unit, widget: string, hint: 例如「篇文章」→ 顯示成「3 篇文章」 }
+          - label: 活動花絮區
+            name: events
+            widget: object
+            collapsed: true
+            hint: 有花絮時才會出現
+            fields: *heading_button_fields
+          - label: 健康陪跑計畫區
+            name: runwith
+            widget: object
+            collapsed: true
+            hint: 說明文字會用「健康陪跑計畫」頁的開場文字
+            fields:
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 按鈕文字, name: button, widget: string }
+              - { label: LINE 按鈕文字, name: line_button, widget: string }
+              - { label: 插畫對話框, name: bubble, widget: string }
+
+      - name: articles
+        label: 文章主題頁
+        file: src/_data/pages/articles.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - label: 頁面標題區
+            name: head
+            widget: object
+            fields: &heading_fields
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 副標, name: sub, widget: string, required: false }
+          - { label: 「全部」按鈕文字, name: all_chip, widget: string }
+          - { label: 單一主題頁的英文小標, name: topic_en, widget: string }
+          - { label: 主題還沒有文章時的對話框, name: empty_bubble, widget: string }
+          - { label: 主題還沒有文章時的按鈕, name: empty_button, widget: string }
+
+      - name: article
+        label: 文章內頁（每篇共用）
+        file: src/_data/pages/article.json
+        fields:
+          - { label: 陪跑邀請標題, name: invite_title, widget: string, hint: 每篇文章結尾的邀請框 }
+          - { label: 陪跑邀請文字, name: invite_text, widget: string }
+          - { label: 陪跑邀請按鈕, name: invite_button, widget: string }
+          - { label: 參考資料標題, name: references_title, widget: string }
+          - { label: 延伸閱讀區, name: related, widget: object, collapsed: true, fields: *heading_fields }
+          - { label: 免責提醒, name: disclaimer, widget: text, hint: 顯示在每篇文章最後，以及全站頁尾 }
+
+      - name: about
+        label: 關於我們
+        file: src/_data/pages/about.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - { label: 頁面標題區, name: head, widget: object, fields: *heading_fields }
+          - { label: 品牌介紹, name: intro, widget: text }
+          - label: 團隊區
+            name: team
+            widget: object
+            collapsed: true
+            hint: 每位營養師的資料請到「營養師團隊」修改
+            fields:
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+          - { label: 追蹤我們標題, name: follow_title, widget: string, hint: IG 與 Podcast 連結請到「名單與基本資料 → 聯絡方式與社群」修改 }
+          - label: 營養師個人頁
+            name: member
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 文章區標題（接在名字後面）, name: articles_suffix, widget: string, hint: 例如「的文章」→ 顯示成「海獅營養師的文章」 }
+              - { label: 還沒有文章時的文字, name: empty, widget: string }
+
+      - name: events
+        label: 活動花絮頁
+        file: src/_data/pages/events.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - { label: 頁面標題區, name: head, widget: object, fields: *heading_fields }
+          - { label: 「全部」按鈕文字, name: all_chip, widget: string }
+          - { label: 還沒有花絮時的對話框, name: empty_bubble, widget: string }
+
+      - name: partners
+        label: 合作夥伴頁
+        file: src/_data/pages/partners.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - { label: 頁面標題區, name: head, widget: object, fields: *heading_fields }
+          - { label: 還沒有合作夥伴時的文字, name: empty, widget: string, hint: 合作夥伴名單請到「名單與基本資料 → 合作夥伴名單」新增 }
+          - label: 講座合作洽詢框
+            name: collab
+            widget: object
+            hint: 也會出現在「活動花絮」頁與每篇花絮最後
+            fields:
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: text, widget: text }
+              - { label: 按鈕文字, name: button, widget: string, hint: 按鈕會連到官方 LINE }
+              - { label: 信箱前面的字, name: mail_label, widget: string }
+              - { label: 看活動花絮按鈕, name: events_button, widget: string }
+
+      - name: runwith
+        label: 健康陪跑計畫
+        file: src/_data/pages/runwith.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - { label: 頁面標題區, name: head, widget: object, fields: *heading_fields }
+          - { label: 開場文字, name: lead, widget: text, hint: 想加粗的字可以用 <b>文字</b> 包起來。首頁的陪跑區也會用這段。 }
+          - label: 步驟
+            name: steps
+            widget: list
+            label_singular: 步驟
+            summary: "{{fields.title}}"
+            fields:
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: text, widget: string }
+          - label: 聯絡卡
+            name: contact
+            widget: object
+            hint: LINE、Email、時間、方式請到「名單與基本資料 → 聯絡方式與社群」修改
+            fields:
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: text, widget: string }
+              - { label: 插畫對話框, name: bubble, widget: string }
+              - { label: LINE 按鈕文字, name: line_button, widget: string }
+              - { label: 報名按鈕文字, name: signup_button, widget: string }
+          - label: 常見問題
+            name: faq
+            widget: object
+            fields:
+              - { label: 英文小標, name: en, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - label: 問答
+                name: items
+                widget: list
+                label_singular: 問答
+                summary: "{{fields.q}}"
+                fields:
+                  - { label: 問題, name: q, widget: string }
+                  - { label: 回答, name: a, widget: text }
+
+      - name: layout
+        label: 頁首選單與頁尾
+        file: src/_data/pages/layout.json
+        fields:
+          - label: 上方選單
+            name: nav
+            widget: object
+            fields:
+              - { label: 文章主題, name: articles, widget: string }
+              - { label: 關於我們, name: about, widget: string }
+              - { label: 活動花絮, name: events, widget: string }
+              - { label: 合作夥伴, name: partners, widget: string }
+              - { label: 健康陪跑計畫, name: runwith, widget: string }
+              - { label: LINE 按鈕, name: line_button, widget: string }
+          - label: 頁尾
+            name: footer
+            widget: object
+            collapsed: true
+            hint: 頁尾最下方的免責提醒請到「文章內頁（每篇共用）」修改
+            fields:
+              - { label: 頁尾標語, name: title, widget: string }
+              - { label: 第一欄標題, name: read_head, widget: string, hint: 下面會自動列出前 4 個閱讀主題 }
+              - { label: 第一欄「全部主題」連結, name: read_all, widget: string }
+              - { label: 第二欄標題, name: about_head, widget: string }
+              - { label: 關於我們連結, name: about_link, widget: string }
+              - { label: 營養師團隊連結, name: team_link, widget: string }
+              - { label: 活動花絮連結, name: events_link, widget: string }
+              - { label: 合作夥伴連結, name: partners_link, widget: string }
+              - { label: 講座合作連結, name: collab_link, widget: string }
+              - { label: 第三欄標題, name: runwith_head, widget: string }
+              - { label: 計畫介紹連結, name: runwith_link, widget: string }
+              - { label: 常見問題連結, name: faq_link, widget: string }
+              - { label: 線上報名連結, name: signup_link, widget: string }
+              - { label: 學員登入連結, name: login_link, widget: string }
+              - { label: 第四欄標題, name: contact_head, widget: string }
+              - { label: 官方 LINE 連結, name: line_link, widget: string }
+
+      - name: notfound
+        label: 找不到網頁（404）
+        file: src/_data/pages/notfound.json
+        fields:
+          - { label: 頁面標題, name: title, widget: string }
+          - { label: 插畫對話框, name: bubble, widget: string }
+          - { label: 回首頁按鈕, name: home_button, widget: string }
+          - { label: 看文章按鈕, name: articles_button, widget: string }
+
+  # ================= 6. 名單與基本資料 =================
+  - name: lists
+    label: 名單與基本資料
+    description: 合作夥伴、閱讀主題，以及 LINE、Email、社群連結等全站共用的資料。
+    files:
+      - name: partners
+        label: 合作夥伴名單
+        file: src/_data/partners.json
+        fields:
+          - label: 合作夥伴
+            name: partners
+            widget: list
+            label_singular: 合作夥伴
+            summary: "{{fields.name}}"
+            fields:
+              - { label: 名稱, name: name, widget: string }
+              - { label: Logo, name: logo, widget: image, required: false, hint: "去背 PNG，建議 400 × 160 px 左右的橫式 Logo，會完整顯示不裁切。放上前請先取得對方同意。" }
+              - { label: 網址, name: url, widget: string, required: false }
+      - name: topics
+        label: 閱讀主題
+        file: src/_data/topics.json
+        fields:
+          - label: 主題
+            name: topics
+            widget: list
+            label_singular: 主題
+            summary: "{{fields.name}}"
+            fields:
+              - { label: 主題名稱, name: name, widget: string }
+              - label: 英文代稱
+                name: slug
+                widget: string
+                pattern: ["^[a-z0-9-]+$", "只能用小寫英文、數字和連字號"]
+                hint: 用在主題網址。已經有文章的主題請不要改。
+              - { label: 一句話說明, name: desc, widget: string }
+      - name: site
+        label: 聯絡方式與社群
+        file: src/_data/site.json
+        fields:
+          - { label: 網站名稱, name: name, widget: string }
+          - { label: 英文名稱, name: name_en, widget: string }
+          - { label: 網站標語, name: tagline, widget: string, hint: 分享到 LINE、FB 時的預設標題 }
+          - { label: 網站描述, name: description, widget: text, hint: 分享到 LINE、FB 時的預設描述 }
+          - { label: 網站網址, name: url, widget: string, hint: 不要以 / 結尾 }
+          - { label: 團隊署名, name: team_name, widget: string, hint: 文章沒有選作者時顯示的名字 }
+          - { label: LINE 顯示名稱, name: line_id, widget: string }
+          - { label: LINE 連結, name: line_url, widget: string }
+          - { label: Email, name: email, widget: string }
+          - { label: 服務時間, name: hours, widget: string }
+          - { label: 服務方式, name: method, widget: string }
+          - { label: 線上報名連結, name: signup_url, widget: string }
+          - { label: 學員登入連結, name: login_url, widget: string }
+          - label: 社群（IG 與 Podcast）
+            name: social
+            widget: object
+            fields:
+              - { label: IG 帳號名稱, name: instagram_handle, widget: string }
+              - { label: IG 連結, name: instagram_url, widget: string }
+              - { label: IG 介紹文字, name: instagram_text, widget: string }
+              - { label: Podcast 節目名稱, name: podcast_name, widget: string }
+              - { label: Podcast 介紹文字, name: podcast_text, widget: string }
+              - label: Podcast 收聽平台
+                name: podcast_links
+                widget: list
+                fields:
+                  - { label: 平台名稱, name: label, widget: string, hint: 例如 Spotify }
+                  - { label: 連結, name: url, widget: string }

@@ -1,18 +1,19 @@
 ---
 layout: base.njk
 permalink: /404.html
-title: 找不到這一頁
+eleventyComputed:
+  title: "{{ pages.notfound.title }}"
 eleventyExcludeFromCollections: true
 ---
 {%- import "macros.njk" as ui -%}
 <section class="section">
   <div class="container narrow center">
     <div class="empty">
-      {{ ui.buddy("/assets/img/member4.png", "咦？這一頁好像走丟了", "left") }}
+      {{ ui.buddy("/assets/img/member4.png", pages.notfound.bubble, "left") }}
     </div>
     <div class="btn-row center-row">
-      <a class="btn btn-primary" href="/">回首頁</a>
-      <a class="btn btn-soft" href="/articles/">看文章</a>
+      <a class="btn btn-primary" href="/">{{ pages.notfound.home_button }}</a>
+      <a class="btn btn-soft" href="/articles/">{{ pages.notfound.articles_button }}</a>
     </div>
   </div>
 </section>

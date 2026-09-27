@@ -1,0 +1,321 @@
+---
+permalink: /admin/index.html
+eleventyExcludeFromCollections: true
+---
+{#- 主編儀表板：網站打包時整理好的內容狀態 + 打開頁面時向 GitHub 查詢的草稿與更新狀態 -#}
+{%- set dash = {
+  articles: collections.articlesAll | adminEntries,
+  events: collections.events | adminEntries,
+  team: collections.team | adminEntries,
+  partners: partners.partners.length,
+  promo: promo,
+  announcements: announcements
+} -%}
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>主編儀表板｜{{ site.name }}</title>
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Huninn&family=Noto+Sans+TC:wght@400;500;700&family=Quicksand:wght@500;700&display=swap">
+  <style>
+    :root {
+      --bg: #FFFAF2; --card: #fff; --ink: #2F3B3D; --muted: #6B7A7C; --line: #EADFCB;
+      --lake: #066D7B; --deep: #0A4F59; --pale: #E6F4F2; --sand: #F4E8D3;
+      --warn: #B4540A; --warn-bg: #FDF0E1; --bad: #B3261E; --bad-bg: #FBE9E7; --ok: #2E7D5B; --ok-bg: #E5F4EC;
+      --radius: 22px; --shadow: 0 6px 24px rgba(10, 79, 89, .07);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--ink); font: 16px/1.7 "Noto Sans TC", system-ui, sans-serif; }
+    a { color: var(--lake); }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px 64px; }
+    h1, h2, .btn, .num { font-family: "Huninn", "Noto Sans TC", sans-serif; font-weight: 400; }
+
+    .top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 22px 0 18px; border-bottom: 2px dotted #CFE7E3; margin-bottom: 28px; }
+    .top img { height: 52px; width: auto; }
+    .top h1 { font-size: 24px; color: var(--deep); margin-right: auto; }
+    .top h1 small { display: block; font: 500 13px/1.4 "Noto Sans TC", sans-serif; color: var(--muted); }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 11px 22px; border-radius: 999px; font-size: 16px; text-decoration: none; border: 2px solid transparent; letter-spacing: .04em; white-space: nowrap; }
+    .btn-primary { background: var(--lake); color: #fff; box-shadow: 0 6px 16px rgba(6, 109, 123, .25); }
+    .btn-primary:hover { background: var(--deep); }
+    .btn-soft { background: #fff; color: var(--lake); border: 2px dotted #A9D8D1; }
+    .btn-soft:hover { border-style: solid; }
+
+    .hello { font-size: 15px; color: var(--muted); margin-bottom: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+    .card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 26px; grid-column: span 6; min-width: 0; }
+    .card.wide { grid-column: span 12; }
+    .card.third { grid-column: span 4; }
+    .card h2 { font-size: 20px; color: var(--deep); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .card h2 .count { font: 700 13px/1 "Quicksand", sans-serif; background: var(--pale); color: var(--lake); border-radius: 999px; padding: 5px 10px; }
+    .card .note { font-size: 13px; color: var(--muted); margin-top: 12px; }
+
+    .todo { list-style: none; display: grid; gap: 10px; }
+    .todo li { display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border-radius: 16px; background: var(--bg); }
+    .todo li.bad { background: var(--bad-bg); }
+    .todo li.warn { background: var(--warn-bg); }
+    .todo li.ok { background: var(--ok-bg); }
+    .todo .dot { flex: none; width: 10px; height: 10px; border-radius: 50%; margin-top: 8px; background: var(--lake); }
+    .todo .bad .dot { background: var(--bad); } .todo .warn .dot { background: var(--warn); } .todo .ok .dot { background: var(--ok); }
+    .todo .txt { flex: 1; min-width: 0; }
+    .todo .txt small { display: block; color: var(--muted); font-size: 13px; }
+    .todo a.go { flex: none; font-size: 14px; font-weight: 500; text-decoration: none; padding-top: 2px; }
+
+    .rows { list-style: none; }
+    .rows li { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px dashed var(--line); }
+    .rows li:last-child { border-bottom: 0; }
+    .rows .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .rows .t small { color: var(--muted); font-size: 13px; margin-left: 6px; }
+    .rows .when { flex: none; font-size: 13px; color: var(--muted); }
+    .rows a.edit { flex: none; font-size: 14px; text-decoration: none; }
+    .chip { flex: none; font-size: 12px; font-weight: 500; border-radius: 999px; padding: 3px 10px; background: var(--pale); color: var(--lake); }
+    .chip.warn { background: var(--warn-bg); color: var(--warn); }
+    .chip.bad { background: var(--bad-bg); color: var(--bad); }
+    .chip.ok { background: var(--ok-bg); color: var(--ok); }
+    .chip.mute { background: #F1EEE8; color: var(--muted); }
+    .empty { color: var(--muted); font-size: 15px; padding: 6px 0; }
+
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .stat { background: var(--bg); border-radius: 16px; padding: 14px 12px; text-align: center; }
+    .stat .num { font-size: 30px; color: var(--lake); line-height: 1.2; }
+    .stat span { font-size: 13px; color: var(--muted); }
+
+    .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .links a { display: block; padding: 12px 14px; border-radius: 16px; background: var(--bg); text-decoration: none; color: var(--ink); font-weight: 500; }
+    .links a:hover { background: var(--pale); color: var(--deep); }
+    .links a small { display: block; font-weight: 400; font-size: 13px; color: var(--muted); }
+
+    .promo-now { display: flex; gap: 14px; align-items: center; }
+    .promo-now img { width: 76px; height: 76px; object-fit: contain; border-radius: 14px; background: var(--sand); flex: none; }
+
+    @media (max-width: 860px) {
+      .card, .card.third { grid-column: span 12; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+      .card { padding: 20px 18px; }
+      .links { grid-template-columns: 1fr; }
+      .top .btn { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <img src="/assets/img/logo.png" alt="{{ site.name }} Co-Dare" width="900" height="421">
+      <h1>主編儀表板<small>現在官網有什麼要處理，都在這裡</small></h1>
+      <a class="btn btn-soft" href="/" target="_blank" rel="noopener">看官網</a>
+      <a class="btn btn-primary" href="/admin/edit/">進入編輯後台 ›</a>
+    </header>
+
+    <p class="hello" id="hello"></p>
+
+    <div class="grid">
+      <section class="card wide">
+        <h2>待辦事項 <span class="count" id="todo-count">…</span></h2>
+        <ul class="todo" id="todo"><li><span class="dot"></span><span class="txt">整理中…</span></li></ul>
+      </section>
+
+      <section class="card">
+        <h2>草稿與待發布 <span class="count" id="drafts-count">…</span></h2>
+        <ul class="rows" id="drafts"><li class="empty">向 GitHub 查詢中…</li></ul>
+        <p class="note">在編輯後台按「儲存」的內容會先放在這裡，按「發布」後才會上網站。</p>
+      </section>
+
+      <section class="card">
+        <h2>排程與隱藏中的文章 <span class="count" id="sched-count">…</span></h2>
+        <ul class="rows" id="sched"></ul>
+        <p class="note">發布時間設在未來的文章，到時間會自動上架（最晚延遲約 1 小時）。</p>
+      </section>
+
+      <section class="card">
+        <h2>首頁活動宣傳</h2>
+        <div id="promo"></div>
+      </section>
+
+      <section class="card">
+        <h2>最上方跑馬燈</h2>
+        <ul class="rows" id="ticker"></ul>
+      </section>
+
+      <section class="card">
+        <h2>網站概況</h2>
+        <div class="stats" id="stats"></div>
+        <p class="note" id="deploy">網站更新狀態查詢中…</p>
+      </section>
+
+      <section class="card">
+        <h2>快速前往</h2>
+        <div class="links">
+          <a href="/admin/edit/#/collections/articles/new">寫新文章<small>新增一篇文章</small></a>
+          <a href="/admin/edit/#/workflow">草稿看板<small>審核、發布草稿</small></a>
+          <a href="/admin/edit/#/collections/promos/entries/announcements">改跑馬燈<small>最上方公告</small></a>
+          <a href="/admin/edit/#/collections/promos/entries/promo">改活動宣傳<small>首頁橫幅與彈窗</small></a>
+          <a href="/admin/edit/#/collections/pages">改頁面文字<small>每一頁的標題、按鈕</small></a>
+          <a href="/admin/edit/#/collections/events/new">新增活動花絮<small>講座與活動紀錄</small></a>
+          <a href="/admin/edit/#/collections/lists/entries/partners">合作夥伴名單<small>新增合作店家</small></a>
+          <a href="https://search.google.com/search-console?resource_id=https%3A%2F%2Fcodaredietitian.com%2F" target="_blank" rel="noopener">Google Search Console<small>搜尋成效</small></a>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="application/json" id="dash-data">{{ dash | scriptJson | safe }}</script>
+  {% raw %}<script>
+  (() => {
+    const D = JSON.parse(document.getElementById("dash-data").textContent);
+    const REPO = "codare2026/codare-website";
+    const API = "https://api.github.com/repos/" + REPO;
+    const EDIT = "/admin/edit/#/collections/";
+    const now = new Date();
+    const tz = { timeZone: "Asia/Taipei" };
+    const today = new Intl.DateTimeFormat("en-CA", tz).format(now);
+    const $ = (id) => document.getElementById(id);
+    const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const fmt = (d, withTime) => new Date(d).toLocaleString("zh-TW", { ...tz, month: "numeric", day: "numeric", ...(withTime ? { hour: "2-digit", minute: "2-digit", hour12: false } : {}) });
+    const ago = (d) => {
+      const m = Math.round((now - new Date(d)) / 60000);
+      if (m < 1) return "剛剛";
+      if (m < 60) return m + " 分鐘前";
+      if (m < 60 * 24) return Math.round(m / 60) + " 小時前";
+      return Math.round(m / 1440) + " 天前";
+    };
+    const inWindow = (start, end) => (!start || start <= today) && (!end || end >= today);
+    const windowState = (start, end) => (end && end < today ? "過期" : start && start > today ? "未開始" : "顯示中");
+
+    // ---------- 待辦事項 ----------
+    const todos = [];
+    const addTodo = (level, text, sub, link, linkText) => todos.push({ level, text, sub, link, linkText });
+    const order = { bad: 0, warn: 1, info: 2, ok: 3 };
+    const renderTodos = () => {
+      for (let i = todos.length - 1; i >= 0; i--) if (todos[i].level === "ok") todos.splice(i, 1);
+      todos.sort((a, b) => order[a.level] - order[b.level]);
+      const real = todos.filter((t) => t.level !== "ok");
+      $("todo-count").textContent = real.length ? real.length + " 件" : "沒有";
+      if (!real.length) addTodo("ok", "目前沒有需要處理的事，網站狀態良好！");
+      $("todo").innerHTML = todos.map((t) => `<li class="${t.level}"><span class="dot"></span><span class="txt">${esc(t.text)}${t.sub ? `<small>${esc(t.sub)}</small>` : ""}</span>${t.link ? `<a class="go" href="${t.link}">${esc(t.linkText || "去處理")} ›</a>` : ""}</li>`).join("");
+    };
+
+    $("hello").textContent = `今天是 ${new Date().toLocaleDateString("zh-TW", { ...tz, month: "long", day: "numeric", weekday: "long" })}。以下資料每次打開這頁都會重新整理。`;
+
+    // ---------- 文章：排程、隱藏、內容提醒 ----------
+    const live = D.articles.filter((a) => !a.draft && new Date(a.date) <= now);
+    const scheduled = D.articles.filter((a) => !a.draft && new Date(a.date) > now).sort((a, b) => new Date(a.date) - new Date(b.date));
+    const waiting = D.articles.filter((a) => !a.draft && new Date(a.date) <= now && !a.url);
+    const hidden = D.articles.filter((a) => a.draft);
+    const schedRows = [
+      ...scheduled.map((a) => `<li><span class="t">${esc(a.title)}</span><span class="when">${fmt(a.date, true)} 上架</span><span class="chip">排程中</span><a class="edit" href="${EDIT}articles/entries/${a.slug}">編輯</a></li>`),
+      ...waiting.map((a) => `<li><span class="t">${esc(a.title)}</span><span class="chip ok">即將出現</span><a class="edit" href="${EDIT}articles/entries/${a.slug}">編輯</a></li>`),
+      ...hidden.map((a) => `<li><span class="t">${esc(a.title)}</span><span class="chip mute">隱藏中</span><a class="edit" href="${EDIT}articles/entries/${a.slug}">編輯</a></li>`),
+    ];
+    $("sched").innerHTML = schedRows.join("") || `<li class="empty">目前沒有排程或隱藏的文章。</li>`;
+    $("sched-count").textContent = scheduled.length + waiting.length + hidden.length;
+    if (scheduled.length) addTodo("info", `有 ${scheduled.length} 篇文章排程中，最近一篇是 ${fmt(scheduled[0].date, true)}`, scheduled[0].title);
+
+    const latest = live.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    if (latest) {
+      const days = Math.floor((now - new Date(latest.date)) / 86400000);
+      if (days >= 14 && !scheduled.length) addTodo("warn", `已經 ${days} 天沒有新文章了`, `最新一篇：${latest.title}`, EDIT + "articles/new", "寫新文章");
+    }
+    if (!live.some((a) => a.featured)) addTodo("info", "沒有文章設為「首頁精選」，首頁大圖目前自動顯示最新一篇", "", EDIT + "articles", "去設定");
+    const noCover = live.filter((a) => !a.cover);
+    if (noCover.length) addTodo("info", `${noCover.length} 篇文章還沒有封面照片`, noCover.slice(0, 3).map((a) => a.title).join("、") + (noCover.length > 3 ? "…" : ""), EDIT + "articles", "去補照片");
+    const noSeo = live.filter((a) => !a.seo);
+    if (noSeo.length) addTodo("info", `${noSeo.length} 篇文章沒有填「SEO 描述」`, "沒填會自動用摘要，重要的文章建議自己寫", EDIT + "articles", "去補");
+
+    const blankTeam = D.team.filter((m) => m.placeholder);
+    if (blankTeam.length) addTodo("warn", `${blankTeam.length} 位營養師的自我介紹還沒寫`, blankTeam.map((m) => m.title).join("、"), EDIT + "team", "去填寫");
+
+    // ---------- 活動宣傳 ----------
+    const P = D.promo;
+    const pState = P.enabled ? windowState(P.start, P.end) : "關閉";
+    const chip = { "顯示中": "ok", "過期": "bad", "未開始": "warn", "關閉": "mute" }[pState];
+    $("promo").innerHTML = P.title ? `<div class="promo-now">${P.image ? `<img src="${esc(P.image)}" alt="">` : ""}<div><span class="chip ${chip}">${pState}</span><p><b>${esc(P.title)}</b></p><p class="note" style="margin:0">${esc(P.date_text || "")}${P.end ? `　·　顯示到 ${esc(P.end)}` : "　·　沒有設定結束日期"}</p></div></div><p class="note"><a href="${EDIT}promos/entries/promo">編輯活動宣傳 ›</a></p>` : `<p class="empty">目前沒有設定活動。</p><p class="note"><a href="${EDIT}promos/entries/promo">新增活動宣傳 ›</a></p>`;
+    if (P.enabled && pState === "過期") addTodo("warn", `活動「${P.title}」已經過了結束日期，網站上已自動隱藏`, "可以換成下一個活動，或把活動宣傳關掉", EDIT + "promos/entries/promo", "去更新");
+    if (P.enabled && pState === "顯示中" && !P.end) addTodo("info", `活動「${P.title}」沒有設定結束日期`, "活動結束後記得關掉，或先填好結束日期讓它自動下架", EDIT + "promos/entries/promo", "去設定");
+    if (!P.enabled || pState !== "顯示中") addTodo("info", "首頁目前沒有活動宣傳", "有新活動可以開啟首頁橫幅與彈窗", EDIT + "promos/entries/promo", "去設定");
+
+    // ---------- 跑馬燈 ----------
+    const A = D.announcements;
+    const items = (A.items || []).map((i) => ({ ...i, state: windowState(i.start, i.end) }));
+    $("ticker").innerHTML = !A.enabled ? `<li class="empty">跑馬燈目前關閉。</li>` : items.map((i) => `<li><span class="chip mute">${esc(i.label)}</span><span class="t">${esc(i.text)}</span><span class="chip ${{ "顯示中": "ok", "過期": "bad", "未開始": "warn" }[i.state]}">${i.state}${i.end && i.state === "顯示中" ? " 到 " + i.end.slice(5).replace("-", "/") : ""}</span></li>`).join("") + `<li><a class="edit" href="${EDIT}promos/entries/announcements">編輯跑馬燈 ›</a></li>`;
+    const expired = items.filter((i) => i.state === "過期");
+    if (A.enabled && expired.length) addTodo("warn", `跑馬燈有 ${expired.length} 則公告已過期（網站上已自動隱藏）`, expired.map((i) => i.text).join("、"), EDIT + "promos/entries/announcements", "去整理");
+    if (A.enabled && !items.some((i) => i.state === "顯示中")) addTodo("warn", "跑馬燈目前沒有任何一則在顯示", "", EDIT + "promos/entries/announcements", "去新增");
+
+    // ---------- 概況 ----------
+    const stats = [[live.length, "篇文章上架中"], [D.events.length, "則活動花絮"], [D.team.length, "位營養師"], [D.partners, "個合作夥伴"]];
+    $("stats").innerHTML = stats.map(([n, l]) => `<div class="stat"><div class="num">${n}</div><span>${l}</span></div>`).join("");
+
+    renderTodos();
+
+    // ---------- 向 GitHub 查詢：草稿與網站更新狀態 ----------
+    const labels = {
+      "decap-cms/draft": ["草稿", "mute"],
+      "decap-cms/pending_review": ["等待審核", "warn"],
+      "decap-cms/pending_publish": ["準備發布", "ok"],
+    };
+    const fileNames = {
+      "promos/announcements": "最上方跑馬燈", "promos/promo": "首頁活動橫幅與彈窗",
+      "pages/home": "頁面文字：首頁", "pages/articles": "頁面文字：文章主題頁", "pages/article": "頁面文字：文章內頁",
+      "pages/about": "頁面文字：關於我們", "pages/events": "頁面文字：活動花絮頁", "pages/partners": "頁面文字：合作夥伴頁",
+      "pages/runwith": "頁面文字：健康陪跑計畫", "pages/layout": "頁面文字：頁首選單與頁尾", "pages/notfound": "頁面文字：404",
+      "lists/partners": "合作夥伴名單", "lists/topics": "閱讀主題", "lists/site": "聯絡方式與社群",
+    };
+    const colNames = { articles: "文章", events: "花絮", team: "營養師" };
+    const folders = { articles: "src/articles", events: "src/events", team: "src/team" };
+    const failMsg = `<li class="empty">暫時查不到 GitHub 的資料（每小時查詢次數有限），請稍後重新整理。</li>`;
+
+    fetch(API + "/pulls?state=open&per_page=50")
+      .then((r) => { if (!r.ok) throw r; return r.json(); })
+      .then(async (pulls) => {
+        const cms = pulls.filter((p) => p.head.ref.startsWith("cms/"));
+        const rows = await Promise.all(cms.map(async (p) => {
+          const [, col, ...rest] = p.head.ref.split("/");
+          const slug = rest.join("/");
+          const label = p.labels.map((l) => labels[l.name]).find(Boolean) || ["草稿", "mute"];
+          let title = fileNames[col + "/" + slug] || slug;
+          if (folders[col]) {
+            try {
+              const raw = await fetch(`https://raw.githubusercontent.com/${REPO}/${p.head.sha}/${folders[col]}/${slug}.md`).then((r) => r.text());
+              const m = raw.match(/^(?:title|name):\s*["']?(.+?)["']?\s*$/m);
+              if (m) title = m[1];
+            } catch (e) {}
+          }
+          return { title, col, slug, label, updated: p.updated_at };
+        }));
+        $("drafts-count").textContent = rows.length;
+        $("drafts").innerHTML = rows.map((r) => `<li><span class="chip ${r.label[1]}">${r.label[0]}</span><span class="t">${esc(r.title)}${colNames[r.col] ? `<small>${colNames[r.col]}</small>` : ""}</span><span class="when">${ago(r.updated)}</span><a class="edit" href="${EDIT}${r.col}/entries/${r.slug}">打開</a></li>`).join("") || `<li class="empty">沒有未發布的草稿。</li>`;
+        const ready = rows.filter((r) => r.label[0] === "準備發布");
+        const review = rows.filter((r) => r.label[0] === "等待審核");
+        if (ready.length) addTodo("warn", `${ready.length} 份內容已經「準備發布」，等你按發布`, ready.map((r) => r.title).join("、"), "/admin/edit/#/workflow", "去發布");
+        if (review.length) addTodo("info", `${review.length} 份內容「等待審核」`, review.map((r) => r.title).join("、"), "/admin/edit/#/workflow", "去審核");
+        renderTodos();
+      })
+      .catch(() => { $("drafts").innerHTML = failMsg; $("drafts-count").textContent = "?"; });
+
+    fetch(API + "/actions/runs?per_page=10")
+      .then((r) => { if (!r.ok) throw r; return r.json(); })
+      .then(({ workflow_runs: runs }) => {
+        const running = runs.find((r) => r.status !== "completed");
+        const last = runs.find((r) => r.status === "completed");
+        const lastContent = runs.find((r) => r.status === "completed" && r.event !== "schedule");
+        let msg = "";
+        if (running) msg = "網站正在更新中，約 1～3 分鐘後完成。";
+        else if (last && last.conclusion === "success") msg = `網站狀態正常，${ago(last.updated_at)}檢查過。`;
+        if (lastContent) msg += `最近一次內容更新：${ago(lastContent.updated_at)}。`;
+        $("deploy").textContent = msg || "查不到網站更新紀錄。";
+        if (last && last.conclusion === "failure" && !running) {
+          addTodo("bad", "網站最近一次更新失敗，最新的修改還沒上線", "截圖這個畫面給 Claude，或到 GitHub Actions 按「Re-run failed jobs」", last.html_url, "查看");
+          renderTodos();
+        }
+      })
+      .catch(() => { $("deploy").textContent = "暫時查不到網站更新狀態，請稍後重新整理。"; });
+  })();
+  </script>{% endraw %}
+</body>
+</html>

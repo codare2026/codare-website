@@ -9,7 +9,7 @@ layout: base.njk
       {{ ui.buddy(avatar, greeting, "right") }}
     </div>
     <div class="profile-text">
-      <p class="eyebrow">DIETITIAN</p>
+      <p class="eyebrow">{{ pages.about.member.en }}</p>
       <h1>{{ name }}</h1>
       <p class="profile-role">{{ role }}{% if education %}　·　{{ education }}{% endif %}</p>
       {% if specialty %}<p class="profile-tags">{% for s in specialty.split("、") %}<span class="tag tag-soft">{{ s }}</span>{% endfor %}</p>{% endif %}
@@ -19,13 +19,13 @@ layout: base.njk
 </section>
 <section class="section section-tight">
   <div class="container">
-    {{ ui.heading("ARTICLES", name + "的文章") }}
+    {{ ui.heading("ARTICLES", name + pages.about.member.articles_suffix) }}
     {% if list.length %}
     <div class="card-grid">
-      {%- for item in list %}{{ ui.articleCard(item, topics.topics, collections.team) }}{% endfor %}
+      {%- for item in list %}{{ ui.articleCard(item, topics.topics, collections.team, site) }}{% endfor %}
     </div>
     {% else %}
-    <p class="center muted">文章準備中，敬請期待。</p>
+    <p class="center muted">{{ pages.about.member.empty }}</p>
     {% endif %}
   </div>
 </section>

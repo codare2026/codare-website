@@ -1,0 +1,28 @@
+{
+  "nav": {
+    "articles": "文章主題",
+    "about": "關於我們",
+    "events": "活動花絮",
+    "partners": "合作夥伴",
+    "runwith": "健康陪跑計畫",
+    "line_button": "LINE 聊聊"
+  },
+  "footer": {
+    "title": "有問題，歡迎來聊聊",
+    "read_head": "閱讀",
+    "read_all": "全部主題",
+    "about_head": "關於",
+    "about_link": "關於口袋營養獅",
+    "team_link": "營養師團隊",
+    "events_link": "活動花絮",
+    "partners_link": "合作夥伴",
+    "collab_link": "講座合作",
+    "runwith_head": "健康陪跑計畫",
+    "runwith_link": "計畫介紹",
+    "faq_link": "常見問題",
+    "signup_link": "線上報名",
+    "login_link": "學員登入",
+    "contact_head": "聯絡我們",
+    "line_link": "官方 LINE"
+  }
+}

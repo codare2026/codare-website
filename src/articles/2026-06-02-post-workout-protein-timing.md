@@ -4,7 +4,7 @@ url_slug: post-workout-protein-timing
 type: SEO 文
 topic: sport
 author: ""
-date: 2026-06-02
+date: 2026-06-02T08:00:00+08:00
 excerpt: "「黃金三十分鐘」的說法你一定聽過，但最新的運動營養觀念其實更看重「整天的總攝取量」。"
 cover: ""
 cover_alt: ""

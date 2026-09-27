@@ -1,16 +1,17 @@
 ---
 layout: base.njk
 permalink: /events/
-title: 活動花絮
-excerpt: 口袋營養獅辦過的營養講座、活動與品牌合作紀錄。
+eleventyComputed:
+  title: "{{ pages.events.seo.title }}"
+  excerpt: "{{ pages.events.seo.description }}"
 ---
 {%- import "macros.njk" as ui -%}
 {%- set kinds = ["講座", "活動", "品牌合作"] -%}
 <section class="page-head">
   <div class="container">
-    {{ ui.heading("EVENTS", "活動花絮", "講座與活動，都留下紀錄") }}
+    {{ ui.heading(pages.events.head.en, pages.events.head.title, pages.events.head.sub) }}
     <div class="chips reveal" role="group" aria-label="篩選活動類型">
-      <button class="chip" type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button class="chip" type="button" data-filter="all" aria-pressed="true">{{ pages.events.all_chip }}</button>
       {%- for k in kinds %}<button class="chip" type="button" data-filter="{{ k }}" aria-pressed="false">{{ k }}</button>{% endfor %}
     </div>
   </div>
@@ -32,9 +33,9 @@ excerpt: 口袋營養獅辦過的營養講座、活動與品牌合作紀錄。
     </div>
     {% else %}
     <div class="empty reveal">
-      {{ ui.buddy("/assets/img/member4.png", "活動紀錄整理中，下次見！", "left") }}
+      {{ ui.buddy("/assets/img/member4.png", pages.events.empty_bubble, "left") }}
     </div>
     {% endif %}
-    {{ ui.collab(site) }}
+    {{ ui.collab(site, pages.partners.collab) }}
   </div>
 </section>

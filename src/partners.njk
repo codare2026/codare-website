@@ -1,13 +1,14 @@
 ---
 layout: base.njk
 permalink: /partners/
-title: 合作夥伴
-excerpt: 口袋營養獅合作過的品牌與店家，以及講座、活動合作洽詢方式。
+eleventyComputed:
+  title: "{{ pages.partners.seo.title }}"
+  excerpt: "{{ pages.partners.seo.description }}"
 ---
 {%- import "macros.njk" as ui -%}
 <section class="page-head">
   <div class="container">
-    {{ ui.heading("PARTNERS", "合作夥伴", "謝謝一起把好好吃飯帶給更多人的你們") }}
+    {{ ui.heading(pages.partners.head.en, pages.partners.head.title, pages.partners.head.sub) }}
   </div>
 </section>
 
@@ -20,10 +21,10 @@ excerpt: 口袋營養獅合作過的品牌與店家，以及講座、活動合�
       {%- endfor %}
     </ul>
     {% else %}
-    <p class="center muted reveal">合作夥伴整理中。</p>
+    <p class="center muted reveal">{{ pages.partners.empty }}</p>
     {% endif %}
 
-    {{ ui.collab(site, "collab", '<a class="btn btn-soft" href="/events/">看活動花絮</a>') }}
+    {{ ui.collab(site, pages.partners.collab, "collab", '<a class="btn btn-soft" href="/events/">' + pages.partners.collab.events_button + '</a>') }}
   </div>
 </section>
 

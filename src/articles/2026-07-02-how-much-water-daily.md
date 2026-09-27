@@ -4,7 +4,7 @@ url_slug: how-much-water-daily
 type: SEO 文
 topic: daily
 author: ""
-date: 2026-07-02
+date: 2026-07-02T08:00:00+08:00
 excerpt: "「一天要喝 8 杯水」是真的嗎？其實每個人需要的水量，跟體重、活動量、氣候都有關係。"
 cover: ""
 cover_alt: ""

@@ -1,20 +1,21 @@
 ---
 layout: base.njk
 permalink: /about/
-title: 關於我們
-excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的營養師團隊。
+eleventyComputed:
+  title: "{{ pages.about.seo.title }}"
+  excerpt: "{{ pages.about.seo.description }}"
 ---
 {%- import "macros.njk" as ui -%}
 <section class="page-head">
   <div class="container">
-    {{ ui.heading("ABOUT US", "關於口袋營養獅", "把專業，裝進你的口袋") }}
-    <p class="about-lead reveal">{{ site.about_intro }}</p>
+    {{ ui.heading(pages.about.head.en, pages.about.head.title, pages.about.head.sub) }}
+    <p class="about-lead reveal">{{ pages.about.intro }}</p>
   </div>
 </section>
 
 <section class="section section-tight" id="team">
   <div class="container">
-    {{ ui.heading("OUR TEAM", "營養師團隊") }}
+    {{ ui.heading(pages.about.team.en, pages.about.team.title) }}
     <div class="team-row">
       {%- for m in collections.team %}
       <a class="member-card reveal" href="{{ m.url }}">
@@ -27,9 +28,9 @@ excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的營�
   </div>
 </section>
 
-<section class="follow-strip" id="follow" aria-label="追蹤我們">
+<section class="follow-strip" id="follow" aria-label="{{ pages.about.follow_title }}">
   <div class="container follow-inner reveal">
-    <p class="follow-title">追蹤我們</p>
+    <p class="follow-title">{{ pages.about.follow_title }}</p>
     <ul class="follow-links">
       <li><a href="{{ site.social.instagram_url }}" target="_blank" rel="noopener" aria-label="Instagram {{ site.social.instagram_handle }}">
         <span class="follow-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg></span>Instagram</a></li>

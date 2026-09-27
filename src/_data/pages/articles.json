@@ -1,0 +1,15 @@
+{
+  "seo": {
+    "title": "文章主題",
+    "description": "口袋營養獅營養師團隊撰寫的營養知識文章，依主題慢慢讀。"
+  },
+  "head": {
+    "en": "ARTICLES",
+    "title": "文章主題",
+    "sub": "營養師寫給你的日常健康讀本"
+  },
+  "all_chip": "全部",
+  "topic_en": "TOPIC",
+  "empty_bubble": "這個主題的文章正在準備中，敬請期待！",
+  "empty_button": "先看看其他文章"
+}
