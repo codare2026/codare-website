@@ -1,0 +1,29 @@
+---
+layout: base.njk
+permalink: /partners/
+title: 合作夥伴
+excerpt: 口袋營養獅合作過的品牌與店家，以及講座、活動合作洽詢方式。
+---
+{%- import "macros.njk" as ui -%}
+<section class="page-head">
+  <div class="container">
+    {{ ui.heading("PARTNERS", "合作夥伴", "謝謝一起把好好吃飯帶給更多人的你們") }}
+  </div>
+</section>
+
+<section class="section section-tight">
+  <div class="container">
+    {% if partners.partners.length %}
+    <ul class="partner-grid">
+      {%- for p in partners.partners %}
+      <li class="partner reveal">{% if p.url %}<a href="{{ p.url }}" target="_blank" rel="noopener">{% endif %}{% if p.logo %}<img src="{{ p.logo }}" alt="{{ p.name }}" loading="lazy">{% else %}<span>{{ p.name }}</span>{% endif %}{% if p.url %}</a>{% endif %}</li>
+      {%- endfor %}
+    </ul>
+    {% else %}
+    <p class="center muted reveal">合作夥伴整理中。</p>
+    {% endif %}
+
+    {{ ui.collab(site, "collab", '<a class="btn btn-soft" href="/events/">看活動花絮</a>') }}
+  </div>
+</section>
+

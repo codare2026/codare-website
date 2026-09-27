@@ -2,7 +2,7 @@
 layout: base.njk
 permalink: /about/
 title: 關於我們
-excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團隊、合作夥伴與講座合作方式。
+excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的營養師團隊。
 ---
 {%- import "macros.njk" as ui -%}
 <section class="page-head">
@@ -48,23 +48,3 @@ excerpt: 口袋營養獅由一群碩士級營養師組成，認識我們的團�
     </ul>
   </div>
 </section>
-
-<section class="section section-alt">
-  {{ ui.wave("#FDF3E4", true) }}
-  <div class="container">
-    {{ ui.heading("PARTNERS", "合作過的夥伴") }}
-    {% if partners.partners.length %}
-    <ul class="partner-grid">
-      {%- for p in partners.partners %}
-      <li class="partner reveal">{% if p.url %}<a href="{{ p.url }}" target="_blank" rel="noopener">{% endif %}{% if p.logo %}<img src="{{ p.logo }}" alt="{{ p.name }}" loading="lazy">{% else %}<span>{{ p.name }}</span>{% endif %}{% if p.url %}</a>{% endif %}</li>
-      {%- endfor %}
-    </ul>
-    {% else %}
-    <p class="center muted reveal">合作夥伴整理中。</p>
-    {% endif %}
-
-    {{ ui.collab(site, "collab", '<a class="btn btn-soft" href="/events/">看活動花絮</a>') }}
-  </div>
-  {{ ui.wave("#FFFAF2") }}
-</section>
-
