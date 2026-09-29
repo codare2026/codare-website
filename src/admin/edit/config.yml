@@ -315,6 +315,7 @@ collections:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
               - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - label: 分級名稱
                 name: levels
@@ -332,6 +333,7 @@ collections:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
               - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - { label: 單位, name: unit, widget: string }
           - label: TDEE 計算機
@@ -342,6 +344,7 @@ collections:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
               - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - { label: 單位, name: unit, widget: string }
               - { label: 基礎代謝前面的字, name: bmr_label, widget: string }
@@ -354,15 +357,7 @@ collections:
                   - { label: 名稱, name: label, widget: string }
                   - { label: 說明, name: desc, widget: string }
                   - { label: 活動係數, name: factor, widget: number, value_type: float, step: 0.025, hint: TDEE = BMR × 這個數字，沒有把握請不要改 }
-          - label: 結尾邀請區
-            name: cta
-            widget: object
-            collapsed: true
-            fields:
-              - { label: 標題, name: title, widget: string }
-              - { label: 說明, name: text, widget: text }
-              - { label: 陪跑按鈕, name: button, widget: string }
-              - { label: 文章按鈕, name: articles_button, widget: string }
+          - { label: 計算方式區, name: method, widget: object, collapsed: true, fields: *heading_fields }
           - { label: 免責提醒, name: disclaimer, widget: text }
 
       - name: about

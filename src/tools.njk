@@ -8,11 +8,12 @@ eleventyComputed:
 {%- import "macros.njk" as ui -%}
 {%- set T = pages.tools -%}
 {%- set F = T.form -%}
+{%- set keys = ["bmi", "bmr", "tdee"] -%}
 <section class="page-head">
   <div class="container">
     {{ ui.heading(T.head.en, T.head.title, T.head.sub) }}
     <div class="chips reveal" role="tablist" aria-label="選擇小工具">
-      {%- for key in ["bmi", "bmr", "tdee"] %}
+      {%- for key in keys %}
       <button class="chip" type="button" role="tab" id="tab-{{ key }}" data-tool="{{ key }}" aria-controls="tool-panel" aria-selected="{{ 'true' if loop.first else 'false' }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ T[key].tab }}</button>
       {%- endfor %}
     </div>
@@ -20,97 +21,98 @@ eleventyComputed:
 </section>
 
 <section class="section section-tight">
-  <div class="container">
-    <div class="tool reveal" id="tool-panel" role="tabpanel" aria-labelledby="tab-bmi" data-tools>
-      <form class="tool-form" novalidate>
-        {%- for key in ["bmi", "bmr", "tdee"] %}
-        <div class="tool-intro" data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}>
-          <h2>{{ T[key].title }}</h2>
-          <p>{{ T[key].desc }}</p>
-        </div>
-        {%- endfor %}
-
-        <fieldset class="field" data-for="bmr tdee" hidden>
-          <legend>{{ F.sex }}</legend>
-          <div class="seg">
-            <label><input type="radio" name="sex" value="female" checked><span>{{ F.female }}</span></label>
-            <label><input type="radio" name="sex" value="male"><span>{{ F.male }}</span></label>
+  <div class="container runwith-grid tool" id="tool-panel" role="tabpanel" aria-labelledby="tab-bmi" data-tools>
+    <form class="tool-form" novalidate>
+      {%- for key in keys %}
+      <p class="runwith-lead reveal" data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}><b>{{ T[key].title }}</b>　{{ T[key].desc }}</p>
+      {%- endfor %}
+      <ol class="steps">
+        <li class="step field reveal" data-for="bmr tdee" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <div class="field-body" role="radiogroup" aria-label="{{ F.sex }}">
+            <h3>{{ F.sex }}</h3>
+            <div class="field-choices">
+              <label class="choice"><input type="radio" name="sex" value="female" checked><span>{{ F.female }}</span></label>
+              <label class="choice"><input type="radio" name="sex" value="male"><span>{{ F.male }}</span></label>
+            </div>
           </div>
-        </fieldset>
-        <label class="field" data-for="bmr tdee" hidden>
-          <span class="field-label">{{ F.age }}</span>
-          <span class="field-input"><input type="number" name="age" inputmode="numeric" min="18" max="100" step="1" placeholder="30"><em>{{ F.age_unit }}</em></span>
-        </label>
-        <label class="field">
-          <span class="field-label">{{ F.height }}</span>
-          <span class="field-input"><input type="number" name="height" inputmode="decimal" min="100" max="250" step="0.1" placeholder="160"><em>{{ F.height_unit }}</em></span>
-        </label>
-        <label class="field">
-          <span class="field-label">{{ F.weight }}</span>
-          <span class="field-input"><input type="number" name="weight" inputmode="decimal" min="20" max="300" step="0.1" placeholder="55"><em>{{ F.weight_unit }}</em></span>
-        </label>
-        <fieldset class="field" data-for="tdee" hidden>
-          <legend>{{ F.activity }}</legend>
-          <div class="activity">
-            {%- for a in T.tdee.activities %}
-            <label><input type="radio" name="activity" value="{{ a.factor }}"{% if loop.first %} checked{% endif %}><span><b>{{ a.label }}</b><small>{{ a.desc }}</small></span></label>
-            {%- endfor %}
+        </li>
+        <li class="step field reveal" data-for="bmr tdee" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row"><h3>{{ F.age }}</h3><span class="field-input"><input type="number" name="age" inputmode="numeric" min="18" max="100" step="1" placeholder="30"><em>{{ F.age_unit }}</em></span></label>
+        </li>
+        <li class="step field reveal">
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row"><h3>{{ F.height }}</h3><span class="field-input"><input type="number" name="height" inputmode="decimal" min="100" max="250" step="0.1" placeholder="160"><em>{{ F.height_unit }}</em></span></label>
+        </li>
+        <li class="step field reveal">
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row"><h3>{{ F.weight }}</h3><span class="field-input"><input type="number" name="weight" inputmode="decimal" min="20" max="300" step="0.1" placeholder="55"><em>{{ F.weight_unit }}</em></span></label>
+        </li>
+        <li class="step field reveal" data-for="tdee" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <div class="field-body" role="radiogroup" aria-label="{{ F.activity }}">
+            <h3>{{ F.activity }}</h3>
+            <div class="field-choices">
+              {%- for a in T.tdee.activities %}
+              <label class="choice"><input type="radio" name="activity" value="{{ a.factor }}" data-desc="{{ a.desc }}"{% if loop.first %} checked{% endif %}><span>{{ a.label }}</span></label>
+              {%- endfor %}
+            </div>
+            <p class="field-hint" data-out="activity-desc">{{ T.tdee.activities[0].desc }}</p>
           </div>
-        </fieldset>
-      </form>
+        </li>
+      </ol>
+    </form>
 
-      <div class="tool-result" aria-live="polite">
-        {{ ui.buddy("/assets/img/member2.png", T.bubble, "right", "tool-buddy") }}
-        <p class="result-empty" data-result="empty">{{ F.empty }}</p>
-        <p class="result-empty" data-result="invalid" hidden>{{ F.invalid }}</p>
+    <aside class="contact-card tool-result reveal" aria-live="polite">
+      {{ ui.buddy("/assets/img/member2.png", T.bubble, "right", "contact-buddy tool-buddy") }}
+      {%- for key in keys %}
+      <h2 data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}>{{ T[key].title }}</h2>
+      {%- endfor %}
+      <p data-result="empty">{{ F.empty }}</p>
+      <p data-result="invalid" hidden>{{ F.invalid }}</p>
 
-        <div data-result="bmi" hidden>
-          <p class="result-label">{{ T.bmi.tab }}</p>
-          <p class="result-num"><span data-out="bmi"></span></p>
-          <p class="result-level"><span class="tag" data-out="level"></span></p>
-          <div class="bmi-scale" aria-hidden="true">
-            <span class="bmi-marker" data-out="marker"></span>
-            <i style="flex: 3.5"></i><i style="flex: 5.5"></i><i style="flex: 3"></i><i style="flex: 8"></i>
-          </div>
-          <ol class="bmi-legend" data-levels='{{ T.bmi.levels | jsonify }}'>
-            <li>{{ T.bmi.levels.under }}<small>&lt; 18.5</small></li>
-            <li>{{ T.bmi.levels.normal }}<small>18.5–24</small></li>
-            <li>{{ T.bmi.levels.over }}<small>24–27</small></li>
-            <li>{{ T.bmi.levels.obese }}<small>≥ 27</small></li>
-          </ol>
+      <div data-result="bmi" hidden>
+        <p class="result-num"><span data-out="bmi"></span></p>
+        <p><span class="tag tag-soft" data-out="level"></span></p>
+        <div class="bmi-scale" aria-hidden="true">
+          <span class="bmi-marker" data-out="marker"></span>
+          <i style="flex: 3.5"></i><i style="flex: 5.5"></i><i style="flex: 3"></i><i style="flex: 8"></i>
         </div>
-
-        <div data-result="bmr" hidden>
-          <p class="result-label">{{ T.bmr.tab }}</p>
-          <p class="result-num"><span data-out="bmr"></span><small>{{ T.bmr.unit }}</small></p>
-        </div>
-
-        <div data-result="tdee" hidden>
-          <p class="result-label">{{ T.tdee.tab }}</p>
-          <p class="result-num"><span data-out="tdee"></span><small>{{ T.tdee.unit }}</small></p>
-          <p class="result-sub">{{ T.tdee.bmr_label }} <b data-out="tdee-bmr"></b> {{ T.tdee.unit }}</p>
-        </div>
-
-        {%- for key in ["bmi", "bmr", "tdee"] %}
-        <p class="tool-note" data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}>{{ T[key].note }}</p>
-        {%- endfor %}
+        <ol class="bmi-legend" data-levels="{{ T.bmi.levels | jsonify }}">
+          <li>{{ T.bmi.levels.under }}<small>&lt; 18.5</small></li>
+          <li>{{ T.bmi.levels.normal }}<small>18.5–24</small></li>
+          <li>{{ T.bmi.levels.over }}<small>24–27</small></li>
+          <li>{{ T.bmi.levels.obese }}<small>≥ 27</small></li>
+        </ol>
       </div>
-    </div>
 
-    <p class="tool-disclaimer">{{ T.disclaimer }}</p>
-
-    <div class="runwith-band reveal">
-      <div class="runwith-band-text">
-        <h2>{{ T.cta.title }}</h2>
-        <p>{{ T.cta.text }}</p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="/run-with-you/">{{ T.cta.button }} <span class="arrow" aria-hidden="true">›</span></a>
-          <a class="btn btn-soft" href="/articles/">{{ T.cta.articles_button }}</a>
-        </div>
+      <div data-result="bmr" hidden>
+        <p class="result-num"><span data-out="bmr"></span><small>{{ T.bmr.unit }}</small></p>
       </div>
-      {{ ui.buddy("/assets/img/member3.png", pages.home.runwith.bubble, "left") }}
-    </div>
+
+      <div data-result="tdee" hidden>
+        <p class="result-num"><span data-out="tdee"></span><small>{{ T.tdee.unit }}</small></p>
+        <dl class="contact-list">
+          <div><dt>{{ T.bmr.tab }}</dt><dd>{{ T.tdee.bmr_label }} <span data-out="tdee-bmr"></span> {{ T.tdee.unit }}</dd></div>
+        </dl>
+      </div>
+    </aside>
   </div>
+</section>
+
+<section class="section section-alt" id="how">
+  {{ ui.wave("#FDF3E4", true) }}
+  <div class="container narrow">
+    {{ ui.heading(T.method.en, T.method.title) }}
+    <div class="faq">
+      {%- for key in keys %}
+      <details class="reveal"{% if loop.first %} open{% endif %}><summary>{{ T[key].note_title }}</summary><p>{{ T[key].note }}</p></details>
+      {%- endfor %}
+    </div>
+    <p class="tool-disclaimer">{{ T.disclaimer }}</p>
+  </div>
+  {{ ui.wave("#FFFAF2") }}
 </section>
 
 <script src="/assets/js/tools.js" defer></script>

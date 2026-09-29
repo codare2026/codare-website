@@ -21,6 +21,8 @@ if (panel) {
     10 * weight + 6.25 * height - 5 * age + (sex === "male" ? 5 : -161);
 
   const update = () => {
+    const picked = form.querySelector('input[name="activity"]:checked');
+    if (picked) out("activity-desc").textContent = picked.dataset.desc;
     const height = num("height");
     const weight = num("weight");
     const age = num("age");
