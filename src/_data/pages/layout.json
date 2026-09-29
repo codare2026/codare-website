@@ -1,6 +1,7 @@
 {
   "nav": {
     "articles": "文章主題",
+    "tools": "互動園地",
     "about": "關於我們",
     "events": "活動花絮",
     "partners": "合作夥伴",
@@ -11,6 +12,7 @@
     "title": "有問題，歡迎來聊聊",
     "read_head": "閱讀",
     "read_all": "全部主題",
+    "tools_link": "互動園地",
     "about_head": "關於",
     "about_link": "關於口袋營養獅",
     "team_link": "營養師團隊",

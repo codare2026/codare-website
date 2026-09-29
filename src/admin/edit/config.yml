@@ -282,6 +282,89 @@ collections:
           - { label: 延伸閱讀區, name: related, widget: object, collapsed: true, fields: *heading_fields }
           - { label: 免責提醒, name: disclaimer, widget: text, hint: 顯示在每篇文章最後，以及全站頁尾 }
 
+      - name: tools
+        label: 互動園地
+        file: src/_data/pages/tools.json
+        fields:
+          - { label: 搜尋結果顯示（SEO）, name: seo, widget: object, collapsed: true, fields: *seo_fields }
+          - { label: 頁面標題區, name: head, widget: object, fields: *heading_fields }
+          - { label: 插畫對話框, name: bubble, widget: string }
+          - label: 表單文字
+            name: form
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 性別, name: sex, widget: string }
+              - { label: 女, name: female, widget: string }
+              - { label: 男, name: male, widget: string }
+              - { label: 年齡, name: age, widget: string }
+              - { label: 年齡單位, name: age_unit, widget: string }
+              - { label: 身高, name: height, widget: string }
+              - { label: 身高單位, name: height_unit, widget: string }
+              - { label: 體重, name: weight, widget: string }
+              - { label: 體重單位, name: weight_unit, widget: string }
+              - { label: 活動量, name: activity, widget: string }
+              - { label: 還沒填資料時的提示, name: empty, widget: string }
+              - { label: 數字不合理時的提示, name: invalid, widget: string }
+          - label: BMI 計算機
+            name: bmi
+            widget: object
+            collapsed: true
+            hint: 計算公式與分級標準是固定的，這裡只改文字
+            fields:
+              - { label: 分頁按鈕, name: tab, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式與小提醒, name: note, widget: text }
+              - label: 分級名稱
+                name: levels
+                widget: object
+                fields:
+                  - { label: 18.5 以下, name: under, widget: string }
+                  - { label: 18.5–24, name: normal, widget: string }
+                  - { label: 24–27, name: over, widget: string }
+                  - { label: 27 以上, name: obese, widget: string }
+          - label: BMR 計算機
+            name: bmr
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 分頁按鈕, name: tab, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式與小提醒, name: note, widget: text }
+              - { label: 單位, name: unit, widget: string }
+          - label: TDEE 計算機
+            name: tdee
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 分頁按鈕, name: tab, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: desc, widget: text }
+              - { label: 計算方式與小提醒, name: note, widget: text }
+              - { label: 單位, name: unit, widget: string }
+              - { label: 基礎代謝前面的字, name: bmr_label, widget: string }
+              - label: 活動量選項
+                name: activities
+                widget: list
+                label_singular: 選項
+                summary: "{{fields.label}}（× {{fields.factor}}）"
+                fields:
+                  - { label: 名稱, name: label, widget: string }
+                  - { label: 說明, name: desc, widget: string }
+                  - { label: 活動係數, name: factor, widget: number, value_type: float, step: 0.025, hint: TDEE = BMR × 這個數字，沒有把握請不要改 }
+          - label: 結尾邀請區
+            name: cta
+            widget: object
+            collapsed: true
+            fields:
+              - { label: 標題, name: title, widget: string }
+              - { label: 說明, name: text, widget: text }
+              - { label: 陪跑按鈕, name: button, widget: string }
+              - { label: 文章按鈕, name: articles_button, widget: string }
+          - { label: 免責提醒, name: disclaimer, widget: text }
+
       - name: about
         label: 關於我們
         file: src/_data/pages/about.json
@@ -383,6 +466,7 @@ collections:
             widget: object
             fields:
               - { label: 文章主題, name: articles, widget: string }
+              - { label: 互動園地, name: tools, widget: string }
               - { label: 關於我們, name: about, widget: string }
               - { label: 活動花絮, name: events, widget: string }
               - { label: 合作夥伴, name: partners, widget: string }
@@ -397,6 +481,7 @@ collections:
               - { label: 頁尾標語, name: title, widget: string }
               - { label: 第一欄標題, name: read_head, widget: string, hint: 下面會自動列出前 4 個閱讀主題 }
               - { label: 第一欄「全部主題」連結, name: read_all, widget: string }
+              - { label: 第一欄「互動園地」連結, name: tools_link, widget: string }
               - { label: 第二欄標題, name: about_head, widget: string }
               - { label: 關於我們連結, name: about_link, widget: string }
               - { label: 營養師團隊連結, name: team_link, widget: string }

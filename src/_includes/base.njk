@@ -54,6 +54,7 @@
       <nav id="site-nav" class="site-nav" aria-label="主選單">
         {%- set navItems = [
           ["/articles/", pages.layout.nav.articles],
+          ["/tools/", pages.layout.nav.tools],
           ["/about/", pages.layout.nav.about],
           ["/events/", pages.layout.nav.events],
           ["/partners/", pages.layout.nav.partners],
@@ -87,6 +88,7 @@
             <ul>
               {%- for t in topics.topics | limit(4) %}<li><a href="/topics/{{ t.slug }}/">{{ t.name }}</a></li>{% endfor %}
               <li><a href="/articles/">{{ pages.layout.footer.read_all }}</a></li>
+              <li><a href="/tools/">{{ pages.layout.footer.tools_link }}</a></li>
             </ul>
           </div>
           <div>
