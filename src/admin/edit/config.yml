@@ -304,6 +304,13 @@ collections:
               - { label: 體重, name: weight, widget: string }
               - { label: 體重單位, name: weight_unit, widget: string }
               - { label: 活動量, name: activity, widget: string }
+              - { label: 脖圍, name: neck, widget: string }
+              - { label: 脖圍量法, name: neck_hint, widget: string }
+              - { label: 腰圍, name: waist, widget: string }
+              - { label: 腰圍量法, name: waist_hint, widget: string }
+              - { label: 臀圍, name: hip, widget: string }
+              - { label: 臀圍量法, name: hip_hint, widget: string }
+              - { label: 圍度單位, name: circ_unit, widget: string }
               - { label: 還沒填資料時的提示, name: empty, widget: string }
               - { label: 數字不合理時的提示, name: invalid, widget: string }
           - label: BMI 計算機
@@ -314,7 +321,8 @@ collections:
             fields:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
-              - { label: 說明, name: desc, widget: text }
+              - { label: 衛教說明標題, name: edu_title, widget: string, hint: 顯示在這個計算機的最上方 }
+              - { label: 衛教說明, name: edu, widget: text, hint: 按 Enter 換行，網站上也會分段 }
               - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - label: 分級名稱
@@ -325,6 +333,30 @@ collections:
                   - { label: 18.5–24, name: normal, widget: string }
                   - { label: 24–27, name: over, widget: string }
                   - { label: 27 以上, name: obese, widget: string }
+          - label: 體脂率計算機
+            name: bodyfat
+            widget: object
+            collapsed: true
+            hint: 計算公式與分級標準是固定的，這裡只改文字
+            fields:
+              - { label: 分頁按鈕, name: tab, widget: string }
+              - { label: 標題, name: title, widget: string }
+              - { label: 衛教說明標題, name: edu_title, widget: string, hint: 顯示在這個計算機的最上方 }
+              - { label: 衛教說明, name: edu, widget: text, hint: 按 Enter 換行，網站上也會分段 }
+              - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
+              - { label: 計算方式與小提醒, name: note, widget: text }
+              - { label: 單位, name: unit, widget: string }
+              - label: 分級名稱
+                name: levels
+                widget: object
+                fields:
+                  - { label: 低於標準範圍, name: low, widget: string }
+                  - { label: 標準範圍, name: normal, widget: string }
+                  - { label: 高於標準範圍, name: high, widget: string }
+                  - { label: 男 25%、女 30% 以上, name: obese, widget: string }
+              - { label: 體脂肪重量, name: fat_mass_label, widget: string }
+              - { label: 去脂體重, name: lean_label, widget: string }
+              - { label: 重量單位, name: weight_unit, widget: string }
           - label: BMR 計算機
             name: bmr
             widget: object
@@ -332,7 +364,8 @@ collections:
             fields:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
-              - { label: 說明, name: desc, widget: text }
+              - { label: 衛教說明標題, name: edu_title, widget: string, hint: 顯示在這個計算機的最上方 }
+              - { label: 衛教說明, name: edu, widget: text, hint: 按 Enter 換行，網站上也會分段 }
               - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - { label: 單位, name: unit, widget: string }
@@ -343,7 +376,8 @@ collections:
             fields:
               - { label: 分頁按鈕, name: tab, widget: string }
               - { label: 標題, name: title, widget: string }
-              - { label: 說明, name: desc, widget: text }
+              - { label: 衛教說明標題, name: edu_title, widget: string, hint: 顯示在這個計算機的最上方 }
+              - { label: 衛教說明, name: edu, widget: text, hint: 按 Enter 換行，網站上也會分段 }
               - { label: 計算方式標題, name: note_title, widget: string, hint: 顯示在頁面下方「計算方式」 }
               - { label: 計算方式與小提醒, name: note, widget: text }
               - { label: 單位, name: unit, widget: string }

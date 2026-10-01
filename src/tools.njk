@@ -8,7 +8,7 @@ eleventyComputed:
 {%- import "macros.njk" as ui -%}
 {%- set T = pages.tools -%}
 {%- set F = T.form -%}
-{%- set keys = ["bmi", "bmr", "tdee"] -%}
+{%- set keys = ["bmi", "bodyfat", "bmr", "tdee"] -%}
 <section class="page-head">
   <div class="container">
     {{ ui.heading(T.head.en, T.head.title, T.head.sub) }}
@@ -20,14 +20,19 @@ eleventyComputed:
   </div>
 </section>
 
-<section class="section section-tight">
-  <div class="container runwith-grid tool" id="tool-panel" role="tabpanel" aria-labelledby="tab-bmi" data-tools>
+<section class="section section-tight tool" id="tool-panel" role="tabpanel" aria-labelledby="tab-bmi" data-tools>
+  <div class="container">
+    {%- for key in keys %}
+    <article class="tool-edu reveal" data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}>
+      <h2>{{ T[key].edu_title }}</h2>
+      <p>{{ T[key].edu }}</p>
+    </article>
+    {%- endfor %}
+  </div>
+  <div class="container runwith-grid">
     <form class="tool-form" novalidate>
-      {%- for key in keys %}
-      <p class="runwith-lead reveal" data-for="{{ key }}"{% if not loop.first %} hidden{% endif %}><b>{{ T[key].title }}</b>　{{ T[key].desc }}</p>
-      {%- endfor %}
       <ol class="steps">
-        <li class="step field reveal" data-for="bmr tdee" hidden>
+        <li class="step field reveal" data-for="bodyfat bmr tdee" hidden>
           <span class="step-num" aria-hidden="true"></span>
           <div class="field-body" role="radiogroup" aria-label="{{ F.sex }}">
             <h3>{{ F.sex }}</h3>
@@ -37,7 +42,7 @@ eleventyComputed:
             </div>
           </div>
         </li>
-        <li class="step field reveal" data-for="bmr tdee" hidden>
+        <li class="step field reveal" data-for="bodyfat bmr tdee" hidden>
           <span class="step-num" aria-hidden="true"></span>
           <label class="field-body field-row"><h3>{{ F.age }}</h3><span class="field-input"><input type="number" name="age" inputmode="numeric" min="18" max="100" step="1" placeholder="30"><em>{{ F.age_unit }}</em></span></label>
         </li>
@@ -48,6 +53,18 @@ eleventyComputed:
         <li class="step field reveal">
           <span class="step-num" aria-hidden="true"></span>
           <label class="field-body field-row"><h3>{{ F.weight }}</h3><span class="field-input"><input type="number" name="weight" inputmode="decimal" min="20" max="300" step="0.1" placeholder="55"><em>{{ F.weight_unit }}</em></span></label>
+        </li>
+        <li class="step field reveal" data-for="bodyfat" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row field-wrap"><h3>{{ F.neck }}</h3><span class="field-input"><input type="number" name="neck" inputmode="decimal" min="20" max="200" step="0.1" placeholder="34"><em>{{ F.circ_unit }}</em></span><small class="field-hint">{{ F.neck_hint }}</small></label>
+        </li>
+        <li class="step field reveal" data-for="bodyfat" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row field-wrap"><h3>{{ F.waist }}</h3><span class="field-input"><input type="number" name="waist" inputmode="decimal" min="20" max="200" step="0.1" placeholder="75"><em>{{ F.circ_unit }}</em></span><small class="field-hint">{{ F.waist_hint }}</small></label>
+        </li>
+        <li class="step field reveal" data-for="bodyfat" data-sex="female" hidden>
+          <span class="step-num" aria-hidden="true"></span>
+          <label class="field-body field-row field-wrap"><h3>{{ F.hip }}</h3><span class="field-input"><input type="number" name="hip" inputmode="decimal" min="20" max="200" step="0.1" placeholder="95"><em>{{ F.circ_unit }}</em></span><small class="field-hint">{{ F.hip_hint }}</small></label>
         </li>
         <li class="step field reveal" data-for="tdee" hidden>
           <span class="step-num" aria-hidden="true"></span>
@@ -79,12 +96,28 @@ eleventyComputed:
           <span class="bmi-marker" data-out="marker"></span>
           <i style="flex: 3.5"></i><i style="flex: 5.5"></i><i style="flex: 3"></i><i style="flex: 8"></i>
         </div>
-        <ol class="bmi-legend" data-levels="{{ T.bmi.levels | jsonify }}">
+        <ol class="bmi-legend" data-bmi-levels="{{ T.bmi.levels | jsonify }}">
           <li>{{ T.bmi.levels.under }}<small>&lt; 18.5</small></li>
           <li>{{ T.bmi.levels.normal }}<small>18.5–24</small></li>
           <li>{{ T.bmi.levels.over }}<small>24–27</small></li>
           <li>{{ T.bmi.levels.obese }}<small>≥ 27</small></li>
         </ol>
+      </div>
+
+      <div data-result="bodyfat" hidden>
+        <p class="result-num"><span data-out="bodyfat"></span><small>{{ T.bodyfat.unit }}</small></p>
+        <p><span class="tag tag-soft" data-out="bf-level"></span></p>
+        <div class="bmi-scale" aria-hidden="true" data-out="bf-scale">
+          <span class="bmi-marker" data-out="bf-marker"></span>
+          <i></i><i></i><i></i><i></i>
+        </div>
+        <ol class="bmi-legend" data-out="bf-legend" data-levels="{{ T.bodyfat.levels | jsonify }}">
+          <li></li><li></li><li></li><li></li>
+        </ol>
+        <dl class="contact-list">
+          <div><dt>{{ T.bodyfat.fat_mass_label }}</dt><dd><span data-out="fat-mass"></span> {{ T.bodyfat.weight_unit }}</dd></div>
+          <div><dt>{{ T.bodyfat.lean_label }}</dt><dd><span data-out="lean-mass"></span> {{ T.bodyfat.weight_unit }}</dd></div>
+        </dl>
       </div>
 
       <div data-result="bmr" hidden>

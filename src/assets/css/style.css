@@ -491,7 +491,14 @@ a.topbar-inner:hover .topbar-cta .arrow { transform: translateX(4px); }
 
 /* ---------- 互動園地 (calculators) — reuses the 陪跑 page's steps, contact card and FAQ ---------- */
 .tool [hidden] { display: none !important; }
-.tool-form .runwith-lead { margin-bottom: 22px; }
+.tool-edu {
+  background: var(--card); border: var(--dotted); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 32px 40px; margin-bottom: 48px;
+}
+.tool-edu h2 { font-size: clamp(22px, 2.4vw, 28px); color: var(--lake); letter-spacing: .06em; margin-bottom: 10px; }
+.tool-edu p { white-space: pre-line; font-weight: 300; color: var(--body); line-height: 2; }
+.field-wrap { flex-wrap: wrap; row-gap: 2px; }
+.field-wrap .field-hint { flex-basis: 100%; margin-top: 4px; padding-left: calc(3em + 16px); font-size: 13px; }
 .tool-form .steps { counter-reset: field; }
 .tool-form .field:not([hidden]) { counter-increment: field; }
 .tool-form .step-num::before { content: counter(field, decimal-leading-zero); }
@@ -545,12 +552,17 @@ a.topbar-inner:hover .topbar-cta .arrow { transform: translateX(4px); }
 .bmi-legend { list-style: none; display: grid; grid-template-columns: 3.5fr 5.5fr 3fr 8fr; gap: 4px; font-size: 12px; line-height: 1.5; color: var(--body); text-align: center; }
 .bmi-legend small { display: block; font-family: var(--en); color: var(--muted); }
 .tool-result .contact-list { margin-bottom: 0; }
+.tool-result .contact-list dt { width: 6em; }
+[data-out="bf-scale"] i { flex: 1; }
+[data-out="bf-legend"] { grid-template-columns: repeat(4, 1fr); }
 .tool-disclaimer { margin-top: 24px; font-size: 13px; font-weight: 300; color: var(--body); text-align: center; }
 @media (max-width: 960px) {
   .tool .contact-card { margin-top: 150px; position: relative; top: 0; }
 }
 @media (max-width: 640px) {
+  .tool-edu { padding: 24px 22px; margin-bottom: 32px; }
   .field-row { flex-wrap: wrap; gap: 4px 12px; }
   .field-row .field-input { flex-basis: 100%; }
+  .field-wrap .field-hint { padding-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .bmi-marker { transition: none; } }
