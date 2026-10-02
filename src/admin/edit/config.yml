@@ -207,7 +207,7 @@ collections:
             widget: object
             collapsed: true
             fields: &seo_fields
-              - { label: 頁面標題, name: title, widget: string, hint: 顯示在 Google 搜尋結果與瀏覽器分頁 }
+              - { label: 頁面標題, name: title, widget: string, hint: "顯示在 Google 搜尋結果與瀏覽器分頁，建議 30 字內。首頁會照原樣顯示；其他頁面會自動在後面加上「｜口袋營養獅」。" }
               - { label: 頁面描述, name: description, widget: text, hint: 顯示在 Google 搜尋結果，約 80 字內 }
           - label: 主視覺（精選文章）
             name: hero

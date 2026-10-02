@@ -6,7 +6,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="hYTPUD63la46O1zVJiWWDRsx_L-kBvseBzXdy8AnPdg">
-  <title>{% if pageTitle and page.url != "/" %}{{ pageTitle }}｜{% endif %}{{ site.name }} {{ site.name_en }}</title>
+  {#- Home uses its SEO title as written; other pages get "｜口袋營養獅" appended -#}
+  <title>{% if page.url == "/" %}{{ pages.home.seo.title or site.name }}{% else %}{{ pageTitle }}｜{{ site.name }}{% endif %}</title>
   <meta name="description" content="{{ pageDesc }}">
   {% if keywords %}<meta name="keywords" content="{{ keywords }}">{% endif %}
   <link rel="canonical" href="{{ site.url }}{{ page.url }}">
