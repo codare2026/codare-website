@@ -17,6 +17,10 @@
   <meta property="og:url" content="{{ site.url }}{{ page.url }}">
   <meta property="og:image" content="{{ site.url }}{{ cover or '/assets/img/logo.png' }}">
   <meta name="theme-color" content="#FFFAF2">
+  {%- if page.url and page.url != "/404.html" %}
+  {%- set schemaCtx = { url: page.url, date: page.date, layout: layout, title: title, seo_title: seo_title, seo_description: seo_description, excerpt: excerpt, cover: cover, updated: updated, author: author, topic: topic, keywords: keywords, id: id } %}
+  <script type="application/ld+json">{{ schemaCtx | schema(site, pages, topics, collections.team) | safe }}</script>
+  {%- endif %}
   <link rel="icon" type="image/png" href="/assets/img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

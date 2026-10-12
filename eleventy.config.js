@@ -1,4 +1,5 @@
 import { EleventyHtmlBasePlugin } from "@11ty/eleventy";
+import { buildSchema } from "./lib/schema.js";
 
 export default function (eleventyConfig) {
   // GitHub Pages project sites live under /<repo>/ — the HTML base plugin
@@ -59,6 +60,8 @@ export default function (eleventyConfig) {
   });
   eleventyConfig.addFilter("plain", (html = "") => String(html).replace(/<[^>]+>/g, "").trim());
   eleventyConfig.addFilter("jsonify", (v) => JSON.stringify(v));
+  // schema.org JSON-LD for the page (see lib/schema.js)
+  eleventyConfig.addFilter("schema", (ctx, site, pages, topics, team) => buildSchema(ctx, site, pages, topics.topics, team));
   // Switched-on promotions that use a given spot ("banner" or "popup"); dates are checked in the browser
   eleventyConfig.addFilter("promosFor", (items = [], spot) => items.filter((p) => p.enabled && p[spot] && p.title));
 
