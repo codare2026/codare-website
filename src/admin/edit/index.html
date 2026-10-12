@@ -27,7 +27,7 @@
           name: "data",
           label: "表格內容",
           widget: "text",
-          hint: "從 Google 文件、Google 試算表或 Excel 選取整個表格複製，直接貼在這裡。第一列會變成標題列。",
+          hint: "從 Google 文件、Google 試算表或 Excel 選取整個表格複製，直接貼在這裡，第一列會變成標題列。框裡的字沒對齊是正常的（欄位之間是用 Tab 隔開），右邊預覽和網站上會是整齊的表格。",
         }],
         pattern: /^(\|.*\|[ \t]*\n\|[ \t:|-]+\|[ \t]*(?:\n\|.*\|[ \t]*)*)$/,
         fromBlock: (match) => ({
