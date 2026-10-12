@@ -275,6 +275,12 @@ b, strong { font-weight: 700; }
 .prose li + li { margin-top: .4em; }
 .prose img { border-radius: var(--radius-sm); }
 .prose blockquote { margin: 1.5em 0; padding: 18px 24px; background: var(--pale); border-radius: var(--radius-sm); color: var(--lake); font-family: var(--round); }
+.table-wrap { overflow-x: auto; border: var(--dotted); border-radius: var(--radius-sm); background: var(--card); }
+.prose table { width: 100%; border-collapse: collapse; font-size: 15px; line-height: 1.7; }
+.prose th, .prose td { padding: 10px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+.prose th { background: var(--pale); color: var(--lake); font-family: var(--round); font-weight: 400; white-space: nowrap; }
+.prose tr:last-child td { border-bottom: 0; }
+.prose tr:nth-child(even) td { background: #FFFBF4; }
 .prose a { text-decoration-color: var(--light); text-underline-offset: 4px; text-decoration-thickness: 2px; }
 .references { margin-top: 2.4em; padding-top: 1.2em; border-top: var(--dotted); font-size: 14px; color: var(--muted); }
 .references h2 { font-size: 17px; border: 0; padding: 0; margin: 0 0 .6em; }

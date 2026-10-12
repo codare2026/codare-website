@@ -32,6 +32,13 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addGlobalData("year", new Date().getFullYear());
 
+  // Wrap article tables so wide ones scroll sideways on phones instead of breaking the layout
+  eleventyConfig.addTransform("wrapTables", (content, outputPath) =>
+    outputPath && outputPath.endsWith(".html")
+      ? content.replace(/<table>/g, '<div class="table-wrap"><table>').replace(/<\/table>/g, "</table></div>")
+      : content
+  );
+
   // Filters
   // Dates are shown in Taiwan time, whatever timezone the build runs in
   const taipeiFormat = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Taipei" });

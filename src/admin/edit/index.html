@@ -9,6 +9,46 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.1.2/dist/decap-cms.js"></script>
+  <script>
+    // 「表格」block for the article editor: paste cells copied from Google Docs / Sheets / Excel
+    // (tab-separated), stored in the article as a Markdown table. The first row is the header.
+    (() => {
+      const splitRow = (line) =>
+        line.includes("\t") ? line.split("\t") : line.replace(/^\s*\||\|\s*$/g, "").split("|");
+      const toRows = (text = "") =>
+        text.split(/\r?\n/).filter((l) => l.trim()).map((l) => splitRow(l).map((c) => c.trim()));
+      const cell = (c) => c.replace(/\|/g, "\\|");
+      const esc = (s) => s.replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
+      CMS.registerEditorComponent({
+        id: "table",
+        label: "表格",
+        fields: [{
+          name: "data",
+          label: "表格內容",
+          widget: "text",
+          hint: "從 Google 文件、Google 試算表或 Excel 選取整個表格複製，直接貼在這裡。第一列會變成標題列。",
+        }],
+        pattern: /^(\|.*\|[ \t]*\n\|[ \t:|-]+\|[ \t]*(?:\n\|.*\|[ \t]*)*)$/,
+        fromBlock: (match) => ({
+          data: match[1].split("\n").filter((l, i) => i !== 1).map((l) => splitRow(l).map((c) => c.trim().replace(/\\\|/g, "|")).join("\t")).join("\n"),
+        }),
+        toBlock: ({ data }) => {
+          const rows = toRows(data);
+          if (!rows.length) return "";
+          const width = Math.max(...rows.map((r) => r.length));
+          const pad = (r) => [...r, ...Array(width - r.length).fill("")];
+          const line = (r) => "| " + pad(r).map(cell).join(" | ") + " |";
+          return [line(rows[0]), "|" + " --- |".repeat(width), ...rows.slice(1).map(line)].join("\n");
+        },
+        toPreview: ({ data }) => {
+          const [head = [], ...body] = toRows(data);
+          return "<table><thead><tr>" + head.map((c) => "<th>" + esc(c) + "</th>").join("") + "</tr></thead><tbody>" +
+            body.map((r) => "<tr>" + r.map((c) => "<td>" + esc(c) + "</td>").join("") + "</tr>").join("") + "</tbody></table>";
+        },
+      });
+    })();
+  </script>
   <a href="/admin/" style="position:fixed;left:16px;bottom:16px;z-index:1000;padding:10px 18px;border-radius:999px;background:#066D7B;color:#fff;font:500 14px/1 system-ui,sans-serif;text-decoration:none;box-shadow:0 6px 16px rgba(6,109,123,.3)">← 回儀表板</a>
 </body>
 </html>
